@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/affiliates_menu_bottomNaView"
+        android:icon="@drawable/ic_affiliates"
+        android:title="@string/filiados"/>
+
+    <item
+        android:id="@+id/championShips_menu_bottomNaView"
+        android:icon="@drawable/ic_trophy"
+        android:title="@string/campeonatos"/>
+
+    <item
+        android:id="@+id/ranking_menu_bottomNaView"
+        android:icon="@drawable/ic_ranking"
+        android:title="@string/ranking"/>
+
+</menu>

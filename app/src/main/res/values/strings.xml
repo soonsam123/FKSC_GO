@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">FKSC</string>
+
+
+    <!-- Bottom Navigation View Names -->
+    <string name="filiados">Filiados</string>
+    <string name="campeonatos">Campeonatos</string>
+    <string name="ranking">Ranking</string>
+
+
+    <!-- ContentDescriptions for images -->
+    <string name="logofksc">logoFKSC</string>
+    <string name="menu">menu</string>
+
+    <!-- Affiliates' types -->
+    <string name="athletes">ATLETAS</string>
+    <string name="dojos">DOJÔS</string>
+    <string name="black_belts">PRETAS</string>
+
+
+    <!-- Ranking's types-->
+    <string name="por_campeonato">POR CAMPEONATO</string>
+    <string name="geral">GERAL</string>
+    <string name="global">GLOBAL</string>
+
+</resources>

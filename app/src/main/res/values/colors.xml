@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#00796B</color>
+    <color name="colorAccent">#E040FB</color>
+
+
+    <!-- Black to White -->
+    <color name="colorBlack">#000000</color>
+    <color name="colorGrey50">#FAFAFA</color>
+    <color name="colorGrey100">#F5F5F5</color>
+    <color name="colorWhite">#FFFFFF</color>
+
+    <!-- Blues -->
+    <color name="colorBlue50">#E3F2FD</color>
+</resources>
