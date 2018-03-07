@@ -12,6 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/toolBar_layout_top_bar"
+            android:theme="@style/ToolbarColoredIcons"
             app:tabGravity="fill"
             app:tabMode="fixed">
 
@@ -36,15 +37,6 @@
                     android:layout_toEndOf="@+id/logoFKSC_topBar"
                     android:layout_centerVertical="true"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/menu_topBar"
-                    android:src="@drawable/ic_menu_threedots"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="5dp"
-                    android:contentDescription="@string/menu"/>
 
             </RelativeLayout>
 

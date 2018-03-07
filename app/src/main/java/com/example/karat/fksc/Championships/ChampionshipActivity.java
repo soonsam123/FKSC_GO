@@ -7,7 +7,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.BottomNavigationHelper;
@@ -24,6 +29,7 @@ public class ChampionshipActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
     private TabLayout tabLayout;
+    private Toolbar toolbar;
 
     private Context mContext = ChampionshipActivity.this;
 
@@ -40,6 +46,15 @@ public class ChampionshipActivity extends AppCompatActivity {
 
 
     /**
+     * Set up my customized toolbar to be the Support Action Bar for the Championship Activity.
+     */
+    private void setupToolBar(){
+
+        setSupportActionBar(toolbar);
+
+    }
+
+    /**
      * Setting up the widgets to the layout values.
      */
     private void setupWidgets(){
@@ -48,6 +63,7 @@ public class ChampionshipActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPagerContainer);
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         tabLayout = findViewById(R.id.tabLayout1);
+        toolbar = findViewById(R.id.toolBar_layout_top_bar);
 
     }
 
@@ -61,4 +77,33 @@ public class ChampionshipActivity extends AppCompatActivity {
         BottomNavigationHelper.enablePagination(mContext, bottomNavigationView);
 
     }
+
+
+    /*=================================== Menu ===================================*/
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_actionbar, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.contact_menu_actionbar:
+                Toast.makeText(mContext, "Contato", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+
+    }
+
+    /*=================================== END OF Menu ===================================*/
 }

@@ -9,6 +9,21 @@
 
         <!-- Take off the animation when switching among activities -->
         <item name="android:windowAnimationStyle">@null</item>
+
+    </style>
+
+    <!-- In the menun makes the background black and the items white -->
+    <!-- Need to add to the AppTheme to work -->
+    <style name="popupTheme" parent="Theme.AppCompat.Light">
+
+        <item name="android:background">@color/colorBlack</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="iconTint">@color/colorWhite</item>
+
+    </style>
+
+    <style name="ToolbarColoredIcons" parent="AppTheme">
+        <item name="android:textColorSecondary">@color/colorWhite</item>
     </style>
 
 

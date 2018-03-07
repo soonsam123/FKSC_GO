@@ -6,7 +6,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.BottomNavigationHelper;
@@ -19,6 +24,7 @@ public class MembersActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
     private TabLayout tabLayout;
+    private Toolbar toolbar;
 
     private Context mContext = MembersActivity.this;
 
@@ -31,6 +37,7 @@ public class MembersActivity extends AppCompatActivity {
         setupWidgets();
         setupViewPager();
         setupBottomNavigationView();
+        setupToolBar();
 
     }
 
@@ -44,6 +51,17 @@ public class MembersActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPagerContainer);
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         tabLayout = findViewById(R.id.tabLayout1);
+        toolbar = findViewById(R.id.toolBar_layout_top_bar);
+
+    }
+
+
+    /**
+     * Setting up my customized toolbar to be the activity toolbar.
+     */
+    private void setupToolBar(){
+
+        setSupportActionBar(toolbar);
 
     }
 
@@ -85,4 +103,34 @@ public class MembersActivity extends AppCompatActivity {
         BottomNavigationHelper.enablePagination(mContext, bottomNavigationView);
 
     }
+
+
+    /*=================================== Menu ===================================*/
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_actionbar, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.contact_menu_actionbar:
+                Toast.makeText(mContext, "Contato", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+
+    }
+
+    /*=================================== END OF Menu ===================================*/
+
 }
