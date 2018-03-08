@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <!-- Container -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relLayout_container_activityLogin"
+        android:background="@drawable/several_homes">
+
+        <!-- Black transparent background -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorBlack"
+            android:alpha="0.4"
+            tools:ignore="ContentDescription"/>
+
+        <!-- Relative Layout for the Logo and the Logo Name -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/relLayout_logoFKSC_activityLogin"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp">
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:src="@drawable/logofkscsemfundo"
+                android:id="@+id/logoFKSC_activityLogin"
+                android:contentDescription="@string/logofksc"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fksc_go"
+                android:textSize="30sp"
+                android:layout_toEndOf="@+id/logoFKSC_activityLogin"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"/>
+
+        </RelativeLayout>
+
+        <!-- Relative Layout for the TabLayout and ViewPager -->
+        <!-- To switch between Login and Register -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/relLayout_fields_activityLogin"
+            android:layout_below="@+id/relLayout_logoFKSC_activityLogin"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginBottom="30dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/relLayout_tabLayout_activityLogin">
+
+                <!-- Tab Layout -->
+                <include layout="@layout/snippet_tablayout_login"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/relLayout_viewPager_activityLogin"
+                android:layout_below="@+id/relLayout_tabLayout_activityLogin">
+
+                <!-- View Pager -->
+                <include layout="@layout/layout_middle_viewpager"/>
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+        <!-- Copyrights -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/copyRightFKSC_login"
+            android:text="@string/copy_right_fksc"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/colorWhite"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:textSize="12sp"/>
+
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

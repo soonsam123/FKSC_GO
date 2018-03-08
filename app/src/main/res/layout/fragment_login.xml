@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <!--***************** Email Field *****************-->
+    <android.support.v7.widget.AppCompatEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appCompatEditText_email_fragmentLogin"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/rounded_edittext_login"
+        android:hint="@string/email"
+        android:textColorHint="@color/colorGrey400"
+        android:textColor="@color/colorWhite"
+        android:inputType="textEmailAddress"
+        android:padding="12dp"/>
+
+    <!--***************** Password Field *****************-->
+    <android.support.v7.widget.AppCompatEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appCompatEditText_password_fragmentLogin"
+        android:layout_margin="15dp"
+        android:background="@drawable/rounded_edittext_login"
+        android:layout_below="@+id/appCompatEditText_email_fragmentLogin"
+        android:hint="@string/password"
+        android:textColorHint="@color/colorGrey400"
+        android:textColor="@color/colorWhite"
+        android:inputType="textPassword"
+        android:padding="12dp"/>
+
+    <!--***************** Login *****************-->
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:id="@+id/appCompatButton_login_fragmentLogin"
+        android:layout_below="@+id/appCompatEditText_password_fragmentLogin"
+        android:text="@string/login"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:background="@drawable/rounded_button_login"/>
+
+
+    <!--***************** ProgressBar *****************-->
+    <ProgressBar
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:id="@+id/progressBar_fragmentLogin"
+        android:layout_below="@+id/appCompatButton_login_fragmentLogin"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

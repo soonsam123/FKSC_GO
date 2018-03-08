@@ -8,5 +8,9 @@
         android:icon="@drawable/ic_contact"
         app:showAsAction="always" />
 
+    <item
+        android:title="@string/log_out"
+        android:id="@+id/logout_menu_actionbar"/>
+
 
 </menu>

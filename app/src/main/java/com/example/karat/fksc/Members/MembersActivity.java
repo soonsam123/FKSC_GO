@@ -1,6 +1,7 @@
 package com.example.karat.fksc.Members;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -13,9 +14,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.karat.fksc.Login.LoginActivity;
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.BottomNavigationHelper;
+import com.example.karat.fksc.Utils.FirebaseMethods;
 import com.example.karat.fksc.Utils.SectionsPageAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MembersActivity extends AppCompatActivity {
 
@@ -27,6 +32,10 @@ public class MembersActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     private Context mContext = MembersActivity.this;
+    
+    // Firebase
+    private FirebaseAuth mAuth;
+    private FirebaseMethods firebaseMethods;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,7 @@ public class MembersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_members);
         Log.i(TAG, "onCreate: Starting Activity");
 
+        setupFirebaseAuth();
         setupWidgets();
         setupViewPager();
         setupBottomNavigationView();
@@ -124,6 +134,16 @@ public class MembersActivity extends AppCompatActivity {
             case R.id.contact_menu_actionbar:
                 Toast.makeText(mContext, "Contato", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.logout_menu_actionbar:
+
+                // Sign out.
+                mAuth.signOut();
+
+                // Clear the activity task and start login screen.
+                Intent intentLogin = new Intent(mContext, LoginActivity.class);
+                intentLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intentLogin);
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -133,4 +153,33 @@ public class MembersActivity extends AppCompatActivity {
 
     /*=================================== END OF Menu ===================================*/
 
+
+    /*=================================== Firebase ===================================*/
+    
+    private void setupFirebaseAuth(){
+        
+        mAuth = FirebaseAuth.getInstance();
+
+        if (mAuth.getCurrentUser() != null){
+            Log.i(TAG, "setupFirebaseAuth: User is logged in: " + mAuth.getCurrentUser().getUid());
+        } else {
+            Log.i(TAG, "setupFirebaseAuth: User is signed out");
+        }
+    }
+
+    
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+    
+    
+    /*=================================== END OF Firebase ===================================*/
+    
+    
 }

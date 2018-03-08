@@ -24,4 +24,22 @@
     <string name="global">GLOBAL</string>
     <string name="contact">CONTATO</string>
 
+
+    <string name="fksc_go">FKSC-GO</string>
+
+    <!-- Register Names -->
+    <string name="login">Entrar</string>
+    <string name="register">Registrar</string>
+    <string name="email">Email</string>
+    <string name="password">Senha</string>
+    <string name="full_name">Nome Completo</string>
+
+    <!-- Footer -->
+    <string name="copy_right_fksc">Federação de Karatê Semi Contato © 1996&#8211;2018</string>
+
+
+    <!-- Warnings -->
+    <string name="fillin_all_fields">Preencha todos os campos</string>
+    <string name="log_out">Sair</string>
+
 </resources>
