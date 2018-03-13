@@ -44,6 +44,7 @@ public class MembersActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate: Starting Activity");
 
         setupFirebaseAuth();
+        ifNoUserSignOut();
         setupWidgets();
         setupViewPager();
         setupBottomNavigationView();
@@ -52,6 +53,30 @@ public class MembersActivity extends AppCompatActivity {
     }
 
 
+
+    /*==================================== Helpers ====================================*/
+
+    /**
+     * 1) Sign out;
+     * 2) Move to Login Screen;
+     * 3) Finish MembersActivity.
+     */
+    public void ifNoUserSignOut() {
+        Log.i(TAG, "ifNoUserSignOut: Signing out because there is no user");
+
+        if (mAuth.getCurrentUser() == null) {
+            mAuth.signOut();
+
+            Intent intentLogin = new Intent(mContext, LoginActivity.class);
+            startActivity(intentLogin);
+
+            finish();
+        }
+    }
+    /*==================================== END OF Helpers ====================================*/
+
+
+    /*==================================== Setups ====================================*/
     /**
      * Setting up the widgets to the layout values.
      */
@@ -113,6 +138,8 @@ public class MembersActivity extends AppCompatActivity {
         BottomNavigationHelper.enablePagination(mContext, bottomNavigationView);
 
     }
+    /*==================================== END OF Setups ====================================*/
+
 
 
     /*=================================== Menu ===================================*/

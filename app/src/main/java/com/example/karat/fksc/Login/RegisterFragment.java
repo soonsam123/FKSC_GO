@@ -1,5 +1,6 @@
 package com.example.karat.fksc.Login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,9 +14,15 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.karat.fksc.Members.MembersActivity;
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.FirebaseMethods;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**x
  * Created by karat on 07/03/2018.
@@ -36,6 +43,11 @@ public class RegisterFragment extends Fragment implements View.OnKeyListener {
     // Firebase
     private FirebaseAuth mAuth;
     private FirebaseMethods firebaseMethods;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference myRef;
+
+    // Variables
+    private String fullName;
 
 
     @Nullable
@@ -44,6 +56,7 @@ public class RegisterFragment extends Fragment implements View.OnKeyListener {
         Log.i(TAG, "onCreateView: Starting the fragment");
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 
+        setupFirebaseAuth();
         setupWidgets(view);
         setupClickListeners();
         init();
@@ -52,6 +65,8 @@ public class RegisterFragment extends Fragment implements View.OnKeyListener {
     }
 
 
+
+    /*============================================ Init ============================================*/
     /**
      * When the user press the REGISTER BUTTON.
      */
@@ -63,7 +78,7 @@ public class RegisterFragment extends Fragment implements View.OnKeyListener {
             public void onClick(View view) {
 
                 String email = mEmail.getText().toString();
-                String fullName = mFullName.getText().toString();
+                fullName = mFullName.getText().toString();
                 String password = mPassword.getText().toString();
 
                 if (stringIsNull(email) || stringIsNull(fullName) || stringIsNull(password)){
@@ -72,7 +87,13 @@ public class RegisterFragment extends Fragment implements View.OnKeyListener {
 
                     firebaseMethods = new FirebaseMethods(getActivity());
 
-                    firebaseMethods.registerNewEmail(email, password, mProgressBar);
+                    /*
+                     * 1) Create an intent to the same Login Screen;
+                     * 2) Register email (Send verification email, if OK start Login Screen again and send message to verify the email).
+                     */
+                    Intent intentLogin = new Intent(getActivity(), LoginActivity.class);
+
+                    firebaseMethods.registerNewEmail(email, password, fullName, mProgressBar, intentLogin);
 
                 }
 
@@ -80,6 +101,9 @@ public class RegisterFragment extends Fragment implements View.OnKeyListener {
         });
 
     }
+    /*============================================ END OF Init ============================================*/
+
+
 
 
     /*==================================== Setups ====================================*/
@@ -155,6 +179,23 @@ public class RegisterFragment extends Fragment implements View.OnKeyListener {
         Log.i(TAG, "setupFirebaseAuth: Setting up the Firebase Authentication");
 
         mAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = firebaseDatabase.getReference();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called with the initial value and again
+                // whenever any values is changed in this fragment.
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

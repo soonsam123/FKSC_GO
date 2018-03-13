@@ -41,5 +41,12 @@
     <!-- Warnings -->
     <string name="fillin_all_fields">Preencha todos os campos</string>
     <string name="log_out">Sair</string>
+    <string name="confirm_email_verification">Confirme sua conta no email: </string>
+    <string name="failed_send_verification_email">Falha no envio da verificação de email</string>
+    <string name="confirm_email_inbox">Confirme seu email na caixa de entrada</string>
+
+
+    <!-- Database names -->
+    <string name="dbname_users">users</string>
 
 </resources>

@@ -19,6 +19,11 @@ import com.example.karat.fksc.Members.MembersActivity;
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.FirebaseMethods;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by karat on 07/03/2018.
@@ -57,6 +62,8 @@ public class LoginFragment extends Fragment implements View.OnKeyListener {
     }
 
 
+    /*============================================ Init ============================================*/
+
     /**
      * When the user PRESS the log in button.
      */
@@ -77,6 +84,7 @@ public class LoginFragment extends Fragment implements View.OnKeyListener {
                     firebaseMethods = new FirebaseMethods(getActivity());
 
                     Intent intentMembers = new Intent(getActivity(), MembersActivity.class);
+                    intentMembers.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
                     firebaseMethods.signInWithEmail(email, password, mProgressBar, intentMembers);
 
@@ -90,6 +98,8 @@ public class LoginFragment extends Fragment implements View.OnKeyListener {
         });
 
     }
+    /*============================================ END OF Init ============================================*/
+
 
 
     /*================================= Setups =================================*/
