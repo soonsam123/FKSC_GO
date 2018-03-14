@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="@string/contact"
-        android:id="@+id/contact_menu_actionbar"
-        android:icon="@drawable/ic_contact"
-        app:showAsAction="always" />
+        android:title="@string/add_dojo"
+        android:id="@+id/addDojo_menu_actionbar"/>
+
+    <item
+        android:title="@string/edit_profile"
+        android:id="@+id/editProfile_menu_actionbar"/>
 
     <item
         android:title="@string/log_out"

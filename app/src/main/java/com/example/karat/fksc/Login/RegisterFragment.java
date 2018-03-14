@@ -65,7 +65,6 @@ public class RegisterFragment extends Fragment implements View.OnKeyListener {
     }
 
 
-
     /*============================================ Init ============================================*/
     /**
      * When the user press the REGISTER BUTTON.
@@ -165,7 +164,6 @@ public class RegisterFragment extends Fragment implements View.OnKeyListener {
             return false;
         }
     }
-
     /*================================= END OF Helpers =================================*/
 
 
@@ -211,6 +209,10 @@ public class RegisterFragment extends Fragment implements View.OnKeyListener {
     }
 
     /*==================================== END OF Firebase ====================================*/
+
+
+
+
 
 
 }

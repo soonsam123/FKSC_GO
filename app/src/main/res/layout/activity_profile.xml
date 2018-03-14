@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.karat.fksc.Profile.ProfileActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relLayout_container_activityProfile">
+
+        <!-- TOP BAR -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relLayout_topBar_activityProfile">
+
+            <!-- Top bar -->
+            <include layout="@layout/layout_top_bar"/>
+
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/relLayout_topBar_activityProfile"
+            android:layout_marginBottom="50dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- HEADER -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/relLayout_header_activityProfile"
+                    android:layout_marginBottom="20dp">
+
+                    <!-- Header (Cover Photo, Profile Photo, User's Name and Dojo) -->
+                    <include layout="@layout/layout_header_profile"/>
+
+                </RelativeLayout>
+
+                <!-- FKSC INFO -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/relLayout_FKSCinfo_activityProfile"
+                    android:layout_marginBottom="20dp">
+
+                    <!-- FKSC Info (Registration Number, Belt, Ranking) -->
+                    <include layout="@layout/layout_info_profile"/>
+
+                </RelativeLayout>
+
+
+                <!-- ABOUT THE USER -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/relLayout_aboutUser_activityProfile">
+
+                    <!-- About the user (About me, Curriculum) -->
+                    <include layout="@layout/layout_aboutme_profile"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <!-- BOTTOM NAVIGATION VIEW-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relLayout_bottomNavView_activityMembers">
+
+            <!-- Bottom Navigation View-->
+            <include layout="@layout/layout_bottom_nav_view"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

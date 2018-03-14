@@ -6,6 +6,7 @@
     <string name="filiados">Filiados</string>
     <string name="campeonatos">Campeonatos</string>
     <string name="ranking">Ranking</string>
+    <string name="profile">Perfil</string>
 
 
     <!-- ContentDescriptions for images -->
@@ -48,5 +49,18 @@
 
     <!-- Database names -->
     <string name="dbname_users">users</string>
+    <string name="dbname_users_settings">users_settings</string>
+
+
+    <!-- Profile names -->
+    <string name="registration">REGISTRO</string>
+    <string name="belt">FAIXA</string>
+    <string name="global_ranking">RANKING GLOBAL</string>
+    <string name="about_me">Sobre mim</string>
+    <string name="curriculum">Currículo</string>
+    <string name="add_dojo">Adicionar Academia</string>
+    <string name="cover_photo">Cover Photo</string>
+    <string name="edit_profile">Editar Perfil</string>
+
 
 </resources>

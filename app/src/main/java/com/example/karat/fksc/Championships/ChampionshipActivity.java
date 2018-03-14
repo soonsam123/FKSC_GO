@@ -75,11 +75,12 @@ public class ChampionshipActivity extends AppCompatActivity {
         Log.i(TAG, "setupBottomNavigationView: Setting up the Bottom Navigation View");
 
         BottomNavigationHelper.enablePagination(mContext, bottomNavigationView);
+        BottomNavigationHelper.removeShiftMode(bottomNavigationView);
 
     }
 
 
-    /*=================================== Menu ===================================*/
+/*    *//*=================================== Menu ===================================*//*
 
 
     @Override
@@ -105,5 +106,5 @@ public class ChampionshipActivity extends AppCompatActivity {
 
     }
 
-    /*=================================== END OF Menu ===================================*/
+    *//*=================================== END OF Menu ===================================*/
 }

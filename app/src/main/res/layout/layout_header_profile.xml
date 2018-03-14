@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relLayout_container_headerLayout">
+
+        <!-- Cover Photo -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/imgView_coverPhoto_headerLayout"
+            android:contentDescription="@string/cover_photo"
+            android:scaleType="centerCrop"
+            android:fitsSystemWindows="true"
+            android:src="@drawable/several_homes"/>
+
+        <!-- Profile Photo -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="102dp"
+            android:layout_height="102dp"
+            android:id="@+id/circleImgView_profilePhoto_headerLayout"
+            android:src="@color/colorGrey400"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp"
+            android:padding="2dp"
+            android:background="@drawable/white_stroke_oval"
+            android:scaleType="centerCrop" />
+
+
+        <!-- User's Name -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/textView_userName_headerLayout"
+            android:text="Soon Sam Ribeiro Santos"
+            android:textColor="@color/colorBlack"
+            android:textSize="22sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/circleImgView_profilePhoto_headerLayout"/>
+
+
+        <!-- Verified Account -->
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/imgView_verifiedAccount_headerLayout"
+            android:src="@drawable/ic_verified_account"
+            android:layout_toEndOf="@+id/textView_userName_headerLayout"
+            android:layout_below="@+id/circleImgView_profilePhoto_headerLayout"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="6dp"
+            android:visibility="invisible"/>
+
+
+        <!-- User's Dojo (gym: place for training karate) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:id="@+id/textView_userDojo_headerLayout"
+            android:text="Dojô Universal"
+            android:textColor="@color/colorGrey700"
+            android:textSize="18sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/textView_userName_headerLayout"/>
+
+    </RelativeLayout>
+
+</merge>

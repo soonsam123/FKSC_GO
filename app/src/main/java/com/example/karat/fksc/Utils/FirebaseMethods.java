@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.example.karat.fksc.Login.LoginActivity;
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.models.User;
+import com.example.karat.fksc.models.UserAndUserSettings;
+import com.example.karat.fksc.models.UserSettings;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -86,7 +88,7 @@ public class FirebaseMethods {
                                                     // 1) Add user's info to database;
                                                     // 2) Sign out to wait for the email verification;
                                                     // 3) Go to login activity.
-                                                    addNewUser(fullName, "", "", "", "", false);
+                                                    addNewUser(fullName, "", "", "", "", "", false);
 
                                                     mAuth.signOut();
                                                     mContext.startActivity(intent);
@@ -174,7 +176,7 @@ public class FirebaseMethods {
 
     /*============================================ Database ============================================*/
 
-    private void addNewUser(String fullName, String birthDate, String beltColor, String registrationNumber, String dojo, boolean verified) {
+    private void addNewUser(String fullName, String birthDate, String beltColor, String registrationNumber, String dojo, String profileImgURL, boolean verified) {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -184,20 +186,30 @@ public class FirebaseMethods {
 
             Log.i(TAG, "addNewUser: Adding new user database information: " + userID);
 
+
             // Creating the user model with the information provided.
             User user = new User(
-                    fullName,
-                    birthDate,
-                    beltColor,
-                    registrationNumber,
                     dojo,
-                    userID,
+                    fullName,
+                    profileImgURL,
+                    registrationNumber,
                     verified);
 
-            // Adding to the database
+            // Adding to the database;
             myRef.child(mContext.getString(R.string.dbname_users))
                     .child(userID)
                     .setValue(user);
+
+            // Creating the user_settings model with the information provided.
+            UserSettings user_settings = new UserSettings(
+                    beltColor,
+                    birthDate,
+                    userID);
+
+            // Adding to the database
+            myRef.child(mContext.getString(R.string.dbname_users_settings))
+                    .child(userID)
+                    .setValue(user_settings);
 
 
         }
@@ -209,60 +221,11 @@ public class FirebaseMethods {
 
     /*============================================ Getters and Setters ============================================*/
 
-    public User getUser(DataSnapshot dataSnapshot){
-
-        User user = new User();
-
-        for (DataSnapshot ds: dataSnapshot.getChildren()){
-
-            if (ds.getKey().equals(mContext.getString(R.string.dbname_users))){
-                Log.i(TAG, "getUser: Getting user information: " + ds);
-
-                try {
-
-                    String userID = mAuth.getCurrentUser().getUid();
-
-                    user.setFull_name(ds.child(userID)
-                    .getValue(User.class)
-                    .getFull_name());
-
-                    user.setBirth_date(ds.child(userID)
-                    .getValue(User.class)
-                    .getBirth_date());
-
-                    user.setBelt_color(ds.child(userID)
-                    .getValue(User.class)
-                    .getBelt_color());
-
-                    user.setRegistration_number(ds.child(userID)
-                    .getValue(User.class)
-                    .getRegistration_number());
-
-                    user.setDojo(ds.child(userID)
-                    .getValue(User.class)
-                    .getDojo());
-
-                    user.setUser_id(ds.child(userID)
-                    .getValue(User.class)
-                    .getUser_id());
-
-                    user.setVerified(ds.child(userID)
-                    .getValue(User.class)
-                    .isVerified());
-
-
-                } catch (NullPointerException e){e.printStackTrace();}
-
-
-            }
-
-        }
-
-        return user;
-
-    }
-
-
+    /**
+     * Get the users information: dojo, full_name, profile_img_url, registration_number, verified.
+     * @param dataSnapshot
+     * @return
+     */
     public List<User> getUsers(DataSnapshot dataSnapshot){
 
         List<User> all_users = new ArrayList<>();
@@ -273,26 +236,14 @@ public class FirebaseMethods {
 
             // Transform the value of the specific key to a User object and get its full name, birth_date...
             try {
-                User user = new User();
 
-                user.setFull_name(ds.getValue(User.class)
-                        .getFull_name());
-                user.setBirth_date(ds.getValue(User.class)
-                        .getBirth_date());
-                user.setBelt_color(ds.getValue(User.class)
-                        .getBelt_color());
-                user.setDojo(ds.getValue(User.class)
-                        .getDojo());
-                user.setUser_id(ds.getValue(User.class)
-                        .getUser_id());
-                user.setRegistration_number(ds.getValue(User.class)
-                        .getRegistration_number());
-                user.setVerified(ds.getValue(User.class)
-                        .isVerified());
+                User user = new User();
+                user = ds.getValue(User.class);
 
                 Log.i(TAG, "getUsers: " + user.toString());
                 all_users.add(user);
                 Log.i(TAG, "getUsers: " + all_users.toString());
+
 
             }catch (NullPointerException e){e.printStackTrace();}
 
@@ -302,6 +253,75 @@ public class FirebaseMethods {
         Log.i(TAG, "getUsers: " + all_users.toString());
         return all_users;
 
+    }
+
+
+    /**
+     * Get the user_settings information: belt_color, birth_date, user_id.
+     * @param dataSnapshot
+     * @return
+     */
+    public List<UserSettings> getUsersSettings(DataSnapshot dataSnapshot){
+
+        List<UserSettings> all_users_settings = new ArrayList<>();
+
+        for (DataSnapshot ds: dataSnapshot.getChildren()){
+            Log.i(TAG, "getUsersSettings: " + ds);
+
+            try {
+
+
+                UserSettings userSettings = new UserSettings();
+                userSettings = ds.getValue(UserSettings.class);
+
+                Log.i(TAG, "getUsersSettings: Single element being added" + userSettings.toString());
+                all_users_settings.add(userSettings);
+                Log.i(TAG, "getUsersSettings: Building the List" + all_users_settings.toString());
+
+            } catch (NullPointerException e){e.printStackTrace();}
+
+        }
+
+        Log.i(TAG, "getUsersSettings: Complete List" + all_users_settings.toString());
+
+        return all_users_settings;
+
+    }
+
+    /**
+     * Get the users and users_settings information from the current user.
+     * @param dataSnapshot
+     * @return
+     */
+    public UserAndUserSettings getUserAndUserSettings(DataSnapshot dataSnapshot){
+
+        if (mAuth.getCurrentUser() != null) {
+
+            String userID = mAuth.getCurrentUser().getUid();
+
+            User user = new User();
+            UserSettings userSettings = new UserSettings();
+
+            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                Log.i(TAG, "getUserAndUserSettings: Looping through ds: " + ds);
+
+                if (ds.getKey().equals(mContext.getString(R.string.dbname_users))) {
+                    Log.i(TAG, "getUserAndUserSettings: User " + ds.child(userID).getValue(User.class));
+
+                    user = ds.child(userID).getValue(User.class);
+                } else if (ds.getKey().equals(mContext.getString(R.string.dbname_users_settings))){
+                    Log.i(TAG, "getUserAndUserSettings: UserSettings " + ds.child(userID).getValue(UserSettings.class));
+
+                    userSettings = ds.child(userID).getValue(UserSettings.class);
+                }
+
+            }
+
+            return new UserAndUserSettings(user, userSettings);
+
+        } else {
+            return null;
+        }
     }
 
     /*============================================ END OF Getters and Setters ============================================*/

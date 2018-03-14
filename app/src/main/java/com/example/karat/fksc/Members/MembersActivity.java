@@ -14,13 +14,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.karat.fksc.EditProfile.EditProfileActivity;
 import com.example.karat.fksc.Login.LoginActivity;
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.BottomNavigationHelper;
 import com.example.karat.fksc.Utils.FirebaseMethods;
 import com.example.karat.fksc.Utils.SectionsPageAdapter;
+import com.example.karat.fksc.Utils.UniversalImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class MembersActivity extends AppCompatActivity {
 
@@ -49,10 +52,21 @@ public class MembersActivity extends AppCompatActivity {
         setupViewPager();
         setupBottomNavigationView();
         setupToolBar();
+        initImageLoader();
 
     }
 
+    /*==================================== Initialize ====================================*/
 
+    public void initImageLoader(){
+        Log.i(TAG, "initImageLoader: Initializing the imageLoader");
+
+        UniversalImageLoader universalImageLoader = new UniversalImageLoader(mContext);
+        ImageLoader.getInstance().init(universalImageLoader.getConfig());
+
+    }
+
+    /*==================================== END OF Initialize ====================================*/
 
     /*==================================== Helpers ====================================*/
 
@@ -136,6 +150,7 @@ public class MembersActivity extends AppCompatActivity {
         Log.i(TAG, "setupBottomNavigationView: Setting up the bottom navigation view");
 
         BottomNavigationHelper.enablePagination(mContext, bottomNavigationView);
+        BottomNavigationHelper.removeShiftMode(bottomNavigationView);
 
     }
     /*==================================== END OF Setups ====================================*/
@@ -158,9 +173,15 @@ public class MembersActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.contact_menu_actionbar:
-                Toast.makeText(mContext, "Contato", Toast.LENGTH_SHORT).show();
+            case R.id.addDojo_menu_actionbar:
+                Toast.makeText(mContext, "Adicionar Dojo", Toast.LENGTH_SHORT).show();
                 break;
+
+            case R.id.editProfile_menu_actionbar:
+                Intent intentEditProfile = new Intent(mContext, EditProfileActivity.class);
+                startActivity(intentEditProfile);
+                break;
+
             case R.id.logout_menu_actionbar:
 
                 // Sign out.

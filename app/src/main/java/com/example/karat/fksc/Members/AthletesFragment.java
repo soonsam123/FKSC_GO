@@ -1,6 +1,7 @@
 package com.example.karat.fksc.Members;
 
 import android.content.Context;
+import android.icu.lang.UScript;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,13 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.FirebaseMethods;
 import com.example.karat.fksc.Utils.RecyclerAdapter;
 import com.example.karat.fksc.models.User;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
@@ -40,17 +40,29 @@ public class AthletesFragment extends Fragment {
 
     // Layout
     private RecyclerView recyclerView;
+    private ProgressBar mProgressBar;
 
     // Firebase
     private FirebaseMethods firebaseMethods;
     private FirebaseAuth mAuth;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference myRef;
+    private ValueEventListener listener;
 
     // Context
     private Context mContext;
 
+    // Vars
+    private List<User> all_users;
 
+
+    /**
+     * Life-cyle 1) This method is called when the app is launching.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,20 +76,33 @@ public class AthletesFragment extends Fragment {
         return view;
     }
 
+    /*====================================== Setups ======================================*/
 
+    /**
+     * Set up the recycler adapter with the user that are verified.
+     * @param all_users
+     */
     private void setupRecyclerAdapter(List<User> all_users){
 
+
         Log.i(TAG, "setupRecyclerAdapter: " + all_users.toString());
+
+        List<User> users_verified = new ArrayList<>();
+
+        for (User singleUser: all_users){
+            if (singleUser.isVerified()){
+                users_verified.add(singleUser);
+            }
+        }
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new RecyclerAdapter(all_users, getActivity()));
+        recyclerView.setAdapter(new RecyclerAdapter(users_verified, getActivity()));
 
     }
 
-    /*====================================== Setups ======================================*/
     /**
      * Set up the widgets to the layout id values.
      * @param view
@@ -85,6 +110,8 @@ public class AthletesFragment extends Fragment {
     private void setupWidgets(View view){
 
         recyclerView = view.findViewById(R.id.recyclerView_athletesFragment);
+        mProgressBar = view.findViewById(R.id.progressBar_fragmentAthletes);
+        all_users = new ArrayList<>();
 
         mContext = getActivity();
 
@@ -101,24 +128,73 @@ public class AthletesFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         firebaseMethods = new FirebaseMethods(getActivity());
 
-        // Get a reference from the users field.
-        myRef = FirebaseDatabase.getInstance().getReference().child(mContext.getString(R.string.dbname_users));
+
+
+        /*
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Show all the users node. Key = userID and Value = information (belt_color, birth_date...).
-                Log.i(TAG, "onDataChange: " + dataSnapshot.getValue().toString());
-                setupRecyclerAdapter(firebaseMethods.getUsers(dataSnapshot));
+                try {
+                    Log.i(TAG, "onDataChange: " + dataSnapshot.getValue().toString());
+                }catch (NullPointerException e){e.printStackTrace();}
+
+                all_users = firebaseMethods.getUsers(dataSnapshot);
+                mProgressBar.setVisibility(View.GONE);
+                setupRecyclerAdapter(all_users);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // handle database error.
             }
-        });
+        });*/
 
     }
 
+
+    /**
+     * Life-cyle 2) This is called after onCreate().
+     */
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // Get a reference from the users field.
+        myRef = FirebaseDatabase.getInstance().getReference().child(mContext.getString(R.string.dbname_users));
+
+        listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                all_users = firebaseMethods.getUsers(dataSnapshot);
+                mProgressBar.setVisibility(View.GONE);
+                setupRecyclerAdapter(all_users);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        myRef.addListenerForSingleValueEvent(listener);
+
+    }
+
+    /**
+     * Life-cyle 3) This method is called when the activity is 100% not visible anymore.
+     */
+    @Override
+    public void onStop() {
+
+        if (listener != null && myRef != null) {
+            myRef.removeEventListener(listener);
+        }
+
+        super.onStop();
+    }
 
     /*====================================== END OF Firebase ======================================*/
 

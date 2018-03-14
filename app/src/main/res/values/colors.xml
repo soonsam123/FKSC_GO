@@ -13,10 +13,13 @@
     <color name="colorGrey300">#E0E0E0</color>
     <color name="colorGrey400">#BDBDBD</color>
     <color name="colorGrey500">#9E9E9E</color>
+    <color name="colorGrey600">#757575</color>
+    <color name="colorGrey700">#616161</color>
     <color name="colorGrey800">#424242</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTransparent">#80000000</color>
 
     <!-- Blues -->
     <color name="colorBlue50">#E3F2FD</color>
+    <color name="colorBlue700">#0288D1</color>
 </resources>
