@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.karat.fksc.Login.LoginActivity;
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.models.User;
+import com.example.karat.fksc.models.UserAboutMe;
 import com.example.karat.fksc.models.UserAndUserSettings;
 import com.example.karat.fksc.models.UserSettings;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,6 +39,8 @@ public class FirebaseMethods {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference myRef;
 
+    private String userID;
+
 
     /**
      * Receive the context from the activity we are working.
@@ -50,6 +53,9 @@ public class FirebaseMethods {
         mContext = context;
         firebaseDatabase = FirebaseDatabase.getInstance();
         myRef = firebaseDatabase.getReference();
+        if (mAuth.getCurrentUser() != null){
+            userID = mAuth.getCurrentUser().getUid();
+        }
 
     }
 
@@ -216,10 +222,113 @@ public class FirebaseMethods {
 
     }
 
+
+    /**
+     * Add the node users_about_me to the user Firebase Database.
+     * This node contains: cover_img_url, about_me, curriculum.
+     * @param coverPhotoImgURL
+     * @param aboutMe
+     * @param curriculum
+     */
+    public void addUserAboutMe(String coverPhotoImgURL, String aboutMe, String curriculum){
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if (currentUser != null){
+            Log.i(TAG, "addUserAboutMe: Adding node users_about_me");
+
+            String userID = currentUser.getUid();
+
+            // Create the model UserAboutMe.
+            UserAboutMe userAboutMe = new UserAboutMe(
+                    coverPhotoImgURL,
+                    aboutMe,
+                    curriculum);
+
+            // Add it to: appDatabase -->
+            //                      users_about_me -->
+            //                                  userID -->
+            //                                      cover_img_url = coverPhotoImgURL;
+            //                                      about_me = aboutMe
+            //                                      curriculum = curriculum
+            myRef.child(mContext.getString(R.string.dbname_users_about_me))
+                    .child(userID)
+                    .setValue(userAboutMe);
+
+        }
+
+    }
+
     /*============================================ END OF Database ============================================*/
 
 
     /*============================================ Getters and Setters ============================================*/
+
+    /**
+     * Get the user node information from one user:
+     * users --> userID --> dojo, full_name, profile_img_url, registration_number, verified.
+     * @param dataSnapshot
+     * @return
+     */
+    public User getUser(DataSnapshot dataSnapshot){
+
+        User user = new User();
+
+        if (mAuth.getCurrentUser() != null) {
+
+            String userID = mAuth.getCurrentUser().getUid();
+
+            // 1) Looping through all the user's UID in users.
+            for (DataSnapshot ds : dataSnapshot
+                    .child(mContext.getString(R.string.dbname_users))
+                    .getChildren()) {
+                Log.d(TAG, "getUser: " + ds);
+
+                // 2) Checking if one of the IDs is the current user's one.
+                if (ds.getKey().equals(userID)) {
+                    user = ds.getValue(User.class);
+                }
+
+            }
+        }
+
+        return user;
+
+    }
+
+
+    /**
+     * Retrieve the users_about_me node information from the current user.
+     * users_about_me --> userID --> cover_img_url, about_me, curriculum.
+     * @param dataSnapshot
+     * @return
+     */
+    public UserAboutMe getUserAboutMe(DataSnapshot dataSnapshot){
+
+        UserAboutMe userAboutMe = new UserAboutMe();
+
+        if (mAuth.getCurrentUser() != null){
+
+            String userID = mAuth.getCurrentUser().getUid();
+
+            // 1) Looping through all the user's UID in users_about_me node.
+            for (DataSnapshot ds: dataSnapshot
+                    .child(mContext.getString(R.string.dbname_users_about_me))
+                    .getChildren()){
+
+                // 2) Checking if one of the IDs is the current user's one.
+                if (ds.getKey().equals(userID)) {
+                    userAboutMe = ds.getValue(UserAboutMe.class);
+                }
+
+            }
+
+        }
+
+        return userAboutMe;
+
+    }
+
 
     /**
      * Get the users information: dojo, full_name, profile_img_url, registration_number, verified.
@@ -227,7 +336,6 @@ public class FirebaseMethods {
      * @return
      */
     public List<User> getUsers(DataSnapshot dataSnapshot){
-
         List<User> all_users = new ArrayList<>();
 
         // From all the users ID, it gets one by one.
@@ -269,7 +377,6 @@ public class FirebaseMethods {
             Log.i(TAG, "getUsersSettings: " + ds);
 
             try {
-
 
                 UserSettings userSettings = new UserSettings();
                 userSettings = ds.getValue(UserSettings.class);
@@ -324,6 +431,228 @@ public class FirebaseMethods {
         }
     }
 
+
+
+    /**
+     * This method retrieves a List with all users and users_settings. As UserAndUserSettings(User, UserSettings).
+     * @param dataSnapshot
+     * @return
+     */
+    public List<UserAndUserSettings> getAllUserAndUserSettings(DataSnapshot dataSnapshot){
+
+        List<UserAndUserSettings> all_usersAndUserSettings = new ArrayList<>();
+        List<User> all_users = new ArrayList<>();
+        List<UserSettings> all_users_settings = new ArrayList<>();
+
+        // users node.
+        for (DataSnapshot ds: dataSnapshot.child(mContext.getString(R.string.dbname_users))
+                .getChildren()){
+            Log.i(TAG, "getAllUserAndUserSettings: Looping through users " + ds);
+
+            try {
+
+                User user = new User();
+
+                Log.i(TAG, "getAllUserAndUserSettings: User one" + ds.getValue(User.class));
+                user = ds.getValue(User.class);
+
+                all_users.add(user);
+
+            } catch (NullPointerException e){e.printStackTrace();}
+
+        }
+
+        // users_settings node.
+        for (DataSnapshot ds: dataSnapshot.child(mContext.getString(R.string.dbname_users_settings))
+                .getChildren()){
+            Log.i(TAG, "getAllUserAndUserSettings: Looping through users_settings " + ds);
+
+            try {
+
+                UserSettings userSettings = new UserSettings();
+
+                Log.i(TAG, "getAllUserAndUserSettings: UserSettings one" + ds.getValue(UserSettings.class));
+                userSettings = ds.getValue(UserSettings.class);
+
+                all_users_settings.add(userSettings);
+
+            } catch (NullPointerException e){e.printStackTrace();}
+
+        }
+
+        for (int i = 0; i < all_users.size(); i++){
+
+            all_usersAndUserSettings.add(new UserAndUserSettings(all_users.get(i), all_users_settings.get(i)));
+
+        }
+
+        return all_usersAndUserSettings;
+
+    }
+
     /*============================================ END OF Getters and Setters ============================================*/
+
+
+
+    /*=================================================== UPDATES ===================================================*/
+
+    /*======================================= Update users =======================================*/
+    /**
+     * Updates the dojo Database value to
+     * @param dojo
+     */
+    public void updateDojo(String dojo){
+        Log.d(TAG, "updateDojo: Updating dojo to: " + dojo);
+
+        myRef.child(mContext.getString(R.string.dbname_users))
+                .child(userID)
+                .child(mContext.getString(R.string.field_dojo))
+                .setValue(dojo);
+
+    }
+
+
+    /**
+     * Updates the Full Name Database value to
+     * @param fullName
+     */
+    public void updateFullName(String fullName){
+        Log.d(TAG, "updateFullName: Updating full name to: " + fullName);
+
+        myRef.child(mContext.getString(R.string.dbname_users))
+                .child(userID)
+                .child(mContext.getString(R.string.field_full_name))
+                .setValue(fullName);
+
+    }
+
+
+    /**
+     * Updates the Profile Image Database value to
+     * @param profileImgURL
+     */
+    public void updateProfileImgURL(String profileImgURL){
+        Log.d(TAG, "updateProfileImgURL: Updating Profile Image to: " + profileImgURL);
+
+        myRef.child(mContext.getString(R.string.dbname_users))
+                .child(userID)
+                .child(mContext.getString(R.string.field_profile_img_url))
+                .setValue(profileImgURL);
+
+    }
+
+
+    /**
+     * Updates the Registration Number Database value to
+     * @param registrationNumber
+     */
+    public void updateRegistrationNumber(String registrationNumber){
+        Log.d(TAG, "updateRegistrationNumber: Updating Registration Number to: " + registrationNumber);
+
+        myRef.child(mContext.getString(R.string.dbname_users))
+                .child(userID)
+                .child(mContext.getString(R.string.field_registration_number))
+                .setValue(registrationNumber);
+
+    }
+
+
+    /**
+     * Updates the Verified Database value to
+     * @param verified
+     */
+    public void updateVerified(boolean verified){
+        Log.d(TAG, "updateVerified: Updating Verified to: " + verified);
+
+        myRef.child(mContext.getString(R.string.dbname_users))
+                .child(userID)
+                .child(mContext.getString(R.string.field_verified))
+                .setValue(verified);
+
+    }
+
+    /*======================================= END OF Update users =======================================*/
+
+    /*======================================= Update users_about_me =======================================*/
+    /**
+     * Updates the AboutMe Database value to
+     * @param aboutMe
+     */
+    public void updateAboutMe(String aboutMe){
+        Log.d(TAG, "updateAboutMe: Updating Verified to: " + aboutMe);
+
+        myRef.child(mContext.getString(R.string.dbname_users_about_me))
+                .child(userID)
+                .child(mContext.getString(R.string.field_about_me))
+                .setValue(aboutMe);
+
+    }
+
+
+    /**
+     * Updates the Cover Image Database value to
+     * @param coverImgURL
+     */
+    public void updateCoverImgURL(String coverImgURL){
+        Log.d(TAG, "updateCoverImgURL: Updating Cover Image to: " + coverImgURL);
+
+        myRef.child(mContext.getString(R.string.dbname_users_about_me))
+                .child(userID)
+                .child(mContext.getString(R.string.field_cover_img_url))
+                .setValue(coverImgURL);
+
+    }
+
+
+
+    /**
+     * Updates the Curriculum Database value to
+     * @param curriculum
+     */
+    public void updateCurriculum(String curriculum){
+        Log.d(TAG, "updateCurriculum: Updating Curriculum to: " + curriculum);
+
+        myRef.child(mContext.getString(R.string.dbname_users_about_me))
+                .child(userID)
+                .child(mContext.getString(R.string.field_curriculum))
+                .setValue(curriculum);
+
+    }
+    /*======================================= END OF Update users_about_me =======================================*/
+
+    /*======================================= Update users_settings =======================================*/
+
+    /**
+     * Updates the Belt Color Database value to
+     * @param beltColor
+     */
+    public void updateBeltColor(String beltColor){
+        Log.d(TAG, "updateBeltColor: Updating Belt Color to: " + beltColor);
+
+        myRef.child(mContext.getString(R.string.dbname_users_settings))
+                .child(userID)
+                .child(mContext.getString(R.string.field_belt_color))
+                .setValue(beltColor);
+
+    }
+
+
+    /**
+     * Updates the Birth Date Database value to
+     * @param birthDate
+     */
+    public void updateBirthDate(String birthDate){
+        Log.d(TAG, "updateBirthDate: Updating Birth Date to: " + birthDate);
+
+        myRef.child(mContext.getString(R.string.dbname_users_settings))
+                .child(userID)
+                .child(mContext.getString(R.string.field_birth_date))
+                .setValue(birthDate);
+
+    }
+    /*======================================= END OF Update users_settings =======================================*/
+
+
+    /*=================================================== END OF UPDATES ===================================================*/
 
 }

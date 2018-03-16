@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.karat.fksc.AddDojo.AddDojoActivity;
 import com.example.karat.fksc.EditProfile.EditProfileActivity;
 import com.example.karat.fksc.Login.LoginActivity;
 import com.example.karat.fksc.R;
@@ -23,6 +24,7 @@ import com.example.karat.fksc.Utils.BottomNavigationHelper;
 import com.example.karat.fksc.Utils.FirebaseMethods;
 import com.example.karat.fksc.Utils.UniversalImageLoader;
 import com.example.karat.fksc.models.User;
+import com.example.karat.fksc.models.UserAboutMe;
 import com.example.karat.fksc.models.UserAndUserSettings;
 import com.example.karat.fksc.models.UserSettings;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,12 +44,14 @@ public class ProfileActivity extends AppCompatActivity {
 
     private static final String TAG = "ProfileActivity";
     
-    // layout
+    // Layout
     private BottomNavigationView bottomNavigationView;
     private Toolbar toolbar;
+
     private ImageView mCoverPhoto;
     private ImageView mVerifiedAccount;
     private CircleImageView mProfilePhoto;
+
     private TextView mDisplayName;
     private TextView mDojoName;
     private TextView mRegistrationNumber;
@@ -105,7 +109,7 @@ public class ProfileActivity extends AppCompatActivity {
      * Assigning the Firebase Database values to the widgets in the Profile Screen Layout.
      * @param userAndUserSettings
      */
-    private void setupWidgetsWithDBValues(UserAndUserSettings userAndUserSettings){
+    private void setupWidgetsWithDBValues(UserAndUserSettings userAndUserSettings, UserAboutMe userAboutMe){
         Log.i(TAG, "setupWidgetsWithDBValues: Assigning DB Values to the widgets " + userAndUserSettings.toString());
 
         // Check if it is a verified account. If so, display the verified ImageView.
@@ -117,6 +121,9 @@ public class ProfileActivity extends AppCompatActivity {
         mDojoName.setText(userAndUserSettings.getUser().getDojo());
         mRegistrationNumber.setText(userAndUserSettings.getUser().getRegistration_number());
         mBelt.setText(userAndUserSettings.getUserSettings().getBelt_color());
+
+        mAboutMe.setText(userAboutMe.getAbout_me());
+        mCurriculum.setText(userAboutMe.getCurriculum());
 
     }
 
@@ -169,7 +176,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.addDojo_menu_actionbar:
-                Toast.makeText(mContext, "Adicionar Dojo", Toast.LENGTH_SHORT).show();
+                Intent intentAddDojo = new Intent(mContext, AddDojoActivity.class);
+                startActivity(intentAddDojo);
                 break;
 
             case R.id.editProfile_menu_actionbar:
@@ -222,7 +230,8 @@ public class ProfileActivity extends AppCompatActivity {
         listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                setupWidgetsWithDBValues(firebaseMethods.getUserAndUserSettings(dataSnapshot));
+                setupWidgetsWithDBValues(firebaseMethods.getUserAndUserSettings(dataSnapshot),
+                        firebaseMethods.getUserAboutMe(dataSnapshot));
             }
 
             @Override

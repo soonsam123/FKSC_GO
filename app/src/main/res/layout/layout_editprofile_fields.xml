@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Container -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relLayout_container_editProfileLayout">
+
+
+            <!-- *====================== FOTO DE PERFIL ======================* -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_chooseProfilePhoto_editProfileLayout"
+                android:text="@string/choose_profile_photo"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:id="@+id/button_chooseProfilePhoto_editProfileLayout"
+                android:text="@string/choose"
+                android:textSize="12sp"
+                android:textColor="@color/colorWhite"
+                android:background="@drawable/blue_gradient"
+                android:layout_below="@+id/txtView_chooseProfilePhoto_editProfileLayout"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_profilePhotoPath_editProfileLayout"
+                android:text="file.jpg"
+                android:textColor="@color/colorGrey800"
+                android:textSize="14sp"
+                android:layout_toEndOf="@+id/button_chooseProfilePhoto_editProfileLayout"
+                android:layout_below="@+id/txtView_chooseProfilePhoto_editProfileLayout"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"/>
+
+            <!-- *====================== END OF FOTO DE PERFIL ======================* -->
+
+
+            <!-- *====================== FOTO DE CAPA ======================* -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_chooseCoverPhoto_editProfileLayout"
+                android:text="@string/choose_cover_photo"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_below="@+id/button_chooseProfilePhoto_editProfileLayout"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:id="@+id/button_chooseCoverPhoto_editProfileLayout"
+                android:text="@string/choose"
+                android:textSize="12sp"
+                android:textColor="@color/colorWhite"
+                android:background="@drawable/blue_gradient"
+                android:layout_below="@+id/txtView_chooseCoverPhoto_editProfileLayout"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_coverPhotoPath_editProfileLayout"
+                android:text="file.jpg"
+                android:textColor="@color/colorGrey800"
+                android:textSize="14sp"
+                android:layout_toEndOf="@+id/button_chooseCoverPhoto_editProfileLayout"
+                android:layout_below="@+id/txtView_chooseCoverPhoto_editProfileLayout"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"/>
+
+            <!-- *====================== END OF FOTO DE CAPA ======================* -->
+
+
+            <!-- *====================== FULL NAME ======================* -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputLayout_fullName_editProfileLayout"
+                android:layout_below="@+id/button_chooseCoverPhoto_editProfileLayout"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp">
+
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/full_name"
+                    android:id="@+id/editText_fullName_editProfileLayout"
+                    android:inputType="textPersonName"/>
+
+
+            </android.support.design.widget.TextInputLayout>
+            <!-- *====================== END OF FULL NAME ======================* -->
+
+
+            <!-- *====================== ABOUT ME ======================* -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputLayout_aboutMe_editProfileLayout"
+                android:layout_below="@+id/inputLayout_fullName_editProfileLayout"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp">
+
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/write_about_me"
+                    android:id="@+id/editText_aboutMe_editProfileLayout"
+                    android:inputType="textMultiLine"/>
+
+
+            </android.support.design.widget.TextInputLayout>
+            <!-- *====================== END OF ABOUT ME ======================* -->
+
+
+            <!-- *====================== CURRICULUM ======================* -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputLayout_curriculum_editProfileLayout"
+                android:layout_below="@+id/inputLayout_aboutMe_editProfileLayout"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp">
+
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/write_curriculum"
+                    android:id="@+id/editText_curriculum_editProfileLayout"
+                    android:inputType="textMultiLine"/>
+
+
+            </android.support.design.widget.TextInputLayout>
+            <!-- *====================== END OF CURRICULUM ======================* -->
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</merge>

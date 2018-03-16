@@ -1,4 +1,4 @@
-package com.example.karat.fksc.EditProfile;
+package com.example.karat.fksc.AddDojo;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -33,30 +32,31 @@ import com.google.firebase.database.ValueEventListener;
  * Created by karat on 14/03/2018.
  */
 
-public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener {
+public class AddDojoActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "EditProfileActivity";
+    private static final String TAG = "AddDojoActivity";
 
 
     // Layout Widgets
-    private AppCompatButton mButtonProfilePhoto;
     private AppCompatButton mButtonCoverPhoto;
 
-    private TextView mFileNameProfilePhoto;
     private TextView mFileNameCoverPhoto;
-    private TextView mTextViewChooseProfilePhoto;
     private TextView mTextViewChooseCoverPhoto;
 
-    private TextInputLayout mInputLayoutFullName;
-    private TextInputEditText mEditTextFullName;
-    private TextInputLayout mInputLayoutAboutme;
-    private TextInputEditText mEditTextAboutme;
-    private TextInputLayout mInputLayoutCurriculum;
-    private TextInputEditText mEditTextCurriculum;
+    private TextInputLayout mInputLayoutDojoName;
+    private TextInputEditText mEditTextDojoName;
+    private TextInputLayout mInputLayoutCity;
+    private TextInputEditText mEditTextCity;
+    private TextInputLayout mInputLayoutAddress;
+    private TextInputEditText mEditTextAddress;
+    private TextInputLayout mInputLayoutTelephone;
+    private TextInputEditText mEditTextTelephone;
+    private TextInputLayout mInputLayoutDescription;
+    private TextInputEditText mEditTextDescription;
 
     private Toolbar toolbar;
     private ImageView mBackButton;
-    private ImageView mCheckButton;
+    private TextView mAddButton;
 
     private RelativeLayout mRelativeLayoutContainer;
 
@@ -66,16 +66,14 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private FirebaseMethods firebaseMethods;
 
     // Context
-    private Context mContext = EditProfileActivity.this;
+    private Context mContext = AddDojoActivity.this;
 
     // Vars
-    private User user;
-    private UserAboutMe userAboutMe;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editprofile);
+        setContentView(R.layout.activity_add_dojo);
         Log.i(TAG, "onCreate: Stating the activity");
 
         setupFirebaseAuth();
@@ -87,7 +85,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
     /*======================================== Save Changes ========================================*/
 
-    private void saveChanges(){
+    /*private void saveChanges(){
         Log.i(TAG, "saveChanges: starting");
 
 
@@ -158,7 +156,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         }
 
     }
-
+*/
     /*======================================== END OF Save Changes ========================================*/
 
 
@@ -171,37 +169,38 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         Log.i(TAG, "setupWidgets: Setting up the widgets");
 
         // Buttons
-        mButtonProfilePhoto = findViewById(R.id.button_chooseProfilePhoto_editProfileLayout);
-        mButtonCoverPhoto = findViewById(R.id.button_chooseCoverPhoto_editProfileLayout);
+        mButtonCoverPhoto = findViewById(R.id.button_chooseCoverPhoto_addDojoLayout);
 
         // TextViews
-        mTextViewChooseProfilePhoto = findViewById(R.id.txtView_chooseProfilePhoto_editProfileLayout);
-        mTextViewChooseCoverPhoto = findViewById(R.id.txtView_chooseCoverPhoto_editProfileLayout);
-        mFileNameProfilePhoto = findViewById(R.id.txtView_profilePhotoPath_editProfileLayout);
-        mFileNameCoverPhoto = findViewById(R.id.txtView_coverPhotoPath_editProfileLayout);
+        mTextViewChooseCoverPhoto = findViewById(R.id.txtView_chooseCoverPhoto_addDojoLayout);
+        mFileNameCoverPhoto = findViewById(R.id.txtView_coverPhotoPath_addDojoLayout);
 
         // TextInputLayout and AppCompatEditText
-        mInputLayoutFullName = findViewById(R.id.inputLayout_fullName_editProfileLayout);
-        mEditTextFullName = findViewById(R.id.editText_fullName_editProfileLayout);
-        mInputLayoutAboutme = findViewById(R.id.inputLayout_aboutMe_editProfileLayout);
-        mEditTextAboutme = findViewById(R.id.editText_aboutMe_editProfileLayout);
-        mInputLayoutCurriculum = findViewById(R.id.inputLayout_curriculum_editProfileLayout);
-        mEditTextCurriculum = findViewById(R.id.editText_curriculum_editProfileLayout);
+        mInputLayoutDojoName = findViewById(R.id.inputLayout_dojoName_addDojoLayout);
+        mEditTextDojoName = findViewById(R.id.editText_dojoName_addDojoLayout);
+        mInputLayoutCity = findViewById(R.id.inputLayout_city_addDojoLayout);
+        mEditTextCity = findViewById(R.id.editText_city_addDojoLayout);
+        mInputLayoutAddress = findViewById(R.id.inputLayout_address_addDojoLayout);
+        mEditTextAddress = findViewById(R.id.editText_address_addDojoLayout);
+        mInputLayoutTelephone = findViewById(R.id.inputLayout_telephone_addDojoLayout);
+        mEditTextTelephone = findViewById(R.id.editText_telephone_addDojoLayout);
+        mInputLayoutDescription = findViewById(R.id.inputLayout_description_addDojoLayout);
+        mEditTextDescription = findViewById(R.id.editText_description_addDojoLayout);
 
         // Toolbar and features
-        toolbar = findViewById(R.id.toolBar_topBarEditProfileLayout);
-        mBackButton = findViewById(R.id.imgView_back_topBarEditProfileLayout);
-        mCheckButton = findViewById(R.id.imgView_check_topBarEditProfileLayout);
+        toolbar = findViewById(R.id.toolBar_topBarAddDojoLayout);
+        mBackButton = findViewById(R.id.imgView_back_topBarAddDojoLayout);
+        mAddButton = findViewById(R.id.txtView_add_topBarAddDojoLayout);
 
         // Layouts
-        mRelativeLayoutContainer = findViewById(R.id.relLayout_container_editProfileLayout);
+        mRelativeLayoutContainer = findViewById(R.id.relLayout_container_addDojoLayout);
 
     }
 
     /**
      * Set up the widgets with the Firebase Database values.
      */
-    private void setupWidgetsWithDBValues(User user, UserAboutMe userAboutMe){
+    /*private void setupWidgetsWithDBValues(User user, UserAboutMe userAboutMe){
 
         // Display the Firebase database information to the EditText as Texts.
         // User --> fullName / UserAboutMe --> aboutMe, curriculum
@@ -212,7 +211,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
 
     }
-
+*/
     /**
      * Set up the customized toolbar to be the one for this activity.
      */
@@ -233,18 +232,13 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private void setClickAndKeyListeners(){
 
         mBackButton.setOnClickListener(this);
-        mCheckButton.setOnClickListener(this);
-        mButtonProfilePhoto.setOnClickListener(this);
+        mAddButton.setOnClickListener(this);
         mButtonCoverPhoto.setOnClickListener(this);
 
         /* Hide the key board when click in some of these ones */
-        mFileNameProfilePhoto.setOnClickListener(this);
         mFileNameCoverPhoto.setOnClickListener(this);
-        mTextViewChooseProfilePhoto.setOnClickListener(this);
         mTextViewChooseCoverPhoto.setOnClickListener(this);
         mRelativeLayoutContainer.setOnClickListener(this);
-
-        mEditTextCurriculum.setOnKeyListener(this);
 
     }
 
@@ -255,48 +249,24 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.imgView_back_topBarEditProfileLayout:
+            case R.id.imgView_back_topBarAddDojoLayout:
                 finish();
                 break;
-            case R.id.imgView_check_topBarEditProfileLayout:
-                saveChanges();
-                Toast.makeText(mContext, R.string.edit_profile_success, Toast.LENGTH_SHORT).show();
+            case R.id.txtView_add_topBarAddDojoLayout:
+                /*saveChanges();*/
+                Toast.makeText(mContext, R.string.dojo_add_successfuly, Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.button_chooseProfilePhoto_editProfileLayout:
-                Toast.makeText(this, "Profile Photo", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.button_chooseCoverPhoto_editProfileLayout:
+            case R.id.button_chooseCoverPhoto_addDojoLayout:
                 Toast.makeText(this, "Cover Photo", Toast.LENGTH_SHORT).show();
                 break;
             /*================== Hide the keyboard if the user click outside ==================*/
-            case R.id.txtView_chooseProfilePhoto_editProfileLayout: hideKeyBoard(); break;
-            case R.id.txtView_chooseCoverPhoto_editProfileLayout: hideKeyBoard(); break;
-            case R.id.txtView_coverPhotoPath_editProfileLayout: hideKeyBoard(); break;
-            case R.id.txtView_profilePhotoPath_editProfileLayout: hideKeyBoard(); break;
-            case R.id.relLayout_container_editProfileLayout: hideKeyBoard(); break;
+            case R.id.txtView_chooseCoverPhoto_addDojoLayout: hideKeyBoard(); break;
+            case R.id.txtView_coverPhotoPath_addDojoLayout: hideKeyBoard(); break;
+            case R.id.relLayout_container_addDojoLayout: hideKeyBoard(); break;
             /*================== END OF Hide the keyboard if the user click outside ==================*/
         }
     }
 
-
-    /**
-     * The user press some Key in some specific field.
-     * @param view
-     * @param i
-     * @param keyEvent
-     * @return
-     */
-    @Override
-    public boolean onKey(View view, int i, KeyEvent keyEvent) {
-
-        if (view.getId() == R.id.editText_curriculum_editProfileLayout) {
-            if (i == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                mCheckButton.performClick();
-            }
-        }
-
-        return false;
-    }
 
     /*======================================== END OF Click and Key Listeners ========================================*/
 
@@ -347,9 +317,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                user = firebaseMethods.getUser(dataSnapshot);
+                /*user = firebaseMethods.getUser(dataSnapshot);
                 userAboutMe = firebaseMethods.getUserAboutMe(dataSnapshot);
-                setupWidgetsWithDBValues(user, userAboutMe);
+                setupWidgetsWithDBValues(user, userAboutMe);*/
 
             }
 

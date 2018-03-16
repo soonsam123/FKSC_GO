@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.karat.fksc.AddDojo.AddDojoActivity;
 import com.example.karat.fksc.EditProfile.EditProfileActivity;
 import com.example.karat.fksc.Login.LoginActivity;
 import com.example.karat.fksc.R;
@@ -174,7 +175,8 @@ public class MembersActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.addDojo_menu_actionbar:
-                Toast.makeText(mContext, "Adicionar Dojo", Toast.LENGTH_SHORT).show();
+                Intent intentAddDojo = new Intent(mContext, AddDojoActivity.class);
+                startActivity(intentAddDojo);
                 break;
 
             case R.id.editProfile_menu_actionbar:

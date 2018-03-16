@@ -122,33 +122,14 @@ public class AthletesFragment extends Fragment {
 
     /*====================================== Firebase ======================================*/
 
+    /**
+     * This method set up the Firebase Authentication for users.
+     */
     private void setupFirebaseAuth(){
         Log.i(TAG, "setupFirebaseAuth: Setting up firebase Auth");
 
         mAuth = FirebaseAuth.getInstance();
         firebaseMethods = new FirebaseMethods(getActivity());
-
-
-
-        /*
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Show all the users node. Key = userID and Value = information (belt_color, birth_date...).
-                try {
-                    Log.i(TAG, "onDataChange: " + dataSnapshot.getValue().toString());
-                }catch (NullPointerException e){e.printStackTrace();}
-
-                all_users = firebaseMethods.getUsers(dataSnapshot);
-                mProgressBar.setVisibility(View.GONE);
-                setupRecyclerAdapter(all_users);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // handle database error.
-            }
-        });*/
 
     }
 

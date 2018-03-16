@@ -67,7 +67,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "UserMainInfo{" +
+        return "User{" +
                 "dojo='" + dojo + '\'' +
                 ", full_name='" + full_name + '\'' +
                 ", profile_img_url='" + profile_img_url + '\'' +

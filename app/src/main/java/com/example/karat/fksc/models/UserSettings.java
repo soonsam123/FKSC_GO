@@ -47,7 +47,7 @@ public class UserSettings {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserSettings{" +
                 "belt_color='" + belt_color + '\'' +
                 ", birth_date='" + birth_date + '\'' +
                 ", user_id='" + user_id + '\'' +

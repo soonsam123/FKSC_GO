@@ -50,6 +50,7 @@
     <!-- Database names -->
     <string name="dbname_users">users</string>
     <string name="dbname_users_settings">users_settings</string>
+    <string name="dbname_users_about_me">users_about_me</string>
 
 
     <!-- Profile names -->
@@ -62,5 +63,43 @@
     <string name="cover_photo">Cover Photo</string>
     <string name="edit_profile">Editar Perfil</string>
 
+    <!-- Edit Profile names -->
+    <string name="choose">SELECIONAR</string>
+    <string name="choose_cover_photo">Escolha uma Foto de Capa</string>
+    <string name="choose_profile_photo">Escolha uma Foto de Perfil</string>
+    <string name="write_about_me">Escreva sobre você</string>
+    <string name="write_curriculum">Escreva o seu Currículo</string>
+
+    <!-- Belt Colors -->
+    <string name="black_belt">preta</string>
+    <string name="edit_profile_success">Perfil editado com sucesso</string>
+
+    <!-- Field Names -->
+    <string name="field_dojo">dojo</string>
+    <string name="field_full_name">full_name</string>
+    <string name="field_profile_img_url">profile_img_url</string>
+    <string name="field_registration_number">registration_number</string>
+    <string name="field_verified">verified</string>
+
+    <string name="field_about_me">about_me</string>
+    <string name="field_cover_img_url">cover_img_url</string>
+    <string name="field_curriculum">curriculum</string>
+
+    <string name="field_belt_color">belt_color</string>
+    <string name="field_birth_date">birth_date</string>
+    <string name="field_user_id">user_id</string>
+
+
+    <!-- Add Dojo(Gym) Fields -->
+    <string name="add">ADICIONAR</string>
+    <string name="name_of_your_dojo">Nome da sua academia</string>
+    <string name="city">Cidade</string>
+    <string name="complete_address">Endereço completo</string>
+    <string name="add_your_dojo">ADICIONE SUA ACADEMIA</string>
+    <string name="telephone">Telefone</string>
+    <string name="write_about_your_dojo">Escreve sobre a sua Academia</string>
+    <string name="dojo_add_successfuly">Academia adicionada com sucesso</string>
+
 
 </resources>
+

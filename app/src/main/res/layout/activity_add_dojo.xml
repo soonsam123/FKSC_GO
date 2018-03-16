@@ -5,20 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.karat.fksc.EditProfile.EditProfileActivity">
+    tools:context="com.example.karat.fksc.AddDojo.AddDojoActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/relLayout_container_activityEditProfile">
+        android:id="@+id/relLayout_container_activityAddDojo">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/relLayout_topBar_activityEditProfile">
+            android:id="@+id/relLayout_topBar_activityAddDojo">
 
             <!-- Top bar -->
-            <include layout="@layout/layout_top_bar_editprofile"/>
+            <include layout="@layout/layout_top_bar_add_dojo"/>
 
         </RelativeLayout>
 
@@ -26,11 +26,11 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/relLayout_editFields_activityEditProfile"
-            android:layout_below="@+id/relLayout_topBar_activityEditProfile">
+            android:id="@+id/relLayout_editFields_activityAddDojo"
+            android:layout_below="@+id/relLayout_topBar_activityAddDojo">
 
             <!-- Fields to Edit -->
-            <include layout="@layout/layout_editprofile_fields"/>
+            <include layout="@layout/layout_add_dojo_fields"/>
 
 
         </RelativeLayout>

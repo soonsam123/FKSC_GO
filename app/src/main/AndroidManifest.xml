@@ -24,6 +24,7 @@
         <activity android:name=".Login.LoginActivity"/>
         <activity android:name=".Profile.ProfileActivity"/>
         <activity android:name=".EditProfile.EditProfileActivity"/>
+        <activity android:name=".AddDojo.AddDojoActivity"/>
 
     </application>
 

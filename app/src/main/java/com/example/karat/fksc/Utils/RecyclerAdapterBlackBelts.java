@@ -12,7 +12,6 @@ import com.example.karat.fksc.R;
 import com.example.karat.fksc.models.User;
 import com.example.karat.fksc.models.UserAndUserSettings;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
@@ -21,12 +20,12 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
  * Created by karat on 12/03/2018.
  */
 
-public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class RecyclerAdapterBlackBelts extends RecyclerView.Adapter<ViewHolder> {
 
-    private List<User> users;
+    private List<UserAndUserSettings> users;
     private Context mContext;
 
-    public RecyclerAdapter(List<User> users, Context mContext) {
+    public RecyclerAdapterBlackBelts(List<UserAndUserSettings> users, Context mContext) {
         this.users = users;
         this.mContext = mContext;
     }
@@ -43,13 +42,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        User sampleUser = users.get(position);
+        UserAndUserSettings sampleUser = users.get(position);
 
-        holder.fullName.setText(sampleUser.getFull_name());
-        holder.dojo.setText(sampleUser.getDojo());
-        holder.registrationNumber.setText(sampleUser.getRegistration_number());
-        Log.i(TAG, "onBindViewHolder: " + sampleUser.getProfile_img_url());
-        UniversalImageLoader.setImage(sampleUser.getProfile_img_url(),
+        holder.fullName.setText(sampleUser.getUser().getFull_name());
+        holder.dojo.setText(sampleUser.getUser().getDojo());
+        holder.registrationNumber.setText(sampleUser.getUserSettings().getBelt_color());
+        UniversalImageLoader.setImage(sampleUser.getUser().getProfile_img_url(),
                 holder.circleImageView, null, "");
 
 
