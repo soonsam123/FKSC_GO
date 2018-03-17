@@ -3,6 +3,7 @@ package com.example.karat.fksc.Utils;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -10,6 +11,8 @@ import android.widget.Toast;
 
 import com.example.karat.fksc.Login.LoginActivity;
 import com.example.karat.fksc.R;
+import com.example.karat.fksc.models.DojoInfo;
+import com.example.karat.fksc.models.DojoSettings;
 import com.example.karat.fksc.models.User;
 import com.example.karat.fksc.models.UserAboutMe;
 import com.example.karat.fksc.models.UserAndUserSettings;
@@ -22,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -259,11 +263,81 @@ public class FirebaseMethods {
 
     }
 
+
+    /**
+     * Add the node dojos_info and dojos_settings to the user Firebase Database.
+     * This node contains the attributes below.
+     * @param name
+     * @param city
+     * @param coverImgURL
+     * @param registrationNumber
+     * @param verified
+     * @param address
+     * @param telephone
+     * @param description
+     * @param secretName
+     */
+    public void addDojo(String name, String city, String coverImgURL, String registrationNumber
+            , boolean verified, String address, String telephone, String description
+            , String secretName, int imageCount){
+
+
+        Toast.makeText(mContext, R.string.we_are_adding_your_dojo, Toast.LENGTH_SHORT).show();
+
+        if (mAuth.getCurrentUser() != null){
+
+            String userID = mAuth.getCurrentUser().getUid();
+            Log.i(TAG, "addDojo: Adding a Dojo");
+
+            // Create the model with the given values.
+            DojoInfo dojoInfo = new DojoInfo(
+                    name,
+                    city,
+                    coverImgURL,
+                    registrationNumber,
+                    verified);
+
+            // Create the node: fkscDataBase -->
+            //                              dojos_info -->
+            //                                          userID -->
+            //                                              (name,city,cover_img_url,registration_number,verified)
+            myRef.child(mContext.getString(R.string.dbname_dojos_info))
+                    .child(userID)
+                    .child(mContext.getString(R.string.dbname_dojo)+ (imageCount + 1))
+                    .setValue(dojoInfo);
+
+
+            // Create the model with the given values.
+            DojoSettings dojoSettings = new DojoSettings(
+                    address,
+                    telephone,
+                    description,
+                    secretName,
+                    userID);
+
+            // Create the node: fkscDataBase -->
+            //                              dojos_settings -->
+            //                                          userID -->
+            //                                              (address,telephone,description,secret_name,user_id)
+            myRef.child(mContext.getString(R.string.dbname_dojos_settings))
+                    .child(userID)
+                    .child(mContext.getString(R.string.dbname_dojo)+ (imageCount + 1))
+                    .setValue(dojoSettings);
+
+            Toast.makeText(mContext, R.string.dojo_add_successfuly, Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
     /*============================================ END OF Database ============================================*/
 
 
-    /*============================================ Getters and Setters ============================================*/
+    /*========================================************ Getters and Setters ************======================================*/
 
+
+
+    /*============================================ users node ============================================*/
     /**
      * Get the user node information from one user:
      * users --> userID --> dojo, full_name, profile_img_url, registration_number, verified.
@@ -293,39 +367,6 @@ public class FirebaseMethods {
         }
 
         return user;
-
-    }
-
-
-    /**
-     * Retrieve the users_about_me node information from the current user.
-     * users_about_me --> userID --> cover_img_url, about_me, curriculum.
-     * @param dataSnapshot
-     * @return
-     */
-    public UserAboutMe getUserAboutMe(DataSnapshot dataSnapshot){
-
-        UserAboutMe userAboutMe = new UserAboutMe();
-
-        if (mAuth.getCurrentUser() != null){
-
-            String userID = mAuth.getCurrentUser().getUid();
-
-            // 1) Looping through all the user's UID in users_about_me node.
-            for (DataSnapshot ds: dataSnapshot
-                    .child(mContext.getString(R.string.dbname_users_about_me))
-                    .getChildren()){
-
-                // 2) Checking if one of the IDs is the current user's one.
-                if (ds.getKey().equals(userID)) {
-                    userAboutMe = ds.getValue(UserAboutMe.class);
-                }
-
-            }
-
-        }
-
-        return userAboutMe;
 
     }
 
@@ -364,6 +405,11 @@ public class FirebaseMethods {
     }
 
 
+    /*============================================ users node ============================================*/
+
+
+    /*============================================ users_settings node ============================================*/
+
     /**
      * Get the user_settings information: belt_color, birth_date, user_id.
      * @param dataSnapshot
@@ -394,6 +440,7 @@ public class FirebaseMethods {
         return all_users_settings;
 
     }
+
 
     /**
      * Get the users and users_settings information from the current user.
@@ -430,8 +477,6 @@ public class FirebaseMethods {
             return null;
         }
     }
-
-
 
     /**
      * This method retrieves a List with all users and users_settings. As UserAndUserSettings(User, UserSettings).
@@ -490,7 +535,182 @@ public class FirebaseMethods {
 
     }
 
-    /*============================================ END OF Getters and Setters ============================================*/
+
+    /*============================================ users_settings node ============================================*/
+
+
+    /*============================================ users_about_me node ============================================*/
+
+    /**
+     * Retrieve the users_about_me node information from the current user.
+     * users_about_me --> userID --> cover_img_url, about_me, curriculum.
+     * @param dataSnapshot
+     * @return
+     */
+    public UserAboutMe getUserAboutMe(DataSnapshot dataSnapshot){
+
+        UserAboutMe userAboutMe = new UserAboutMe();
+
+        if (mAuth.getCurrentUser() != null){
+
+            String userID = mAuth.getCurrentUser().getUid();
+
+            // 1) Looping through all the user's UID in users_about_me node.
+            for (DataSnapshot ds: dataSnapshot
+                    .child(mContext.getString(R.string.dbname_users_about_me))
+                    .getChildren()){
+
+                // 2) Checking if one of the IDs is the current user's one.
+                if (ds.getKey().equals(userID)) {
+                    userAboutMe = ds.getValue(UserAboutMe.class);
+                }
+
+            }
+
+        }
+
+        return userAboutMe;
+
+    }
+
+    /*============================================ END OF users_about_me node ============================================*/
+
+
+    /*============================================ dojos_info node ============================================*/
+
+    /**
+     * Get the dojo_info node information from one user:
+     * dojos_info --> userID --> name, city, cover_img_url, registration_number, verified.
+     * @param dataSnapshot
+     * @return
+     */
+    public DojoInfo getDojoInfo(DataSnapshot dataSnapshot){
+
+        DojoInfo dojoInfo = new DojoInfo();
+
+        if (mAuth.getCurrentUser() != null) {
+
+            String userID = mAuth.getCurrentUser().getUid();
+
+            // 1) Looping through all the user's UID in dojos_info node.
+            for (DataSnapshot ds : dataSnapshot
+                    .child(mContext.getString(R.string.dbname_dojos_info))
+                    .getChildren()) {
+                Log.d(TAG, "getDojoInfo: " + ds);
+
+                // 2) Checking if one of the IDs is the current user's one.
+                if (ds.getKey().equals(userID)) {
+                    dojoInfo = ds.getValue(DojoInfo.class);
+                }
+
+            }
+        }
+
+        return dojoInfo;
+
+    }
+
+
+    /**
+     * Retrieve a list of all the registered DojoInfo.
+     * @param dataSnapshot
+     * @return
+     */
+    public List<DojoInfo> getAllDojosInfo(DataSnapshot dataSnapshot){
+
+        List<DojoInfo> all_dojos_info = new ArrayList<>();
+
+        // fkscDatabase --> dojos_info --> Loop through the (user's ID)
+        for (DataSnapshot ds: dataSnapshot
+                .child(mContext.getString(R.string.dbname_dojos_info))
+                .getChildren()){
+
+            // Loop through the children in userID, which are all the dojos of each user.
+            // userID_1 --> (dojo1, dojo2, dojo3) and userID_2 --> (dojo1, dojo2)...
+            for (DataSnapshot ds2: ds.getChildren()){
+
+                DojoInfo sampleDojo = new DojoInfo();
+                sampleDojo = ds2.getValue(DojoInfo.class);
+                all_dojos_info.add(sampleDojo);
+
+            }
+
+        }
+
+        return all_dojos_info;
+
+    }
+
+    /**
+     * Get the number of dojos the user has.
+     * @param dataSnapshot
+     * @return
+     */
+    public int getDojoCount(DataSnapshot dataSnapshot){
+
+        int count = 0;
+
+        if (mAuth.getCurrentUser() != null){
+
+            String userID = mAuth.getCurrentUser().getUid();
+
+            // path: fkscDatabase --> dojos_info --> userID --> (dojo1, dojo2, dojo3)
+            for (DataSnapshot ds: dataSnapshot
+                    .child(mContext.getString(R.string.dbname_dojos_info))
+                    .child(userID)
+                    .getChildren()){
+                count++;
+            }
+
+        }
+
+        return count;
+
+    }
+
+    /*============================================ END OF dojos_info node ============================================*/
+
+
+    /*============================================ dojos_settings node ============================================*/
+
+    /**
+     * Get the dojo_settings node information from one user:
+     * dojos_settings --> userID --> address, telephone, description, secret_name, user_id.
+     * @param dataSnapshot
+     * @return
+     */
+    public DojoSettings getDojoSettings(DataSnapshot dataSnapshot){
+
+        DojoSettings dojoSettings = new DojoSettings();
+
+        if (mAuth.getCurrentUser() != null){
+
+            String userID = mAuth.getCurrentUser().getUid();
+
+            // 1) Looping through all the user's UID in dojos_settings node.
+            for (DataSnapshot ds: dataSnapshot
+                    .child(mContext.getString(R.string.dbname_users_settings))
+                    .getChildren()){
+                Log.d(TAG, "getDojoSettings: " + ds);
+
+                // 2) Checking if one of the IDs is the current user's one.
+                if (ds.getKey().equals(userID)){
+                    dojoSettings = ds.getValue(DojoSettings.class);
+                }
+
+            }
+
+        }
+
+
+        return dojoSettings;
+
+    }
+
+    /*============================================ END OF dojos_settings node ============================================*/
+
+
+    /*=================================************ END OF Getters and Setters ************===============================*/
 
 
 

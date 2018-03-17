@@ -1,6 +1,7 @@
 package com.example.karat.fksc.AddDojo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -17,8 +18,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.karat.fksc.Members.MembersActivity;
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.FirebaseMethods;
+import com.example.karat.fksc.models.DojoInfo;
+import com.example.karat.fksc.models.DojoSettings;
 import com.example.karat.fksc.models.User;
 import com.example.karat.fksc.models.UserAboutMe;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,11 +68,14 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
     private FirebaseMethods firebaseMethods;
+    private ValueEventListener listener;
 
     // Context
     private Context mContext = AddDojoActivity.this;
 
     // Vars
+    private DojoInfo dojoInfo;
+    private DojoSettings dojoSettings;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,70 +85,43 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
 
         setupFirebaseAuth();
         setupWidgets();
-        setClickAndKeyListeners();
+        setClickListeners();
         setupToolBar();
 
     }
 
     /*======================================== Save Changes ========================================*/
 
-    /*private void saveChanges(){
+    private void saveChanges(){
         Log.i(TAG, "saveChanges: starting");
 
 
         if (mAuth.getCurrentUser() != null) {
 
-            // Get the text in the fields to compare with the ones in the database.
-            final String name = mEditTextFullName.getText().toString();
-            final String aboutMe = mEditTextAboutme.getText().toString();
-            final String curriculum = mEditTextCurriculum.getText().toString();
+            // Get the text in the fields to store in the database.
+            final String name = mEditTextDojoName.getText().toString();
+            final String city = mEditTextCity.getText().toString();
+            final String address = mEditTextAddress.getText().toString();
+            final String telephone = mEditTextTelephone.getText().toString();
+            final String description = mEditTextDescription.getText().toString();
 
-            final String userID = mAuth.getCurrentUser().getUid();
+            // Case 1 - One or more fields are empty. The user must fill in all the fields.
+            if (name.equals("") || city.equals("") || address.equals("")
+                    || telephone.equals("") || description.equals("")){
 
-            // Case 1 - None of the fields were changed. Just leave the activity.
-            if (name.equals(user.getFull_name()) && aboutMe.equals(userAboutMe.getAbout_me())
-                    && curriculum.equals(userAboutMe.getCurriculum())){
-                finish();
+                Toast.makeText(mContext, R.string.must_fillin_all_fields, Toast.LENGTH_LONG).show();
+
             }
-            // Case 2 - Fields were changed.
+
+            // Case 2 - Users filled in all the fields. Good to go.
             else {
 
-                myRef = FirebaseDatabase.getInstance().getReference();
-                ValueEventListener listener = new ValueEventListener() {
+                // Add a dojo to the database for the current user logged in.
+                listener = new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        // Case 2.1 - Current User is already registered in users_about_me node.
-                        if (dataSnapshot.child(mContext.getString(R.string.dbname_users_about_me))
-                                .hasChild(userID)) {
-                            Log.i(TAG, "onDataChange: USER REGISTERED in users_about_me node");
-
-                            if (!name.equals(user.getFull_name())){
-                                firebaseMethods.updateFullName(name);
-                            }
-                            if (!aboutMe.equals(userAboutMe.getAbout_me())){
-                                firebaseMethods.updateAboutMe(aboutMe);
-                            }
-                            if (!curriculum.equals(userAboutMe.getCurriculum())){
-                                firebaseMethods.updateCurriculum(curriculum);
-                            }
-
-                            finish();
-
-                        }
-                        // Case 2.2 - Current User is NOT registered in users_about_me node yet.
-                        else {
-                            Log.i(TAG, "onDataChange: Registering user to users_about_me node");
-
-                            // Check if he changed the name and update if so.
-                            if (!name.equals(user.getFull_name())){
-                                firebaseMethods.updateFullName(name);
-                            }
-
-                            // Register this user to the users_about_me node.
-                            firebaseMethods.addUserAboutMe("", aboutMe, curriculum);
-                            finish();
-                        }
+                        firebaseMethods.addDojo(name, city, "", "", false
+                                , address, telephone, description, name, firebaseMethods.getDojoCount(dataSnapshot));
 
                     }
 
@@ -150,13 +130,17 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
 
                     }
                 };
-
                 myRef.addListenerForSingleValueEvent(listener);
+
+                Intent intentMembers = new Intent(mContext, MembersActivity.class);
+                intentMembers.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intentMembers);
+
             }
+
         }
 
     }
-*/
     /*======================================== END OF Save Changes ========================================*/
 
 
@@ -197,21 +181,7 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    /**
-     * Set up the widgets with the Firebase Database values.
-     */
-    /*private void setupWidgetsWithDBValues(User user, UserAboutMe userAboutMe){
 
-        // Display the Firebase database information to the EditText as Texts.
-        // User --> fullName / UserAboutMe --> aboutMe, curriculum
-        mEditTextFullName.setText(user.getFull_name());
-        mEditTextAboutme.setText(userAboutMe.getAbout_me());
-        mEditTextCurriculum.setText(userAboutMe.getCurriculum());
-
-
-
-    }
-*/
     /**
      * Set up the customized toolbar to be the one for this activity.
      */
@@ -227,9 +197,9 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
     /*======================================== Click and Key Listeners ========================================*/
 
     /**
-     * Set up the OnClick and OnKey Listeners.
+     * Set up the OnClick Listeners.
      */
-    private void setClickAndKeyListeners(){
+    private void setClickListeners(){
 
         mBackButton.setOnClickListener(this);
         mAddButton.setOnClickListener(this);
@@ -253,8 +223,7 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.txtView_add_topBarAddDojoLayout:
-                /*saveChanges();*/
-                Toast.makeText(mContext, R.string.dojo_add_successfuly, Toast.LENGTH_SHORT).show();
+                saveChanges();
                 break;
             case R.id.button_chooseCoverPhoto_addDojoLayout:
                 Toast.makeText(this, "Cover Photo", Toast.LENGTH_SHORT).show();
@@ -298,7 +267,8 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
     private void setupFirebaseAuth(){
 
         mAuth = FirebaseAuth.getInstance();
-        firebaseMethods = new FirebaseMethods(getApplicationContext());
+        firebaseMethods = new FirebaseMethods(mContext);
+        myRef = FirebaseDatabase.getInstance().getReference();
 
     }
 
@@ -310,27 +280,6 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
     protected void onStart() {
         super.onStart();
         Log.i(TAG, "onStart: Starting");
-        
-        myRef = FirebaseDatabase.getInstance().getReference();
-
-        ValueEventListener listener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                /*user = firebaseMethods.getUser(dataSnapshot);
-                userAboutMe = firebaseMethods.getUserAboutMe(dataSnapshot);
-                setupWidgetsWithDBValues(user, userAboutMe);*/
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-
-        myRef.addListenerForSingleValueEvent(listener);
-
 
     }
 

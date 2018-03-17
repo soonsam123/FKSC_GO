@@ -52,6 +52,10 @@
     <string name="dbname_users_settings">users_settings</string>
     <string name="dbname_users_about_me">users_about_me</string>
 
+    <string name="dbname_dojos_info">dojos_info</string>
+    <string name="dbname_dojos_settings">dojos_settings</string>
+    <string name="dbname_dojo">dojo</string>
+
 
     <!-- Profile names -->
     <string name="registration">REGISTRO</string>
@@ -90,6 +94,7 @@
     <string name="field_user_id">user_id</string>
 
 
+
     <!-- Add Dojo(Gym) Fields -->
     <string name="add">ADICIONAR</string>
     <string name="name_of_your_dojo">Nome da sua academia</string>
@@ -99,6 +104,8 @@
     <string name="telephone">Telefone</string>
     <string name="write_about_your_dojo">Escreve sobre a sua Academia</string>
     <string name="dojo_add_successfuly">Academia adicionada com sucesso</string>
+    <string name="must_fillin_all_fields">Você precisa preencher todos os campos</string>
+    <string name="we_are_adding_your_dojo">Estamos adicionando sua academia</string>
 
 
 </resources>
