@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linLayout_container_FKSCinfoDojoLayout"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:baselineAligned="false"
+        android:weightSum="100">
+
+        <!-- Registration Number -->
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="274-2018"
+                android:textSize="18sp"
+                android:id="@+id/txtView_registrationNumber_FKSCinfoDojoLayout"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/registration"
+                android:layout_below="@+id/txtView_registrationNumber_FKSCinfoDojoLayout"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/colorGrey700"/>
+
+        </RelativeLayout>
+
+        <!-- Ranking Position -->
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1º Lugar"
+                android:textSize="18sp"
+                android:id="@+id/txtView_globalRanking_FKSCinfoDojoLayout"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/global_ranking"
+                android:layout_below="@+id/txtView_globalRanking_FKSCinfoDojoLayout"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/colorGrey700"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</merge>

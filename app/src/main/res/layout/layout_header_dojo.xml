@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relLayout_container_headerDojoLayout">
+
+        <!-- Cover Photo -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/imgView_coverPhoto_headerDojoLayout"
+            android:contentDescription="@string/cover_photo"
+            android:scaleType="centerCrop"
+            android:fitsSystemWindows="true" />
+
+        <!-- Dojo's Name -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/textView_dojoName_headerDojoLayout"
+            android:text="Dojô Universal"
+            android:textColor="@color/colorBlack"
+            android:textSize="22sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/imgView_coverPhoto_headerDojoLayout"/>
+
+
+        <!-- Verified Dojo -->
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/imgView_verifiedAccount_headerDojoLayout"
+            android:src="@drawable/ic_verified_account"
+            android:layout_toEndOf="@+id/textView_dojoName_headerDojoLayout"
+            android:layout_below="@+id/imgView_coverPhoto_headerDojoLayout"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="6dp"
+            android:visibility="invisible"
+            tools:ignore="ContentDescription"/>
+
+
+        <!-- Dojo's city -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:id="@+id/textView_city_headerDojoLayout"
+            android:text="Anápolis"
+            android:textColor="@color/colorGrey700"
+            android:textSize="18sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/textView_dojoName_headerDojoLayout"/>
+
+    </RelativeLayout>
+
+</merge>

@@ -5,28 +5,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.karat.fksc.Profile.ProfileActivity">
+    tools:context="com.example.karat.fksc.DojoActivity.DojoActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/relLayout_container_activityProfile">
+        android:id="@+id/relLayout_container_activityDojo">
 
         <!-- TOP BAR -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/relLayout_topBar_activityProfile">
+            android:id="@+id/relLayout_topBar_activityDojo">
 
             <!-- Top bar -->
-            <include layout="@layout/layout_top_bar"/>
+            <include layout="@layout/layout_top_bar_back_arrow"/>
 
         </RelativeLayout>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/relLayout_topBar_activityProfile"
+            android:layout_below="@+id/relLayout_topBar_activityDojo"
             android:layout_marginBottom="50dp">
 
             <LinearLayout
@@ -38,11 +38,11 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/relLayout_header_activityProfile"
+                    android:id="@+id/relLayout_header_activityDojo"
                     android:layout_marginBottom="20dp">
 
                     <!-- Header (Cover Photo, Profile Photo, User's Name and Dojo) -->
-                    <include layout="@layout/layout_header_profile"/>
+                    <include layout="@layout/layout_header_dojo"/>
 
                 </RelativeLayout>
 
@@ -50,49 +50,25 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/relLayout_FKSCinfo_activityProfile"
+                    android:id="@+id/relLayout_FKSCinfo_activityDojo"
                     android:layout_marginBottom="20dp">
 
                     <!-- FKSC Info (Registration Number, Belt, Ranking) -->
-                    <include layout="@layout/layout_info_profile"/>
+                    <include layout="@layout/layout_info_dojo"/>
 
                 </RelativeLayout>
 
 
-                <!-- ABOUT THE USER -->
+                <!-- ABOUT THE DOJO -->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/relLayout_aboutUser_activityProfile">
+                    android:id="@+id/relLayout_aboutUser_activityDojo">
 
-                    <!-- About the user (About me, Curriculum) -->
-                    <include layout="@layout/layout_aboutme_profile"/>
-
-                </RelativeLayout>
-
-
-                <!-- TEACHER AT -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    android:id="@+id/relLayout_teacherAt_activityProfile">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="22sp"
-                        android:text="@string/teacher_at_dojos"/>
+                    <!-- About the dojo (Address, Description, Telephone) -->
+                    <include layout="@layout/layout_aboutme_dojo"/>
 
                 </RelativeLayout>
-
-                <!-- RECYCLER VIEW -->
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/recyclerView_activityProfile"/>
 
 
             </LinearLayout>
@@ -103,7 +79,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/relLayout_bottomNavView_activityOtherProfile">
+            android:id="@+id/relLayout_bottomNavView_activityDojo">
 
             <!-- Bottom Navigation View-->
             <include layout="@layout/layout_bottom_nav_view"/>

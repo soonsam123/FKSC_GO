@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linLayout_container_aboutDojoLayout"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+
+
+        <!--***************** LOCATION *****************-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtView_address_aboutDojoLayout"
+            android:text="Rua Luciano Carneiro Qd. 4 Lt. 1 Bairro Calixto Abrão - Anápolis-GO"
+            android:textSize="17sp"
+            android:textColor="@color/colorGrey700"
+            android:drawableStart="@drawable/ic_location"
+            android:drawablePadding="10dp" />
+
+
+        <!--***************** TELEPHONE *****************-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtView_telephone_aboutDojoLayout"
+            android:text="Somos uma academia com mais de 20 anos de tradição, temos aula de karatê, jiu jitsu e kick boxing."
+            android:textSize="17sp"
+            android:textColor="@color/colorGrey700"
+            android:drawableStart="@drawable/ic_contact"
+            android:drawablePadding="10dp"
+            android:layout_marginTop="10dp"/>
+
+
+        <!--***************** DESCRIPTION *****************-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtView_description_aboutDojoLayout"
+            android:text="+55 (62) 9 9260-2380"
+            android:textSize="17sp"
+            android:textColor="@color/colorGrey700"
+            android:drawableStart="@drawable/ic_description"
+            android:drawablePadding="10dp"
+            android:layout_marginTop="10dp"/>
+
+
+    </LinearLayout>
+
+
+</merge>

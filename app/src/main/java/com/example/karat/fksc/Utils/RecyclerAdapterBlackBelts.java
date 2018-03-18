@@ -1,6 +1,7 @@
 package com.example.karat.fksc.Utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.karat.fksc.OtherProfiles.OtherProfileActivity;
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.models.User;
 import com.example.karat.fksc.models.UserAndUserSettings;
@@ -42,7 +44,7 @@ public class RecyclerAdapterBlackBelts extends RecyclerView.Adapter<ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        UserAndUserSettings sampleUser = users.get(position);
+        final UserAndUserSettings sampleUser = users.get(position);
 
         holder.fullName.setText(sampleUser.getUser().getFull_name());
         holder.dojo.setText(sampleUser.getUser().getDojo());
@@ -54,7 +56,9 @@ public class RecyclerAdapterBlackBelts extends RecyclerView.Adapter<ViewHolder> 
         holder.linearLayout_eachItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "Item: " + (position + 1), Toast.LENGTH_SHORT).show();
+                Intent intentOtherProfile = new Intent(mContext, OtherProfileActivity.class);
+                intentOtherProfile.putExtra(mContext.getString(R.string.field_user_id), sampleUser.getUserSettings().getUser_id());
+                mContext.startActivity(intentOtherProfile);
             }
         });
     }

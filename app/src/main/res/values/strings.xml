@@ -84,6 +84,8 @@
     <string name="field_profile_img_url">profile_img_url</string>
     <string name="field_registration_number">registration_number</string>
     <string name="field_verified">verified</string>
+    <string name="field_dojo_number">dojo_number</string>
+
 
     <string name="field_about_me">about_me</string>
     <string name="field_cover_img_url">cover_img_url</string>
@@ -106,7 +108,10 @@
     <string name="dojo_add_successfuly">Academia adicionada com sucesso</string>
     <string name="must_fillin_all_fields">Você precisa preencher todos os campos</string>
     <string name="we_are_adding_your_dojo">Estamos adicionando sua academia</string>
-
+    <string name="teacher_at_dojos">Professor nas Academias</string>
+    <string name="what_to_do_with_this_dojo">O que você deseja fazer com essa Academia?</string>
+    <string name="delete">DELETAR</string>
+    <string name="edit">EDITAR</string>
 
 </resources>
 

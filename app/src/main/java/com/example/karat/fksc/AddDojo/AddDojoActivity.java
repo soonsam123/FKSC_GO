@@ -120,6 +120,7 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
                 listener = new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        Toast.makeText(mContext, R.string.we_are_adding_your_dojo, Toast.LENGTH_SHORT).show();
                         firebaseMethods.addDojo(name, city, "", "", false
                                 , address, telephone, description, name, firebaseMethods.getDojoCount(dataSnapshot));
 

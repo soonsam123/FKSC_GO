@@ -1,14 +1,17 @@
 package com.example.karat.fksc.Utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.karat.fksc.DojoActivity.DojoActivity;
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.models.DojoInfo;
+import com.example.karat.fksc.models.DojoInfoAndSettings;
 
 import java.util.List;
 
@@ -18,10 +21,10 @@ import java.util.List;
 
 public class RecyclerAdapterDojos extends RecyclerView.Adapter<ViewHolderSquareImage> {
 
-    private List<DojoInfo> dojos;
+    private List<DojoInfoAndSettings> dojos;
     private Context mContext;
 
-    public RecyclerAdapterDojos(List<DojoInfo> dojos, Context mContext) {
+    public RecyclerAdapterDojos(List<DojoInfoAndSettings> dojos, Context mContext) {
         this.dojos = dojos;
         this.mContext = mContext;
     }
@@ -38,19 +41,22 @@ public class RecyclerAdapterDojos extends RecyclerView.Adapter<ViewHolderSquareI
     @Override
     public void onBindViewHolder(ViewHolderSquareImage holder, final int position) {
 
-        DojoInfo sampleDojo = dojos.get(position);
+        final DojoInfoAndSettings sampleDojo = dojos.get(position);
 
-        holder.dojoName.setText(sampleDojo.getName());
-        holder.city.setText(sampleDojo.getCity());
-        holder.registrationNumber.setText(sampleDojo.getRegistration_number());
-        UniversalImageLoader.setImage(sampleDojo.getCover_img_url(),
+        holder.dojoName.setText(sampleDojo.getDojoInfo().getName());
+        holder.city.setText(sampleDojo.getDojoInfo().getCity());
+        holder.registrationNumber.setText(sampleDojo.getDojoInfo().getRegistration_number());
+        UniversalImageLoader.setImage(sampleDojo.getDojoInfo().getCover_img_url(),
                 holder.imageView, null, "");
 
 
         holder.linearLayout_eachItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "Item: " + (position + 1), Toast.LENGTH_SHORT).show();
+                Intent intentDojo = new Intent(mContext, DojoActivity.class);
+                intentDojo.putExtra(mContext.getString(R.string.field_user_id), sampleDojo.getDojoSettings().getUser_id());
+                intentDojo.putExtra(mContext.getString(R.string.field_dojo_number), sampleDojo.getDojoSettings().getDojo_number());
+                mContext.startActivity(intentDojo);
             }
         });
     }

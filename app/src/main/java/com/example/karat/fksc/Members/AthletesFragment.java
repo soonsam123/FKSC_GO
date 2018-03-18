@@ -18,6 +18,7 @@ import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.FirebaseMethods;
 import com.example.karat.fksc.Utils.RecyclerAdapter;
 import com.example.karat.fksc.models.User;
+import com.example.karat.fksc.models.UserAndUserSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,7 +54,7 @@ public class AthletesFragment extends Fragment {
     private Context mContext;
 
     // Vars
-    private List<User> all_users;
+    private List<UserAndUserSettings> all_users;
 
 
     /**
@@ -82,15 +83,15 @@ public class AthletesFragment extends Fragment {
      * Set up the recycler adapter with the user that are verified.
      * @param all_users
      */
-    private void setupRecyclerAdapter(List<User> all_users){
+    private void setupRecyclerAdapter(List<UserAndUserSettings> all_users){
 
 
         Log.i(TAG, "setupRecyclerAdapter: " + all_users.toString());
 
-        List<User> users_verified = new ArrayList<>();
+        List<UserAndUserSettings> users_verified = new ArrayList<>();
 
-        for (User singleUser: all_users){
-            if (singleUser.isVerified()){
+        for (UserAndUserSettings singleUser: all_users){
+            if (singleUser.getUser().isVerified()){
                 users_verified.add(singleUser);
             }
         }
@@ -142,13 +143,13 @@ public class AthletesFragment extends Fragment {
         super.onStart();
 
         // Get a reference from the users field.
-        myRef = FirebaseDatabase.getInstance().getReference().child(mContext.getString(R.string.dbname_users));
+        myRef = FirebaseDatabase.getInstance().getReference();
 
         listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                all_users = firebaseMethods.getUsers(dataSnapshot);
+                all_users = firebaseMethods.getAllUserAndUserSettings(dataSnapshot);
                 mProgressBar.setVisibility(View.GONE);
                 setupRecyclerAdapter(all_users);
 

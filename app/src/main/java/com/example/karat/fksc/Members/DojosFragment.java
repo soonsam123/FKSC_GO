@@ -18,6 +18,7 @@ import com.example.karat.fksc.Utils.FirebaseMethods;
 import com.example.karat.fksc.Utils.RecyclerAdapterBlackBelts;
 import com.example.karat.fksc.Utils.RecyclerAdapterDojos;
 import com.example.karat.fksc.models.DojoInfo;
+import com.example.karat.fksc.models.DojoInfoAndSettings;
 import com.example.karat.fksc.models.DojoSettings;
 import com.example.karat.fksc.models.UserAndUserSettings;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,7 +53,7 @@ public class DojosFragment extends Fragment{
     private Context mContext = getActivity();
 
     // Vars
-    private List<DojoInfo> all_dojos_info;
+    private List<DojoInfoAndSettings> all_dojos_infoAndSettings;
 
     @Nullable
     @Override
@@ -72,18 +73,18 @@ public class DojosFragment extends Fragment{
      * Set up the RecyclerAdapter to show the: Profile image, Name, DojoName and BeltColor.
      * @param all_users
      */
-    private void setupRecyclerAdapter(List<DojoInfo> all_dojos_info){
-        Log.i(TAG, "setupRecyclerAdapter: " + all_dojos_info);
+    private void setupRecyclerAdapter(List<DojoInfoAndSettings> all_dojos_infoAndSettings){
+        Log.i(TAG, "setupRecyclerAdapter: " + all_dojos_infoAndSettings);
 
         // List only for the VERIFIED BLACK BELTS.
-        List<DojoInfo> allDojosInfoVerified = new ArrayList<>();
+        List<DojoInfoAndSettings> allDojosVerified = new ArrayList<>();
 
         // 1) Loop through all dojos.
-        for (DojoInfo sampleDojo: all_dojos_info){
+        for (DojoInfoAndSettings sampleDojo: all_dojos_infoAndSettings){
 
             // 2) Get only the verified ones.
-            if (sampleDojo.isVerified()){
-                allDojosInfoVerified.add(sampleDojo);
+            if (sampleDojo.getDojoInfo().isVerified()){
+                allDojosVerified.add(sampleDojo);
             }
 
         }
@@ -92,7 +93,7 @@ public class DojosFragment extends Fragment{
         recyclerView.setLayoutManager(linearLayoutManager);
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new RecyclerAdapterDojos(allDojosInfoVerified, getActivity()));
+        recyclerView.setAdapter(new RecyclerAdapterDojos(allDojosVerified, getActivity()));
 
     }
 
@@ -104,7 +105,7 @@ public class DojosFragment extends Fragment{
 
         recyclerView = view.findViewById(R.id.recyclerView_fragmentDojos);
         mProgressBar = view.findViewById(R.id.progressBar_fragmentDojos);
-        all_dojos_info = new ArrayList<>();
+        all_dojos_infoAndSettings = new ArrayList<>();
 
     }
     /*====================================== END OF Setups ======================================*/
@@ -138,9 +139,9 @@ public class DojosFragment extends Fragment{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                all_dojos_info = firebaseMethods.getAllDojosInfo(dataSnapshot);
+                all_dojos_infoAndSettings = firebaseMethods.getAllDojosInfoAndDojosSettings(dataSnapshot);
                 mProgressBar.setVisibility(View.GONE);
-                setupRecyclerAdapter(all_dojos_info);
+                setupRecyclerAdapter(all_dojos_infoAndSettings);
 
             }
 
