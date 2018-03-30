@@ -23,7 +23,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="274-2018"
                 android:textSize="18sp"
                 android:id="@+id/txtView_registrationNumber_FKSCinfoLayout"
                 android:layout_centerHorizontal="true"
@@ -32,6 +31,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/txtView_titleRegistrationNumber_FKSCinfoLayout"
                 android:text="@string/registration"
                 android:layout_below="@+id/txtView_registrationNumber_FKSCinfoLayout"
                 android:layout_centerHorizontal="true"
@@ -49,7 +49,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Preta"
                 android:textSize="18sp"
                 android:id="@+id/txtView_belt_FKSCinfoLayout"
                 android:layout_centerHorizontal="true"
@@ -58,6 +57,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/txtView_titleBelt_FKSCinfoLayout"
                 android:text="@string/belt"
                 android:layout_below="@+id/txtView_belt_FKSCinfoLayout"
                 android:layout_centerHorizontal="true"
@@ -76,7 +76,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1º Lugar"
                 android:textSize="18sp"
                 android:id="@+id/txtView_globalRanking_FKSCinfoLayout"
                 android:layout_centerHorizontal="true"
@@ -85,6 +84,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/txtView_titleRanking_FKSCinfoLayout"
                 android:text="@string/global_ranking"
                 android:layout_below="@+id/txtView_globalRanking_FKSCinfoLayout"
                 android:textColor="@color/colorGrey700"/>

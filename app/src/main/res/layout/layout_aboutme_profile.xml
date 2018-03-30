@@ -14,6 +14,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/txtView_titleAboutMe_aboutMeProfileLayout"
             android:text="@string/about_me"
             android:textSize="17sp"
             android:textColor="@color/colorBlack" />
@@ -23,7 +24,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtView_aboutMe_aboutmeLayout"
-            android:text="Eu sou atleta da Federação Goiana de Karatê Semi Contato e da Federação Brasileira de Artes Marciais."
             android:textSize="17sp"
             android:textColor="@color/colorGrey700" />
 
@@ -31,6 +31,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/txtView_titleCurriculum_aboutMeProfileLayout"
             android:text="@string/curriculum"
             android:textSize="17sp"
             android:textColor="@color/colorBlack"
@@ -41,10 +42,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtView_curriculum_aboutmeLayout"
-            android:text="4x Campeão Mundial de Artes Marciais-WTMF
-2x Campeão Panamericano de Artes Marciais
-7x Campeão Brasileiro de Karatê - CBKSC
-8x Campeão Goiano de Karatê - FKSC"
             android:textSize="17sp"
             android:textColor="@color/colorGrey700" />
 

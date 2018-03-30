@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/relLayout_progressBar_snippetPleaseWait"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true">
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar_activityProfile"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtView_1_activityProfile"
+        android:layout_below="@+id/progressBar_activityProfile"
+        android:text="@string/please_wait"
+        android:textColor="@color/colorGrey800"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtView_2_activityProfile"
+        android:layout_below="@+id/txtView_1_activityProfile"
+        android:text="@string/take_some_minutes"
+        android:textColor="@color/colorGrey800"
+        android:layout_centerHorizontal="true"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtView_3_activityProfile"
+        android:layout_below="@id/txtView_2_activityProfile"
+        android:text="@string/depending_internet_connection"
+        android:textColor="@color/colorGrey800"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

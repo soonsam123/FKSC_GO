@@ -105,35 +105,29 @@ public class RankingActivity extends AppCompatActivity {
         BottomNavigationHelper.enablePagination(mContext, bottomNavigationView);
         BottomNavigationHelper.removeShiftMode(bottomNavigationView);
 
+
     }
-
-
-
-    /*=================================== Menu ===================================*//*
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart: Starting");
 
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_actionbar, menu);
+        /*==== Code to make the selected item use a different color ====*/
+        // Members = 0 / Championship = 1 / Ranking = 2 / Profile = 3
+        int ACTIVITY_NUM = 2;
+        // 1) Get the bottomNavigationView menu;
+        Menu menu = bottomNavigationView.getMenu();
+        // 2) Get the current item;
+        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
+        // 3) Select it, so it'll display a different color for this icon.
+        menuItem.setChecked(true);
 
-        return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.contact_menu_actionbar:
-                Toast.makeText(mContext, "Contato", Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
-
+    protected void onStop() {
+        super.onStop();
     }
-
-    *//*=================================== END OF Menu ===================================*/
 }

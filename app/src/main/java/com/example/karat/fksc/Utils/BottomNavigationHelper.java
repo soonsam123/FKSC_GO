@@ -37,24 +37,24 @@ public class BottomNavigationHelper {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 switch (item.getItemId()){
-                    case R.id.affiliates_menu_bottomNaView:
+                    case R.id.affiliates_menu_bottomNaView: // menu item 0
                         Intent intentAffiliates = new Intent(context, MembersActivity.class);
                         context.startActivity(intentAffiliates);
                         break;
-                    case R.id.championShips_menu_bottomNaView:
+                    case R.id.championShips_menu_bottomNaView: // menu item 1
                         Intent intentChampionship = new Intent(context, ChampionshipActivity.class);
                         context.startActivity(intentChampionship);
                         break;
-                    case R.id.ranking_menu_bottomNaView:
+                    case R.id.ranking_menu_bottomNaView: // menu item 2
                         Intent intentRanking = new Intent(context, RankingActivity.class);
                         context.startActivity(intentRanking);
                         break;
-                    case R.id.profile_menu_bottomNaView:
+                    case R.id.profile_menu_bottomNaView: // menu item 3
                         Intent intentProfile = new Intent(context, ProfileActivity.class);
                         context.startActivity(intentProfile);
                         break;
                 }
-                return false;
+                return true;
             }
         });
 

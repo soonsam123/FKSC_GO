@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.karat.fksc.OtherProfiles.OtherProfileActivity">
+    tools:context="com.example.karat.fksc.Profile.OtherProfileActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -32,6 +32,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/linLayout_container_activityOtherProfile"
                 android:orientation="vertical">
 
                 <!-- HEADER -->
@@ -99,7 +100,7 @@
 
         </ScrollView>
 
-        <!-- BOTTOM NAVIGATION VIEW-->
+        <!--****************************** BOTTOM NAVIGATION VIEW ******************************-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -109,6 +110,10 @@
             <include layout="@layout/layout_bottom_nav_view"/>
 
         </RelativeLayout>
+
+
+        <include layout="@layout/snippet_please_wait"/>
+
 
     </RelativeLayout>
 

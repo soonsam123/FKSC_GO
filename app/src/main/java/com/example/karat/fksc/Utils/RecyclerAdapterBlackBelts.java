@@ -3,20 +3,15 @@ package com.example.karat.fksc.Utils;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.karat.fksc.OtherProfiles.OtherProfileActivity;
+import com.example.karat.fksc.Profile.OtherProfileActivity;
 import com.example.karat.fksc.R;
-import com.example.karat.fksc.models.User;
 import com.example.karat.fksc.models.UserAndUserSettings;
 
 import java.util.List;
-
-import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
  * Created by karat on 12/03/2018.

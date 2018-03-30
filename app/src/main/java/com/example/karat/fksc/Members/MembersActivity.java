@@ -12,10 +12,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.example.karat.fksc.AddDojo.AddDojoActivity;
-import com.example.karat.fksc.EditProfile.EditProfileActivity;
+import com.example.karat.fksc.DojoActivity.AddDojoActivity;
+import com.example.karat.fksc.Profile.EditProfileActivity;
 import com.example.karat.fksc.Login.LoginActivity;
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.BottomNavigationHelper;
@@ -23,7 +22,6 @@ import com.example.karat.fksc.Utils.FirebaseMethods;
 import com.example.karat.fksc.Utils.SectionsPageAdapter;
 import com.example.karat.fksc.Utils.UniversalImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class MembersActivity extends AppCompatActivity {
@@ -153,6 +151,7 @@ public class MembersActivity extends AppCompatActivity {
         BottomNavigationHelper.enablePagination(mContext, bottomNavigationView);
         BottomNavigationHelper.removeShiftMode(bottomNavigationView);
 
+
     }
     /*==================================== END OF Setups ====================================*/
 
@@ -221,6 +220,18 @@ public class MembersActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        Log.i(TAG, "onStart: Starting");
+
+        /*==== Code to make the selected item use a different color ====*/
+        // Members = 0 / Championship = 1 / Ranking = 2 / Profile = 3
+        int ACTIVITY_NUM = 0;
+        // 1) Get the bottomNavigationView menu;
+        Menu menu = bottomNavigationView.getMenu();
+        // 2) Get the current item;
+        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
+        // 3) Select it, so it'll display a different color for this icon.
+        menuItem.setChecked(true);
+
     }
 
     @Override

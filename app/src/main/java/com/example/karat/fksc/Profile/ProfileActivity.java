@@ -15,24 +15,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.karat.fksc.AddDojo.AddDojoActivity;
-import com.example.karat.fksc.EditProfile.EditProfileActivity;
+import com.example.karat.fksc.DojoActivity.AddDojoActivity;
 import com.example.karat.fksc.Login.LoginActivity;
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.BottomNavigationHelper;
 import com.example.karat.fksc.Utils.FirebaseMethods;
 import com.example.karat.fksc.Utils.RecyclerAdapterDojos;
 import com.example.karat.fksc.Utils.UniversalImageLoader;
-import com.example.karat.fksc.models.DojoInfo;
 import com.example.karat.fksc.models.DojoInfoAndSettings;
-import com.example.karat.fksc.models.User;
 import com.example.karat.fksc.models.UserAboutMe;
 import com.example.karat.fksc.models.UserAndUserSettings;
-import com.example.karat.fksc.models.UserSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,7 +37,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -69,9 +65,12 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView mAboutMe;
     private TextView mCurriculum;
 
+    private LinearLayout linearLayoutContainer;
     private RelativeLayout mTeacherAt;
+    private RelativeLayout relLayout_PleaseWait;
 
     private RecyclerView recyclerView;
+
 
     // Context
     private Context mContext = ProfileActivity.this;
@@ -121,6 +120,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView_activityProfile);
 
+        linearLayoutContainer = findViewById(R.id.linLayout_container_activityProfile);
+        linearLayoutContainer.setVisibility(View.GONE);
+
+        relLayout_PleaseWait = findViewById(R.id.relLayout_progressBar_snippetPleaseWait);
     }
 
 
@@ -154,6 +157,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         BottomNavigationHelper.enablePagination(mContext, bottomNavigationView);
         BottomNavigationHelper.removeShiftMode(bottomNavigationView);
+
 
     }
 
@@ -265,13 +269,34 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Log.i(TAG, "onStart: Starting");
+
+        /*==== Code to make the selected item use a different color ====*/
+        // Members = 0 / Championship = 1 / Ranking = 2 / Profile = 3
+        int ACTIVITY_NUM = 3;
+        // 1) Get the bottomNavigationView menu;
+        Menu menu = bottomNavigationView.getMenu();
+        // 2) Get the current item;
+        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
+        // 3) Select it, so it'll display a different color for this icon.
+        menuItem.setChecked(true);
 
         listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                setupWidgetsWithDBValues(firebaseMethods.getUserAndUserSettings(dataSnapshot),
-                        firebaseMethods.getUserAboutMe(dataSnapshot));
-                setupRecyclerAdapter(firebaseMethods.getDojosInfoAndSettingsFromOneUser(dataSnapshot));
+
+                // User's all Information. (users, users_settings, users_aboutme)
+                UserAndUserSettings userAndUserSettings = firebaseMethods.getUserAndUserSettings(dataSnapshot);
+                UserAboutMe userAboutMe = firebaseMethods.getUserAboutMe(dataSnapshot);
+
+                relLayout_PleaseWait.setVisibility(View.GONE);
+                linearLayoutContainer.setVisibility(View.VISIBLE);
+
+                // Dojos (all the dojos from current user)
+                List<DojoInfoAndSettings> dojoInfoAndSettingsList = firebaseMethods.getDojosInfoAndSettingsFromOneUser(dataSnapshot);
+
+                setupWidgetsWithDBValues(userAndUserSettings, userAboutMe);
+                setupRecyclerAdapter(dojoInfoAndSettingsList);
             }
 
             @Override

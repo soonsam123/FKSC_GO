@@ -15,9 +15,9 @@
             android:id="@+id/bottom_navigation_view"
             android:background="@color/colorPrimary"
             android:layout_alignParentBottom="true"
-            app:menu="@menu/menu_bottom_nav_view"
-            app:itemIconTint="@color/colorWhite"
-            app:itemTextColor="@color/colorWhite">
+            app:itemIconTint="@color/bottom_nav_color"
+            app:itemTextColor="@color/bottom_nav_color"
+            app:menu="@menu/menu_bottom_nav_view">
 
 
         </android.support.design.widget.BottomNavigationView>

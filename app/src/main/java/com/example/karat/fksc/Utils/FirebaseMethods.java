@@ -2,6 +2,9 @@ package com.example.karat.fksc.Utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -10,15 +13,20 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.karat.fksc.Login.LoginActivity;
+import com.example.karat.fksc.Profile.ProfileActivity;
 import com.example.karat.fksc.R;
+import com.example.karat.fksc.models.ChampionshipInfo;
 import com.example.karat.fksc.models.DojoInfo;
 import com.example.karat.fksc.models.DojoInfoAndSettings;
 import com.example.karat.fksc.models.DojoSettings;
+import com.example.karat.fksc.models.ProfilePhoto;
 import com.example.karat.fksc.models.User;
 import com.example.karat.fksc.models.UserAboutMe;
 import com.example.karat.fksc.models.UserAndUserSettings;
 import com.example.karat.fksc.models.UserSettings;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +35,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +56,12 @@ public class FirebaseMethods {
     private FirebaseAuth mAuth;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference myRef;
+    private StorageReference mStorageReference;
+
 
     private String userID;
+
+    private double mPhotoProgress;
 
 
     /**
@@ -58,6 +75,7 @@ public class FirebaseMethods {
         mContext = context;
         firebaseDatabase = FirebaseDatabase.getInstance();
         myRef = firebaseDatabase.getReference();
+        mStorageReference = FirebaseStorage.getInstance().getReference();
         if (mAuth.getCurrentUser() != null){
             userID = mAuth.getCurrentUser().getUid();
         }
@@ -185,6 +203,8 @@ public class FirebaseMethods {
 
 
     /*============================================ Database ============================================*/
+
+    /*============================================ Add ============================================*/
 
     private void addNewUser(String fullName, String birthDate, String beltColor, String registrationNumber, String dojo, String profileImgURL, boolean verified) {
 
@@ -328,8 +348,65 @@ public class FirebaseMethods {
             Toast.makeText(mContext, R.string.dojo_add_successfuly, Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+
+    /**
+     * Add the profile photo to "photos --> user_id --> profile_photo --> (profile_img_url = "firebase/...")
+     * @param profile_img_url
+     */
+    public void addProfilePhoto(String profile_img_url){
+        Log.i(TAG, "addProfilePhoto: Adding profile photo to profile_photos node");
+
+        ProfilePhoto profilePhoto = new ProfilePhoto(profile_img_url);
+
+        if (mAuth.getCurrentUser() != null) {
+
+            String user_id = mAuth.getCurrentUser().getUid();
+
+            myRef.child(mContext.getString(R.string.dbname_photos))
+                    .child(user_id)
+                    .child(mContext.getString(R.string.photo_type_profile))
+                    .setValue(profile_img_url);
+
+        }
 
     }
+    /*============================================ END OF Add ============================================*/
+
+
+    /*============================================ Remove ============================================*/
+
+    /**
+     * Remove a dojo from the current user.
+     * Receive the dojo_number to know what dojo of the user will be deleted.
+     * @param dojo_number
+     */
+    public void removeDojo(String dojo_number){
+
+        if (mAuth.getCurrentUser() != null){
+
+            String userID = mAuth.getCurrentUser().getUid();
+
+            // Remove dojo_info.
+            myRef.child(mContext.getString(R.string.dbname_dojos_info))
+                    .child(userID)
+                    .child(dojo_number)
+                    .removeValue();
+
+            // Remove dojo_settings.
+            myRef.child(mContext.getString(R.string.dbname_dojos_settings))
+                    .child(userID)
+                    .child(dojo_number)
+                    .removeValue();
+
+        }
+
+        Toast.makeText(mContext, R.string.dojo_deleted, Toast.LENGTH_SHORT).show();
+
+    }
+
+    /*============================================ END OF Remove ============================================*/
 
     /*============================================ END OF Database ============================================*/
 
@@ -932,6 +1009,7 @@ public class FirebaseMethods {
 
     }
 
+
     /**
      * Get all dojos_info and dojos_settings information only from ONE SINGLE DOJO.
      * @param dataSnapshot
@@ -1046,6 +1124,37 @@ public class FirebaseMethods {
     }
 
     /*============================================ END OF dojos_settings node ============================================*/
+
+
+
+    /*============================================ championships_info node ============================================*/
+
+    /**
+     * Retrieve a list with all the CHAMPIONSHIPS INFO.
+     * @param dataSnapshot
+     * @return
+     */
+    public List<ChampionshipInfo> getAllChampionshipsInfo(DataSnapshot dataSnapshot){
+
+        ChampionshipInfo sampleChampionshipInfo = new ChampionshipInfo();
+        List<ChampionshipInfo> championshipInfos = new ArrayList<>();
+
+        // fkscDatabase --> championships_info --> Loop through all the championships inside here
+        // (championship1, championship2, championship3)
+        for (DataSnapshot ds: dataSnapshot
+                .child(mContext.getString(R.string.dbname_championships_info))
+                .getChildren()){
+
+            sampleChampionshipInfo = ds.getValue(ChampionshipInfo.class);
+            championshipInfos.add(sampleChampionshipInfo);
+
+        }
+
+        return  championshipInfos;
+
+    }
+
+    /*============================================ END OF championships_info node ============================================*/
 
 
     /*=================================************ END OF Getters and Setters ************===============================*/
@@ -1211,6 +1320,219 @@ public class FirebaseMethods {
     /*======================================= END OF Update users_settings =======================================*/
 
 
+    /*======================================= Update dojo_info =======================================*/
+
+    /**
+     * Updates the name of the dojo the one given in the parameter.
+     * @param name
+     * @param dojoNumber
+     */
+    public void updateDojoName(String name, String dojoNumber){
+        Log.d(TAG, "updateDojoName: updating dojo name to " + name);
+
+        myRef.child(mContext.getString(R.string.dbname_dojos_info))
+                .child(userID)
+                .child(dojoNumber)
+                .child(mContext.getString(R.string.field_dojo_name))
+                .setValue(name);
+    }
+
+
+    /**
+     * Updates the city of the dojo the one given in the parameter.
+     * @param city
+     * @param dojoNumber
+     */
+    public void updateCity(String city, String dojoNumber){
+        Log.d(TAG, "updateCity: updating city to " + city);
+
+        myRef.child(mContext.getString(R.string.dbname_dojos_info))
+                .child(userID)
+                .child(dojoNumber)
+                .child(mContext.getString(R.string.field_city))
+                .setValue(city);
+    }
+
+
+    /**
+     * Updates the Cover Image Url of the dojo the one given in the parameter.
+     * @param coverImgURL
+     * @param dojoNumber
+     */
+    public void updateCoverImgURL(String coverImgURL, String dojoNumber){
+        Log.d(TAG, "updateCoverImgURL: updating cover image to " + coverImgURL);
+
+        myRef.child(mContext.getString(R.string.dbname_dojos_info))
+                .child(userID)
+                .child(dojoNumber)
+                .child(mContext.getString(R.string.field_cover_img_url))
+                .setValue(coverImgURL);
+    }
+
+
+    /*======================================= END OF Update dojo_info =======================================*/
+
+
+
+
+    /*======================================= Update dojo_settings =======================================*/
+
+
+    /**
+     * Updates the address of the dojo the one given in the parameter.
+     * @param address
+     * @param dojoNumber
+     */
+    public void updateAddress(String address, String dojoNumber){
+        Log.d(TAG, "updateAddress: updating address to " + address);
+
+        myRef.child(mContext.getString(R.string.dbname_dojos_settings))
+                .child(userID)
+                .child(dojoNumber)
+                .child(mContext.getString(R.string.field_address))
+                .setValue(address);
+    }
+
+
+    /**
+     * Updates the telephone of the dojo the one given in the parameter.
+     * @param telephone
+     * @param dojoNumber
+     */
+    public void updateTelephone(String telephone, String dojoNumber){
+        Log.d(TAG, "updateTelephone: updating telephone to " + telephone);
+
+        myRef.child(mContext.getString(R.string.dbname_dojos_settings))
+                .child(userID)
+                .child(dojoNumber)
+                .child(mContext.getString(R.string.field_telephone))
+                .setValue(telephone);
+    }
+
+
+
+    /**
+     * Updates the description of the dojo the one given in the parameter.
+     * @param description
+     * @param dojoNumber
+     */
+    public void updateDescription(String description, String dojoNumber){
+        Log.d(TAG, "updateDescription: updating description to " + description);
+
+        myRef.child(mContext.getString(R.string.dbname_dojos_settings))
+                .child(userID)
+                .child(dojoNumber)
+                .child(mContext.getString(R.string.field_description))
+                .setValue(description);
+    }
+
+
+
+    /*======================================= END OF Update dojo_settings =======================================*/
+
+
     /*=================================================== END OF UPDATES ===================================================*/
+
+
+    /*=================================================== Upload ===================================================*/
+
+    /**
+     * Upload a new profile photo or cover photo to Firebase Storage.
+     * @param photoType
+     * @param imgURL
+     */
+    public void uploadNewPhoto(String photoType, String imgURL){
+
+        // Case1) Profile Photo.
+        if (photoType.equals(mContext.getString(R.string.photo_type_profile))){
+            Log.i(TAG, "uploadNewPhoto: Uploading a new profile photo " + imgURL);
+
+            Toast.makeText(mContext, R.string.preparing_your_picture, Toast.LENGTH_LONG).show();
+
+            FilePaths filePaths = new FilePaths();
+
+            if (mAuth.getCurrentUser() != null) {
+
+                String user_id = mAuth.getCurrentUser().getUid();
+
+
+                // 1) Creates the Storage Reference --> "photos/users/user_id/profile_photo"
+                StorageReference storageReference = mStorageReference
+                        .child(filePaths.FIREBASE_STORAGE_PATH + "/" + user_id + "/" + photoType);
+
+
+                // 2) Convert image url to bitmap and then to bytes.
+                Bitmap bitmap = ImageManager.getBitMapFromImgURL(imgURL);
+                byte[] bytes = ImageManager.getBytesFromBitmap(bitmap, 50);
+
+
+
+                // 3) Upload the photo to storage.
+                UploadTask uploadTask = null;
+                uploadTask = storageReference.putBytes(bytes);
+
+
+                // 4) Navigate to Profile Activity.
+                Intent intentProfileActivity = new Intent(mContext, ProfileActivity.class);
+                intentProfileActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                mContext.startActivity(intentProfileActivity);
+
+
+                // 5) Handle the loading.
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.i(TAG, "onSuccess: Uploaded a photo");
+                        Uri firebaseURL = taskSnapshot.getDownloadUrl();
+                        Toast.makeText(mContext, R.string.photo_added_successfully, Toast.LENGTH_SHORT).show();
+
+                        if (firebaseURL != null) {
+
+                            // Add profile photo to "photos" node;
+                            addProfilePhoto(firebaseURL.toString());
+
+                            // Add link to the "users" NODE at the FIELD "profile_img_url".
+                            updateProfileImgURL(firebaseURL.toString());
+
+                        }
+
+
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "onFailure: Failed to upload the photo");
+                        Toast.makeText(mContext, "Failed to upload your photo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        // Show the percentage of the uploading picture.
+                        double progress = 100*(taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                        Log.i(TAG, "onProgress: " + progress);
+
+
+                        if (progress - 15 > mPhotoProgress) {
+                            Toast.makeText(mContext, "Uploading photo: "
+                                    + new DecimalFormat("##.#").format(progress) + "&", Toast.LENGTH_SHORT).show();
+                            mPhotoProgress = progress;
+                        }
+
+                    }
+                });
+
+            }
+
+        }
+
+        else if (photoType.equals(mContext.getString(R.string.photo_type_profile))) {
+
+        }
+
+    }
+
+    /*=================================================== END OF Upload ===================================================*/
 
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.karat.fksc.Share.ShareActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relLayout_container_activityShare">
+
+        <!--**************** VIEW PAGER ****************-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relLayout_viewPager_activityMembers"
+            android:layout_marginBottom="50dp">
+
+            <!-- View Pager -->
+            <include layout="@layout/layout_middle_viewpager"/>
+
+
+        </RelativeLayout>
+
+
+        <!--**************** TAB LAYOUT ****************-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relLayout_tabLayout_activityShare"
+            android:layout_alignParentBottom="true">
+
+            <!-- TabLayout -->
+            <include layout="@layout/snippet_tablayout_members"/>
+
+        </RelativeLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

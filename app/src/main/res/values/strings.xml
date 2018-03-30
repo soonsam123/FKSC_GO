@@ -56,6 +56,12 @@
     <string name="dbname_dojos_settings">dojos_settings</string>
     <string name="dbname_dojo">dojo</string>
 
+    <string name="dbname_championships_info">championships_info</string>
+    <string name="dbname_championship">championship</string>
+
+    <string name="dbname_photos">photos</string>
+    <string name="dbname_user_photos">user_photos</string>
+
 
     <!-- Profile names -->
     <string name="registration">REGISTRO</string>
@@ -95,6 +101,14 @@
     <string name="field_birth_date">birth_date</string>
     <string name="field_user_id">user_id</string>
 
+    <string name="field_dojo_name">name</string>
+    <string name="field_city">city</string>
+
+    <string name="field_address">address</string>
+    <string name="field_telephone">telephone</string>
+    <string name="field_description">description</string>
+
+    <string name="field_date_hour">date_hour</string>
 
 
     <!-- Add Dojo(Gym) Fields -->
@@ -110,8 +124,37 @@
     <string name="we_are_adding_your_dojo">Estamos adicionando sua academia</string>
     <string name="teacher_at_dojos">Professor nas Academias</string>
     <string name="what_to_do_with_this_dojo">O que você deseja fazer com essa Academia?</string>
+
+    <!-- Commands -->
     <string name="delete">DELETAR</string>
     <string name="edit">EDITAR</string>
+
+    <!-- Dojos -->
+    <string name="dojo_deleted">Academia deletada</string>
+    <string name="edit_your_dojo">EDITE SUA ACADEMIA</string>
+    <string name="info_edit_success">Informação editada com sucesso</string>
+
+    <!-- Share Activity -->
+    <string name="gallery">GALERIA</string>
+    <string name="camera">CAMERA</string>
+    <string name="open_camera">ABRIR CAMERA</string>
+
+    <!-- Loading -->
+    <string name="please_wait">Por favor, aguarde...</string>
+    <string name="take_some_minutes">Isso pode levar alguns minutos</string>
+    <string name="depending_internet_connection">Dependendo da sua conexão com a internet</string>
+
+
+    <!-- Photoypes -->
+    <string name="photo_type_profile">profile_photo</string>
+    <string name="photo_type_cover">cover_photo</string>
+    <string name="photo_type">photo_type</string>
+    <string name="photo_type_cover_photo_add">cover_photo_add_dojo</string>
+    <string name="photo_type_cover_photo_edit">cover_photo_edit_dojo</string>
+
+    <string name="choose_a_picture">Você precisa escolher uma foto</string>
+    <string name="photo_added_successfully">Foto adicionada com sucesso</string>
+    <string name="preparing_your_picture">Estamos preparando a sua foto</string>
 
 </resources>
 

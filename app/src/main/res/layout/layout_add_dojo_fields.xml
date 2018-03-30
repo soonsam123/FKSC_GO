@@ -45,7 +45,7 @@
                 android:text="@string/choose"
                 android:textSize="12sp"
                 android:textColor="@color/colorWhite"
-                android:background="@drawable/blue_gradient"
+                android:background="@color/colorAccent"
                 android:layout_below="@+id/txtView_chooseCoverPhoto_addDojoLayout"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"/>
@@ -54,7 +54,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtView_coverPhotoPath_addDojoLayout"
-                android:text="file.jpg"
                 android:textColor="@color/colorGrey800"
                 android:textSize="14sp"
                 android:layout_toEndOf="@+id/button_chooseCoverPhoto_addDojoLayout"

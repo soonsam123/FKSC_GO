@@ -32,6 +32,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/linLayout_container_activityDojo"
                 android:orientation="vertical">
 
                 <!-- HEADER -->
@@ -74,6 +75,11 @@
             </LinearLayout>
 
         </ScrollView>
+
+
+        <!-- ProgressBar-->
+        <include layout="@layout/snippet_please_wait"/>
+
 
         <!-- BOTTOM NAVIGATION VIEW-->
         <RelativeLayout

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.FirebaseMethods;
@@ -41,7 +42,7 @@ public class DojosFragment extends Fragment{
 
     // Layout
     private RecyclerView recyclerView;
-    private ProgressBar mProgressBar;
+    private RelativeLayout relativeLayout_PleaseWait;
 
     // Firebase
     private FirebaseAuth mAuth;
@@ -104,7 +105,7 @@ public class DojosFragment extends Fragment{
     private void setupWidgets(View view){
 
         recyclerView = view.findViewById(R.id.recyclerView_fragmentDojos);
-        mProgressBar = view.findViewById(R.id.progressBar_fragmentDojos);
+        relativeLayout_PleaseWait = view.findViewById(R.id.relLayout_progressBar_snippetPleaseWait);
         all_dojos_infoAndSettings = new ArrayList<>();
 
     }
@@ -139,8 +140,13 @@ public class DojosFragment extends Fragment{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                // 1) Get a list with all the dojos;
                 all_dojos_infoAndSettings = firebaseMethods.getAllDojosInfoAndDojosSettings(dataSnapshot);
-                mProgressBar.setVisibility(View.GONE);
+
+                // 2) Dismiss the progressBar;
+                relativeLayout_PleaseWait.setVisibility(View.GONE);
+
+                // 3) Set up the recycler adapter with the dojos' list.
                 setupRecyclerAdapter(all_dojos_infoAndSettings);
 
             }

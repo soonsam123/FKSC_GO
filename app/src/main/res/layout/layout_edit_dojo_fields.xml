@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Container -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relLayout_container_editDojoLayout">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_editDojo_editDojoLayout"
+                android:text="@string/edit_your_dojo"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"/>
+
+            <!-- *====================== COVER PHOTO ======================* -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_chooseCoverPhoto_editDojoLayout"
+                android:layout_below="@+id/txtView_editDojo_editDojoLayout"
+                android:text="@string/choose_cover_photo"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:id="@+id/button_chooseCoverPhoto_editDojoLayout"
+                android:text="@string/choose"
+                android:textSize="12sp"
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorAccent"
+                android:layout_below="@+id/txtView_chooseCoverPhoto_editDojoLayout"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_coverPhotoPath_editDojoLayout"
+                android:textColor="@color/colorGrey800"
+                android:textSize="14sp"
+                android:layout_toEndOf="@+id/button_chooseCoverPhoto_editDojoLayout"
+                android:layout_below="@+id/txtView_chooseCoverPhoto_editDojoLayout"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"/>
+
+            <!-- *====================== END OF COVER PHOTO ======================* -->
+
+
+            <!-- *====================== DOJO NAME ======================* -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputLayout_dojoName_editDojoLayout"
+                android:layout_below="@+id/button_chooseCoverPhoto_editDojoLayout"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp">
+
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name_of_your_dojo"
+                    android:id="@+id/editText_dojoName_editDojoLayout"
+                    android:inputType="textPersonName"/>
+
+
+            </android.support.design.widget.TextInputLayout>
+            <!-- *====================== END OF DOJO NAME ======================* -->
+
+
+            <!-- *====================== CITY ======================* -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputLayout_city_editDojoLayout"
+                android:layout_below="@+id/inputLayout_dojoName_editDojoLayout"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp">
+
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/city"
+                    android:id="@+id/editText_city_editDojoLayout"
+                    android:inputType="textShortMessage"/>
+
+
+            </android.support.design.widget.TextInputLayout>
+            <!-- *====================== END OF CITY ======================* -->
+
+
+            <!-- *====================== ADDRESS ======================* -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputLayout_address_editDojoLayout"
+                android:layout_below="@+id/inputLayout_city_editDojoLayout"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp">
+
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/complete_address"
+                    android:id="@+id/editText_address_editDojoLayout"
+                    android:inputType="textPostalAddress"/>
+
+
+            </android.support.design.widget.TextInputLayout>
+            <!-- *====================== END OF ADDRESS ======================* -->
+
+
+            <!-- *====================== TELEPHONE ======================* -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputLayout_telephone_editDojoLayout"
+                android:layout_below="@+id/inputLayout_address_editDojoLayout"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp">
+
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/telephone"
+                    android:id="@+id/editText_telephone_editDojoLayout"
+                    android:inputType="phone"/>
+
+
+            </android.support.design.widget.TextInputLayout>
+            <!-- *====================== END OF TELEPHONE ======================* -->
+
+
+            <!-- *====================== DESCRIPTION ======================* -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputLayout_description_editDojoLayout"
+                android:layout_below="@+id/inputLayout_telephone_editDojoLayout"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp">
+
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/write_about_your_dojo"
+                    android:id="@+id/editText_description_editDojoLayout"
+                    android:inputType="textMultiLine"/>
+
+
+            </android.support.design.widget.TextInputLayout>
+            <!-- *====================== END OF DESCRIPTION ======================* -->
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</merge>

@@ -23,7 +23,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="274-2018"
                 android:textSize="18sp"
                 android:id="@+id/txtView_registrationNumber_FKSCinfoDojoLayout"
                 android:layout_centerHorizontal="true"
@@ -49,7 +48,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1º Lugar"
                 android:textSize="18sp"
                 android:id="@+id/txtView_globalRanking_FKSCinfoDojoLayout"
                 android:layout_centerHorizontal="true"

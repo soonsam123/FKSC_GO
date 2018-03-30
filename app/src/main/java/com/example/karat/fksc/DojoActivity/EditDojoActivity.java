@@ -1,4 +1,4 @@
-package com.example.karat.fksc.AddDojo;
+package com.example.karat.fksc.DojoActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -22,9 +21,8 @@ import com.example.karat.fksc.Members.MembersActivity;
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.FirebaseMethods;
 import com.example.karat.fksc.models.DojoInfo;
+import com.example.karat.fksc.models.DojoInfoAndSettings;
 import com.example.karat.fksc.models.DojoSettings;
-import com.example.karat.fksc.models.User;
-import com.example.karat.fksc.models.UserAboutMe;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,9 +34,9 @@ import com.google.firebase.database.ValueEventListener;
  * Created by karat on 14/03/2018.
  */
 
-public class AddDojoActivity extends AppCompatActivity implements View.OnClickListener {
+public class EditDojoActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "AddDojoActivity";
+    private static final String TAG = "EditDojoActivity";
 
 
     // Layout Widgets
@@ -63,6 +61,7 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
     private TextView mAddButton;
 
     private RelativeLayout mRelativeLayoutContainer;
+    private RelativeLayout mRelativeLayout_PleaseWait;
 
     // Firebase
     private FirebaseAuth mAuth;
@@ -71,16 +70,15 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
     private ValueEventListener listener;
 
     // Context
-    private Context mContext = AddDojoActivity.this;
+    private Context mContext = EditDojoActivity.this;
 
     // Vars
-    private DojoInfo dojoInfo;
-    private DojoSettings dojoSettings;
+    private DojoInfoAndSettings dojoInfoAndSettings;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_dojo);
+        setContentView(R.layout.activity_edit_dojo);
         Log.i(TAG, "onCreate: Stating the activity");
 
         setupFirebaseAuth();
@@ -116,23 +114,28 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
             // Case 2 - Users filled in all the fields. Good to go.
             else {
 
-                // Add a dojo to the database for the current user logged in.
-                listener = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Toast.makeText(mContext, R.string.we_are_adding_your_dojo, Toast.LENGTH_SHORT).show();
-                        firebaseMethods.addDojo(name, city, "", "", false
-                                , address, telephone, description, name, firebaseMethods.getDojoCount(dataSnapshot));
+                // Update the fields only if they were changed.
+                String dojoNumber = dojoInfoAndSettings.getDojoSettings().getDojo_number();
 
-                    }
+                if (!name.equals(dojoInfoAndSettings.getDojoInfo().getName())){
+                    firebaseMethods.updateDojoName(name, dojoNumber);
+                }
+                if (!city.equals(dojoInfoAndSettings.getDojoInfo().getCity())){
+                    firebaseMethods.updateCity(city, dojoNumber);
+                }
+                if (!address.equals(dojoInfoAndSettings.getDojoSettings().getAddress())){
+                    firebaseMethods.updateAddress(address, dojoNumber);
+                }
+                if (!telephone.equals(dojoInfoAndSettings.getDojoSettings().getTelephone())){
+                    firebaseMethods.updateTelephone(telephone, dojoNumber);
+                }
+                if (!description.equals(dojoInfoAndSettings.getDojoSettings().getDescription())){
+                    firebaseMethods.updateDescription(description, dojoNumber);
+                }
+                Toast.makeText(mContext, R.string.info_edit_success, Toast.LENGTH_SHORT).show();
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                };
-                myRef.addListenerForSingleValueEvent(listener);
-
+                // Navigate to members activity and clear to flags so the user can not come back here
+                // by pressing the back button.
                 Intent intentMembers = new Intent(mContext, MembersActivity.class);
                 intentMembers.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intentMembers);
@@ -148,39 +151,59 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
     /*======================================== Setups ========================================*/
 
     /**
+     * Fill in the editText fields with the firebase realtime database values.
+     * @param dojoInfoAndSettings
+     */
+    private void setupWidgetsWitDBValues(DojoInfoAndSettings dojoInfoAndSettings){
+        Log.i(TAG, "setupWidgetsWitDBValues: starting");
+        
+        // Fill in the fields with the values from the database.
+        mEditTextDojoName.setText(dojoInfoAndSettings.getDojoInfo().getName());
+        mEditTextCity.setText(dojoInfoAndSettings.getDojoInfo().getCity());
+        mEditTextAddress.setText(dojoInfoAndSettings.getDojoSettings().getAddress());
+        mEditTextTelephone.setText(dojoInfoAndSettings.getDojoSettings().getTelephone());
+        mEditTextDescription.setText(dojoInfoAndSettings.getDojoSettings().getDescription());
+
+    }
+
+    /**
      * Set up the widgets with the layout id values.
      */
     private void setupWidgets(){
         Log.i(TAG, "setupWidgets: Setting up the widgets");
 
         // Buttons
-        mButtonCoverPhoto = findViewById(R.id.button_chooseCoverPhoto_addDojoLayout);
+        mButtonCoverPhoto = findViewById(R.id.button_chooseCoverPhoto_editDojoLayout);
 
         // TextViews
-        mTextViewChooseCoverPhoto = findViewById(R.id.txtView_chooseCoverPhoto_addDojoLayout);
-        mFileNameCoverPhoto = findViewById(R.id.txtView_coverPhotoPath_addDojoLayout);
+        mTextViewChooseCoverPhoto = findViewById(R.id.txtView_chooseCoverPhoto_editDojoLayout);
+        mFileNameCoverPhoto = findViewById(R.id.txtView_coverPhotoPath_editDojoLayout);
 
         // TextInputLayout and AppCompatEditText
-        mInputLayoutDojoName = findViewById(R.id.inputLayout_dojoName_addDojoLayout);
-        mEditTextDojoName = findViewById(R.id.editText_dojoName_addDojoLayout);
-        mInputLayoutCity = findViewById(R.id.inputLayout_city_addDojoLayout);
-        mEditTextCity = findViewById(R.id.editText_city_addDojoLayout);
-        mInputLayoutAddress = findViewById(R.id.inputLayout_address_addDojoLayout);
-        mEditTextAddress = findViewById(R.id.editText_address_addDojoLayout);
-        mInputLayoutTelephone = findViewById(R.id.inputLayout_telephone_addDojoLayout);
-        mEditTextTelephone = findViewById(R.id.editText_telephone_addDojoLayout);
-        mInputLayoutDescription = findViewById(R.id.inputLayout_description_addDojoLayout);
-        mEditTextDescription = findViewById(R.id.editText_description_addDojoLayout);
+        mInputLayoutDojoName = findViewById(R.id.inputLayout_dojoName_editDojoLayout);
+        mEditTextDojoName = findViewById(R.id.editText_dojoName_editDojoLayout);
+        mInputLayoutCity = findViewById(R.id.inputLayout_city_editDojoLayout);
+        mEditTextCity = findViewById(R.id.editText_city_editDojoLayout);
+        mInputLayoutAddress = findViewById(R.id.inputLayout_address_editDojoLayout);
+        mEditTextAddress = findViewById(R.id.editText_address_editDojoLayout);
+        mInputLayoutTelephone = findViewById(R.id.inputLayout_telephone_editDojoLayout);
+        mEditTextTelephone = findViewById(R.id.editText_telephone_editDojoLayout);
+        mInputLayoutDescription = findViewById(R.id.inputLayout_description_editDojoLayout);
+        mEditTextDescription = findViewById(R.id.editText_description_editDojoLayout);
 
         // Toolbar and features
-        toolbar = findViewById(R.id.toolBar_topBarAddDojoLayout);
-        mBackButton = findViewById(R.id.imgView_back_topBarAddDojoLayout);
-        mAddButton = findViewById(R.id.txtView_add_topBarAddDojoLayout);
+        toolbar = findViewById(R.id.toolBar_topBarEditDojoLayout);
+        mBackButton = findViewById(R.id.imgView_back_topBarEditDojoLayout);
+        mAddButton = findViewById(R.id.txtView_edit_topBarEditDojoLayout);
 
         // Layouts
-        mRelativeLayoutContainer = findViewById(R.id.relLayout_container_addDojoLayout);
+        mRelativeLayoutContainer = findViewById(R.id.relLayout_container_editDojoLayout);
+        mRelativeLayoutContainer.setVisibility(View.GONE);
+
+        mRelativeLayout_PleaseWait = findViewById(R.id.relLayout_progressBar_snippetPleaseWait);
 
     }
+
 
 
     /**
@@ -220,19 +243,19 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.imgView_back_topBarAddDojoLayout:
+            case R.id.imgView_back_topBarEditDojoLayout:
                 finish();
                 break;
-            case R.id.txtView_add_topBarAddDojoLayout:
+            case R.id.txtView_edit_topBarEditDojoLayout:
                 saveChanges();
                 break;
-            case R.id.button_chooseCoverPhoto_addDojoLayout:
+            case R.id.button_chooseCoverPhoto_editDojoLayout:
                 Toast.makeText(this, "Cover Photo", Toast.LENGTH_SHORT).show();
                 break;
             /*================== Hide the keyboard if the user click outside ==================*/
-            case R.id.txtView_chooseCoverPhoto_addDojoLayout: hideKeyBoard(); break;
-            case R.id.txtView_coverPhotoPath_addDojoLayout: hideKeyBoard(); break;
-            case R.id.relLayout_container_addDojoLayout: hideKeyBoard(); break;
+            case R.id.txtView_chooseCoverPhoto_editDojoLayout: hideKeyBoard(); break;
+            case R.id.txtView_coverPhotoPath_editDojoLayout: hideKeyBoard(); break;
+            case R.id.relLayout_container_editDojoLayout: hideKeyBoard(); break;
             /*================== END OF Hide the keyboard if the user click outside ==================*/
         }
     }
@@ -282,6 +305,35 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
         super.onStart();
         Log.i(TAG, "onStart: Starting");
 
+        listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                // 1) Get the intent from the activty that brought us here;
+                Intent intentOrigin = getIntent();
+
+                String userID = intentOrigin.getStringExtra(getString(R.string.field_user_id));
+                String dojoNumber = intentOrigin.getStringExtra(getString(R.string.field_dojo_number));
+
+                // 2) Get the info and settings about the dojo so we can use here in this activity to display and update;
+                dojoInfoAndSettings = firebaseMethods.getDojoInfoAndSettingsFromOneDojo(dataSnapshot, userID, dojoNumber);
+
+                // 3) Dismiss the progressBar and enable the widgets;
+                mRelativeLayout_PleaseWait.setVisibility(View.GONE);
+                mRelativeLayoutContainer.setVisibility(View.VISIBLE);
+
+                // 4) Fill in the fields with the database values.
+                setupWidgetsWitDBValues(dojoInfoAndSettings);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        myRef.addListenerForSingleValueEvent(listener);
+
     }
 
     /**
@@ -290,6 +342,11 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onStop() {
         super.onStop();
+
+        // Remove listener
+        if (listener != null && myRef != null) {
+            myRef.removeEventListener(listener);
+        }
     }
 
 

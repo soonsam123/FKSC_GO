@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:id="@+id/linearLayout_container_snippetChampionship"
+    android:gravity="start"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground">
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <!--********************** COVER PHOTO **********************-->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/imgView_coverPhoto_snippetChampionship"
+                android:src="@drawable/several_homes"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription"/>
+
+
+            <!--********************** CHAMPIONSHIP TITLE **********************-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="150dp">
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorBlack"
+                    android:alpha="0.5"
+                    tools:ignore="ContentDescription"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtView_championshipName_snippetChampionShip"
+                    android:text="22º Campeonato Brasileiro de Karatê "
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    android:textAlignment="center"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"/>
+
+
+            </RelativeLayout>
+
+
+            <!--********************** CONTENT, Date, location... **********************-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgView_coverPhoto_snippetChampionship"
+                android:background="@color/colorGrey100"
+                android:padding="15dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtView_city_snippetChampionship"
+                    android:text="Anápolis-GO"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtView_date_snippetChampionship"
+                    android:layout_below="@+id/txtView_city_snippetChampionship"
+                    android:text="14/04/2018 - 08:00h"
+                    android:textColor="@color/colorGrey800"
+                    android:textSize="18sp"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtView_address_snippetChampionship"
+                    android:layout_below="@+id/txtView_date_snippetChampionship"
+                    android:text="Endereço: Ginásio Internacional Newton de Faria"
+                    android:textColor="@color/colorGrey800"
+                    android:textSize="18sp"/>
+
+
+
+
+            </RelativeLayout>
+
+
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+</LinearLayout>

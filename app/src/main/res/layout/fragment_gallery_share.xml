@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <!--**************** TOP BAR ****************-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relLayout_topBar_GalleryFragment">
+
+        <!-- Top bar -->
+        <include layout="@layout/layout_top_bar_gallery"/>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relLayout_topBar_GalleryFragment"
+        android:orientation="vertical"
+        android:weightSum="100">
+
+        <!--******************** PREVIEW PHOTO ********************-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="60">
+
+            <!-- Preview Photo -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/imgView_previewPhoto_GalleryFragment"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription"/>
+
+            <!-- ProgressBar -->
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar_GalleryFragment"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true" />
+
+        </RelativeLayout>
+
+
+        <!--******************** PHOTOS TO CHOOSE ********************-->
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/gridView_GalleryFragment"
+            android:layout_weight="40"
+            android:numColumns="3"
+            android:horizontalSpacing="2dp"
+            android:verticalSpacing="2dp"
+            android:stretchMode="none"
+            android:gravity="center"
+            android:layout_marginTop="2dp"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

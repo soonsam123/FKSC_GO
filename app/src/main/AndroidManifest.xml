@@ -3,6 +3,9 @@
     package="com.example.karat.fksc">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -23,10 +26,12 @@
         <activity android:name=".Ranking.RankingActivity"/>
         <activity android:name=".Login.LoginActivity"/>
         <activity android:name=".Profile.ProfileActivity"/>
-        <activity android:name=".EditProfile.EditProfileActivity"/>
-        <activity android:name=".AddDojo.AddDojoActivity"/>
-        <activity android:name=".OtherProfiles.OtherProfileActivity"/>
+        <activity android:name=".Profile.EditProfileActivity"/>
+        <activity android:name=".DojoActivity.AddDojoActivity"/>
+        <activity android:name=".Profile.OtherProfileActivity"/>
         <activity android:name=".DojoActivity.DojoActivity"/>
+        <activity android:name=".DojoActivity.EditDojoActivity"/>
+        <activity android:name=".Share.ShareActivity"/>
 
     </application>
 

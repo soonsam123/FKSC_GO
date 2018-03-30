@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -60,6 +61,10 @@ public class DojoActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mTelephone;
     private TextView mDescription;
 
+    private RelativeLayout relativeLayout_PleaseWait;
+
+    private LinearLayout linearLayoutContainer;
+
     // Context
     private Context mContext = DojoActivity.this;
 
@@ -104,6 +109,11 @@ public class DojoActivity extends AppCompatActivity implements View.OnClickListe
         mAddress = findViewById(R.id.txtView_address_aboutDojoLayout);
         mTelephone = findViewById(R.id.txtView_telephone_aboutDojoLayout);
         mDescription = findViewById(R.id.txtView_description_aboutDojoLayout);
+
+        linearLayoutContainer = findViewById(R.id.linLayout_container_activityDojo);
+        linearLayoutContainer.setVisibility(View.GONE);
+
+        relativeLayout_PleaseWait = findViewById(R.id.relLayout_progressBar_snippetPleaseWait);
 
     }
 
@@ -199,15 +209,25 @@ public class DojoActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                // 1) You click in some user in the list of all users.
+                // 1) You click in some user in the list of all users;
                 Intent intentOrigin = getIntent();
 
-                // 2) Get the userID from the user you clicked.
+                // 2) Get the userID from the dojo you clicked (owner of the dojo) and the number of the dojo;
                 String user_id = intentOrigin.getStringExtra(mContext.getString(R.string.field_user_id));
                 String dojo_number = intentOrigin.getStringExtra(mContext.getString(R.string.field_dojo_number));
 
-                // 3) Do all the stuffs with the userID and the number of the dojo you clicked.
-                setupWidgetsWithDBValues(firebaseMethods.getDojoInfoAndSettingsFromOneDojo(dataSnapshot, user_id, dojo_number));
+                // 3) Display all information of the chosen dojo (clicked dojo).
+
+                // 3.1) Get all information from this specific dojo;
+                DojoInfoAndSettings chosenDojo_InfoAndSettings = firebaseMethods
+                        .getDojoInfoAndSettingsFromOneDojo(dataSnapshot, user_id, dojo_number);
+
+                // 3.2) Dismiss the progressBar and enable all the widgets.
+                relativeLayout_PleaseWait.setVisibility(View.GONE);
+                linearLayoutContainer.setVisibility(View.VISIBLE);
+
+                // 3.3) Set up the widgets with the values from this dojo.
+                setupWidgetsWithDBValues(chosenDojo_InfoAndSettings);
             }
 
             @Override

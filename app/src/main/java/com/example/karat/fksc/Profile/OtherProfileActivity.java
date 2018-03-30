@@ -1,4 +1,4 @@
-package com.example.karat.fksc.OtherProfiles;
+package com.example.karat.fksc.Profile;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -60,6 +61,9 @@ public class OtherProfileActivity extends AppCompatActivity implements View.OnCl
     private TextView mCurriculum;
 
     private RelativeLayout mTeacherAt;
+    private RelativeLayout relativeLayout_PleaseWait;
+
+    private LinearLayout linearLayoutContainer;
 
     private RecyclerView recyclerView;
 
@@ -112,6 +116,12 @@ public class OtherProfileActivity extends AppCompatActivity implements View.OnCl
         mTeacherAt = findViewById(R.id.relLayout_teacherAt_activityOtherProfile);
 
         recyclerView = findViewById(R.id.recyclerView_activityOtherProfile);
+
+        linearLayoutContainer = findViewById(R.id.linLayout_container_activityOtherProfile);
+        linearLayoutContainer.setVisibility(View.GONE);
+
+        relativeLayout_PleaseWait = findViewById(R.id.relLayout_progressBar_snippetPleaseWait);
+
 
     }
 
@@ -212,16 +222,30 @@ public class OtherProfileActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                // 1) You click in some user in the list of all users.
+                // 1) You click in some user in the list of all users;
                 Intent intentOrigin = getIntent();
 
-                // 2) Get the userID from the user you clicked.
+                // 2) Get the userID from the user you clicked;
                 String user_id = intentOrigin.getStringExtra(mContext.getString(R.string.field_user_id));
 
-                // 3) Do all the stuffs with the userID you clicked but not with the current logged in.
-                setupWidgetsWithDBValues(firebaseMethods.getUserAndUserSettings(dataSnapshot, user_id),
-                        firebaseMethods.getUserAboutMe(dataSnapshot, user_id));
-                setupRecyclerAdapter(firebaseMethods.getDojosInfoAndSettingsFromOneUser(dataSnapshot, user_id));
+                // 3) Do all the stuffs with the userID you clicked (the user you've chosen) but not with the current logged in.
+
+                // 3.1) Get information and settings from the chosen user.
+                UserAndUserSettings chosenUser_InfoAndSettings = firebaseMethods.getUserAndUserSettings(dataSnapshot, user_id);
+
+                // 3.2) Get about me information from the chosen user.
+                UserAboutMe chosenUser_AboutMe = firebaseMethods.getUserAboutMe(dataSnapshot, user_id);
+
+                // 3.3) Get all dojos from the chosen user, if they have any.
+                List<DojoInfoAndSettings> chosenUser_AllDojos = firebaseMethods.getDojosInfoAndSettingsFromOneUser(dataSnapshot, user_id);
+
+                // 3.4) Dismiss the progressBar and enable the widgets (username, belt, dojo...)
+                relativeLayout_PleaseWait.setVisibility(View.GONE);
+                linearLayoutContainer.setVisibility(View.VISIBLE);
+
+                // 3.3) Set up the widgets to display the user information, and the Recycler Adapter for his dojos.
+                setupWidgetsWithDBValues(chosenUser_InfoAndSettings, chosenUser_AboutMe);
+                setupRecyclerAdapter(chosenUser_AllDojos);
             }
 
             @Override
@@ -238,8 +262,8 @@ public class OtherProfileActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onStop() {
         super.onStop();
-        // Remove the ValueEventListener.
 
+        // Remove the ValueEventListener.
         if (listener != null && myRef != null){
             myRef.removeEventListener(listener);
         }

@@ -23,7 +23,7 @@
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="16dp"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:layout_width="wrap_content"
@@ -32,16 +32,15 @@
                 android:text="@string/choose"
                 android:textSize="12sp"
                 android:textColor="@color/colorWhite"
-                android:background="@drawable/blue_gradient"
+                android:background="@color/colorAccent"
                 android:layout_below="@+id/txtView_chooseProfilePhoto_editProfileLayout"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtView_profilePhotoPath_editProfileLayout"
-                android:text="file.jpg"
                 android:textColor="@color/colorGrey800"
                 android:textSize="14sp"
                 android:layout_toEndOf="@+id/button_chooseProfilePhoto_editProfileLayout"
@@ -52,51 +51,12 @@
             <!-- *====================== END OF FOTO DE PERFIL ======================* -->
 
 
-            <!-- *====================== FOTO DE CAPA ======================* -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtView_chooseCoverPhoto_editProfileLayout"
-                android:text="@string/choose_cover_photo"
-                android:textColor="@color/colorBlack"
-                android:textSize="16sp"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_below="@+id/button_chooseProfilePhoto_editProfileLayout"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:id="@+id/button_chooseCoverPhoto_editProfileLayout"
-                android:text="@string/choose"
-                android:textSize="12sp"
-                android:textColor="@color/colorWhite"
-                android:background="@drawable/blue_gradient"
-                android:layout_below="@+id/txtView_chooseCoverPhoto_editProfileLayout"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtView_coverPhotoPath_editProfileLayout"
-                android:text="file.jpg"
-                android:textColor="@color/colorGrey800"
-                android:textSize="14sp"
-                android:layout_toEndOf="@+id/button_chooseCoverPhoto_editProfileLayout"
-                android:layout_below="@+id/txtView_chooseCoverPhoto_editProfileLayout"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="10dp"/>
-
-            <!-- *====================== END OF FOTO DE CAPA ======================* -->
-
-
             <!-- *====================== FULL NAME ======================* -->
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/inputLayout_fullName_editProfileLayout"
-                android:layout_below="@+id/button_chooseCoverPhoto_editProfileLayout"
+                android:layout_below="@+id/button_chooseProfilePhoto_editProfileLayout"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"

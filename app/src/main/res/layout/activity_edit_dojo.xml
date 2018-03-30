@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.karat.fksc.DojoActivity.EditDojoActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relLayout_container_activityEditDojo">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/relLayout_topBar_activityEditDojo">
+
+                <!-- Top bar -->
+                <include layout="@layout/layout_top_bar_edit_dojo"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/relLayout_editFields_activityEditDojo"
+                android:layout_below="@+id/relLayout_topBar_activityEditDojo">
+
+                <!-- Fields to Edit -->
+                <include layout="@layout/layout_edit_dojo_fields"/>
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+        <!-- ProgressBar -->
+        <include layout="@layout/snippet_please_wait"/>
+
+
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

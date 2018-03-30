@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.FirebaseMethods;
@@ -37,7 +38,7 @@ public class BlackbeltsFragment extends Fragment{
 
     // Layout
     private RecyclerView recyclerView;
-    private ProgressBar mProgressBar;
+    private RelativeLayout relativeLayout_PleaseWait;
 
     // Firebase
     private FirebaseAuth mAuth;
@@ -113,7 +114,7 @@ public class BlackbeltsFragment extends Fragment{
     private void setupWidgets(View view){
 
         recyclerView = view.findViewById(R.id.recyclerView_fragmentBlackBelts);
-        mProgressBar = view.findViewById(R.id.progressBar_fragmentBlackBelts);
+        relativeLayout_PleaseWait = view.findViewById(R.id.relLayout_progressBar_snippetPleaseWait);
         all_users = new ArrayList<>();
 
     }
@@ -148,8 +149,13 @@ public class BlackbeltsFragment extends Fragment{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                // 1) Get a list with all the users;
                 all_users = firebaseMethods.getAllUserAndUserSettings(dataSnapshot);
-                mProgressBar.setVisibility(View.GONE);
+
+                // 2) Dismiss the progressBar;
+                relativeLayout_PleaseWait.setVisibility(View.GONE);
+
+                // 3) Set up the recycler adapter with the users' list.
                 setupRecyclerAdapter(all_users);
 
             }

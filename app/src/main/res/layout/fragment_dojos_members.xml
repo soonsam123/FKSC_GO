@@ -7,11 +7,9 @@
         android:layout_height="match_parent"
         android:id="@+id/recyclerView_fragmentDojos" />
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar_fragmentDojos"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
+
+    <!-- ProgressBar -->
+    <include layout="@layout/snippet_please_wait"/>
+
 
 </RelativeLayout>

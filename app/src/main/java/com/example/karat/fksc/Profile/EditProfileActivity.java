@@ -1,13 +1,13 @@
-package com.example.karat.fksc.EditProfile;
+package com.example.karat.fksc.Profile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.karat.fksc.R;
+import com.example.karat.fksc.Share.ShareActivity;
 import com.example.karat.fksc.Utils.FirebaseMethods;
 import com.example.karat.fksc.models.User;
 import com.example.karat.fksc.models.UserAboutMe;
@@ -59,6 +60,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private ImageView mCheckButton;
 
     private RelativeLayout mRelativeLayoutContainer;
+    private RelativeLayout mRelativeLayout_PleaseWait;
 
     // Firebase
     private FirebaseAuth mAuth;
@@ -172,13 +174,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
         // Buttons
         mButtonProfilePhoto = findViewById(R.id.button_chooseProfilePhoto_editProfileLayout);
-        mButtonCoverPhoto = findViewById(R.id.button_chooseCoverPhoto_editProfileLayout);
 
         // TextViews
         mTextViewChooseProfilePhoto = findViewById(R.id.txtView_chooseProfilePhoto_editProfileLayout);
-        mTextViewChooseCoverPhoto = findViewById(R.id.txtView_chooseCoverPhoto_editProfileLayout);
         mFileNameProfilePhoto = findViewById(R.id.txtView_profilePhotoPath_editProfileLayout);
-        mFileNameCoverPhoto = findViewById(R.id.txtView_coverPhotoPath_editProfileLayout);
 
         // TextInputLayout and AppCompatEditText
         mInputLayoutFullName = findViewById(R.id.inputLayout_fullName_editProfileLayout);
@@ -195,6 +194,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
         // Layouts
         mRelativeLayoutContainer = findViewById(R.id.relLayout_container_editProfileLayout);
+        mRelativeLayoutContainer.setVisibility(View.GONE);
+        mRelativeLayout_PleaseWait = findViewById(R.id.relLayout_progressBar_snippetPleaseWait);
 
     }
 
@@ -235,13 +236,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         mBackButton.setOnClickListener(this);
         mCheckButton.setOnClickListener(this);
         mButtonProfilePhoto.setOnClickListener(this);
-        mButtonCoverPhoto.setOnClickListener(this);
 
         /* Hide the key board when click in some of these ones */
         mFileNameProfilePhoto.setOnClickListener(this);
-        mFileNameCoverPhoto.setOnClickListener(this);
         mTextViewChooseProfilePhoto.setOnClickListener(this);
-        mTextViewChooseCoverPhoto.setOnClickListener(this);
         mRelativeLayoutContainer.setOnClickListener(this);
 
         mEditTextCurriculum.setOnKeyListener(this);
@@ -263,15 +261,13 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 Toast.makeText(mContext, R.string.edit_profile_success, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.button_chooseProfilePhoto_editProfileLayout:
-                Toast.makeText(this, "Profile Photo", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.button_chooseCoverPhoto_editProfileLayout:
-                Toast.makeText(this, "Cover Photo", Toast.LENGTH_SHORT).show();
+                // Navigate to ShareActivity.
+                Intent intentShareActivity = new Intent(mContext, ShareActivity.class);
+                intentShareActivity.putExtra(mContext.getString(R.string.photo_type), mContext.getString(R.string.photo_type_profile));
+                startActivity(intentShareActivity);
                 break;
             /*================== Hide the keyboard if the user click outside ==================*/
             case R.id.txtView_chooseProfilePhoto_editProfileLayout: hideKeyBoard(); break;
-            case R.id.txtView_chooseCoverPhoto_editProfileLayout: hideKeyBoard(); break;
-            case R.id.txtView_coverPhotoPath_editProfileLayout: hideKeyBoard(); break;
             case R.id.txtView_profilePhotoPath_editProfileLayout: hideKeyBoard(); break;
             case R.id.relLayout_container_editProfileLayout: hideKeyBoard(); break;
             /*================== END OF Hide the keyboard if the user click outside ==================*/
@@ -347,8 +343,15 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                // 1) Get the user's information;
                 user = firebaseMethods.getUser(dataSnapshot);
                 userAboutMe = firebaseMethods.getUserAboutMe(dataSnapshot);
+
+                // 2) Dismiss the progressBar and enable the widgets;
+                mRelativeLayout_PleaseWait.setVisibility(View.GONE);
+                mRelativeLayoutContainer.setVisibility(View.VISIBLE);
+
+                // 3) Fill in the fields with the database values.
                 setupWidgetsWithDBValues(user, userAboutMe);
 
             }

@@ -5,38 +5,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.karat.fksc.EditProfile.EditProfileActivity">
+    tools:context="com.example.karat.fksc.Profile.EditProfileActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/relLayout_container_activityEditProfile">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/relLayout_topBar_activityEditProfile">
+            android:id="@+id/relLayout_container_activityEditProfile">
 
-            <!-- Top bar -->
-            <include layout="@layout/layout_top_bar_editprofile"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/relLayout_topBar_activityEditProfile">
+
+                <!-- Top bar -->
+                <include layout="@layout/layout_top_bar_editprofile"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/relLayout_editFields_activityEditProfile"
+                android:layout_below="@+id/relLayout_topBar_activityEditProfile">
+
+                <!-- Fields to Edit -->
+                <include layout="@layout/layout_editprofile_fields"/>
+
+
+            </RelativeLayout>
+
 
         </RelativeLayout>
 
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/relLayout_editFields_activityEditProfile"
-            android:layout_below="@+id/relLayout_topBar_activityEditProfile">
-
-            <!-- Fields to Edit -->
-            <include layout="@layout/layout_editprofile_fields"/>
-
-
-        </RelativeLayout>
-
+        <!-- ProgressBar -->
+        <include layout="@layout/snippet_please_wait"/>
 
     </RelativeLayout>
+
 
 
 </android.support.design.widget.CoordinatorLayout>
