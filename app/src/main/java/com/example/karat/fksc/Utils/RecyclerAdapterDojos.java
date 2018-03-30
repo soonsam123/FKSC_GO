@@ -59,6 +59,7 @@ public class RecyclerAdapterDojos extends RecyclerView.Adapter<ViewHolderSquareI
                 holder.imageView, null, "");
 
 
+        // Case 1) ****************** CLICK in the item ******************
         holder.linearLayout_eachItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,6 +70,7 @@ public class RecyclerAdapterDojos extends RecyclerView.Adapter<ViewHolderSquareI
             }
         });
 
+        // Case 1) ****************** LONG CLICK in the item ******************
         // Check if user is logged in.
         if (mAuth.getCurrentUser() != null) {
 

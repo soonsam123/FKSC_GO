@@ -16,6 +16,7 @@ import com.example.karat.fksc.Login.LoginActivity;
 import com.example.karat.fksc.Profile.ProfileActivity;
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.models.ChampionshipInfo;
+import com.example.karat.fksc.models.CoverPhoto;
 import com.example.karat.fksc.models.DojoInfo;
 import com.example.karat.fksc.models.DojoInfoAndSettings;
 import com.example.karat.fksc.models.DojoSettings;
@@ -372,6 +373,32 @@ public class FirebaseMethods {
         }
 
     }
+
+
+    /**
+     * Add a Dojo's COVER PHOTO into the "photos" node.
+     * @param cover_img_url
+     * @param imageCount
+     */
+    private void addCoverPhoto(String cover_img_url, int imageCount){
+
+        CoverPhoto coverPhoto = new CoverPhoto(cover_img_url);
+
+        if (mAuth.getCurrentUser() != null){
+
+            String user_id = mAuth.getCurrentUser().getUid();
+
+            myRef.child(mContext.getString(R.string.dbname_photos))
+                    .child(user_id)
+                    .child(mContext.getString(R.string.photo_type_cover) + imageCount)
+                    .setValue(coverPhoto);
+
+        }
+
+    }
+
+
+
     /*============================================ END OF Add ============================================*/
 
 
@@ -1441,9 +1468,9 @@ public class FirebaseMethods {
      * @param photoType
      * @param imgURL
      */
-    public void uploadNewPhoto(String photoType, String imgURL){
+    public void uploadNewPhoto(String photoType, String imgURL, final int dojoCount){
 
-        // Case1) Profile Photo.
+        // Case 1) ********************** Editing Profile - Adding the User's PROFILE Photo. **********************
         if (photoType.equals(mContext.getString(R.string.photo_type_profile))){
             Log.i(TAG, "uploadNewPhoto: Uploading a new profile photo " + imgURL);
 
@@ -1527,8 +1554,92 @@ public class FirebaseMethods {
 
         }
 
-        else if (photoType.equals(mContext.getString(R.string.photo_type_profile))) {
+        // Case 2) ********************** Adding a dojo - Adding the Dojo's COVER Photo. **********************
+        else if (photoType.equals(mContext.getString(R.string.photo_type_cover_photo_add))) {
+            Log.i(TAG, "uploadNewPhoto: Uploading a new cover photo " + imgURL);
 
+            // Make sure the user selected some picture, if not do nothing.
+            if (imgURL != null) {
+
+                Toast.makeText(mContext, mContext.getString(R.string.preparing_your_picture), Toast.LENGTH_SHORT).show();
+
+                FilePaths filePaths = new FilePaths();
+
+                if (mAuth.getCurrentUser() != null) {
+
+                    String user_id = mAuth.getCurrentUser().getUid();
+
+                    // 1) Creates the Storage Reference;
+                    // "photos/users/user_id/cover_photo3"
+                    // (dojoCount + 1) If the user has 3 dojos registered, this next picture will be
+                    // cover_photo4, and the next, cover_photo5, and the next, cover_photo6 and so on.
+                    StorageReference storageReference = mStorageReference
+                            .child(filePaths.FIREBASE_STORAGE_PATH + "/" + user_id
+                                    + "/" + mContext.getString(R.string.photo_type_cover) + (dojoCount + 1));
+
+                    // 2) Convert imgURL into bitmap and then to bytes;
+                    Bitmap bitmap = ImageManager.getBitMapFromImgURL(imgURL);
+                    byte[] bytes = ImageManager.getBytesFromBitmap(bitmap, 50);
+
+
+                    // 3) Upload the image to the Firebase Storage.
+                    UploadTask uploadTask = null;
+                    uploadTask = storageReference.putBytes(bytes);
+
+                    // 4) Navigate back to Profile Page.
+                    Intent intentProfileActivity = new Intent(mContext, ProfileActivity.class);
+                    intentProfileActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    mContext.startActivity(intentProfileActivity);
+
+                    // Handle the Loading.
+                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Log.i(TAG, "onSuccess: Cover Photo uploaded");
+                            Toast.makeText(mContext, mContext.getString(R.string.photo_added_successfully), Toast.LENGTH_SHORT).show();
+
+                            Uri firebaseUri = taskSnapshot.getDownloadUrl();
+
+                            if (firebaseUri != null) {
+
+                                // Add the photo into "photos" node;
+                                addCoverPhoto(firebaseUri.toString(), (dojoCount + 1));
+
+                                // Add the link of the photo into "user_info" node (field cover_img_url).
+                                updateCoverImgURL(firebaseUri.toString(),
+                                        mContext.getString(R.string.field_dojo) + (dojoCount + 1));
+
+                            }
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i(TAG, "onFailure: Failed to upload Cover Photo " + e.getMessage());
+                            // Notify the user about the ERROR.
+                            Toast.makeText(mContext, mContext.getString(R.string.photo_failure)
+                                    + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                            Log.i(TAG, "onProgress: Uploading the Cover Photo " + String.valueOf(progress));
+
+                            if (progress - 15 > mPhotoProgress) {
+                                Toast.makeText(mContext, "Uploading photo: "
+                                        + new DecimalFormat("##.#").format(progress) + "&", Toast.LENGTH_SHORT).show();
+                                mPhotoProgress = progress;
+                            }
+
+                        }
+                    });
+
+
+                }
+
+            }
         }
 
     }

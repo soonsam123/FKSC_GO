@@ -155,6 +155,8 @@
     <string name="choose_a_picture">Você precisa escolher uma foto</string>
     <string name="photo_added_successfully">Foto adicionada com sucesso</string>
     <string name="preparing_your_picture">Estamos preparando a sua foto</string>
+    <string name="photo_failure">Houve um problema com a foto. Tente novamente</string>
+    <string name="img_url">img_url</string>
 
 </resources>
 

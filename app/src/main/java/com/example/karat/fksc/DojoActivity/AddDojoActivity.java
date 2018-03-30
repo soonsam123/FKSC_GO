@@ -1,5 +1,6 @@
 package com.example.karat.fksc.DojoActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -74,6 +75,8 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
     // Vars
     private DojoInfo dojoInfo;
     private DojoSettings dojoSettings;
+    private static final int ADD_DOJO_REQUEST_CODE = 2;
+    private String imgURL;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,8 +125,17 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Toast.makeText(mContext, R.string.we_are_adding_your_dojo, Toast.LENGTH_SHORT).show();
+                        // Get the number of dojos the user already has.
+                        int dojoCount = firebaseMethods.getDojoCount(dataSnapshot);
+
+                        // 1) Add the dojos_info and dojos_settings node information;
                         firebaseMethods.addDojo(name, city, "", "", false
-                                , address, telephone, description, name, firebaseMethods.getDojoCount(dataSnapshot));
+                                , address, telephone, description, name, dojoCount);
+
+                        // 2) Add the cover photo to the storage;
+                        firebaseMethods.uploadNewPhoto(getString(R.string.photo_type_cover_photo_add), imgURL, dojoCount);
+
+                        // 3) Add the link of the cover photo do dojos_info node (field cover_img_url).
 
                     }
 
@@ -230,7 +242,7 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.button_chooseCoverPhoto_addDojoLayout:
                 Intent intentShareActivity = new Intent(mContext, ShareActivity.class);
                 intentShareActivity.putExtra(getString(R.string.photo_type), getString(R.string.photo_type_cover_photo_add));
-                startActivity(intentShareActivity);
+                startActivityForResult(intentShareActivity, ADD_DOJO_REQUEST_CODE);
                 break;
             /*================== Hide the keyboard if the user click outside ==================*/
             case R.id.txtView_chooseCoverPhoto_addDojoLayout: hideKeyBoard(); break;
@@ -261,6 +273,42 @@ public class AddDojoActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     /*======================================== END OF Hide ========================================*/
+
+
+    /*======================================== OnActivityResult ========================================*/
+
+    /**
+     * When the user go for an activity with startActivityForResult
+     * and come back to this activity again with some information he brought
+     * from the other activity.
+     * E.G = AddDojoActivity --> ShareActivity (GalleryFragment) get imgURL
+     * --> AddDojoActivity with imgURL information
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == ADD_DOJO_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+
+                // Get the imgURL from ShareActivity.
+                imgURL = data.getStringExtra(mContext.getString(R.string.img_url));
+                Log.i(TAG, "onActivityResult: " + imgURL);
+
+                // Set the picture name to the AddDojo screen so the user can see
+                // that he is uploading a picture.
+                // At the side of the choose cover photo button'll be the picture name.
+                // storage/0/emulated/Pictures/Screenshoots/ss1.jpg --> ss1.jpg
+                String imgURLLastName = imgURL.substring(imgURL.lastIndexOf("/") + 1);
+                mFileNameCoverPhoto.setText(imgURLLastName);
+            }
+        }
+
+    }
+
+    /*======================================== END OF OnActivityResult ========================================*/
 
 
     /*======================================== Firebase ========================================*/

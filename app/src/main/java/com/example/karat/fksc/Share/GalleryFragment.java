@@ -1,5 +1,6 @@
 package com.example.karat.fksc.Share;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -19,11 +20,13 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.karat.fksc.DojoActivity.AddDojoActivity;
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.FilePaths;
 import com.example.karat.fksc.Utils.FileSearch;
 import com.example.karat.fksc.Utils.FirebaseMethods;
 import com.example.karat.fksc.Utils.GridImageAdapter;
+import com.example.karat.fksc.Utils.ImageManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -202,16 +205,25 @@ public class GalleryFragment extends Fragment implements View.OnClickListener {
 
                 // Case 1) ****** It came from Edit Profile Activity. ******
                 if (photoType.equals(getResources().getString(R.string.photo_type_profile))) {
-                    firebaseMethods.uploadNewPhoto(getResources().getString(R.string.photo_type_profile), imgURL);
+                    Log.d(TAG, "onClick: Profile Photo from EditProfile");
+                    firebaseMethods.uploadNewPhoto(getResources().getString(R.string.photo_type_profile), imgURL, 0);
                 }
 
                 // Case 2) ****** It came from Add Dojo Activity. ******
                 else if (photoType.equals(getResources().getString(R.string.photo_type_cover_photo_add))){
+                    Log.d(TAG, "onClick: Cover Photo from AddDojo");
+
+                    // Returns to the activity that brought us here passing the imgURL.
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra(getString(R.string.img_url), imgURL);
+                    getActivity().setResult(Activity.RESULT_OK, returnIntent);
+                    getActivity().finish();
 
                 }
 
                 // Case 3) ****** It came from Edit Dojo Activity. ******
                 else if (photoType.equals(getResources().getString(R.string.photo_type_cover_photo_edit))) {
+                    Log.d(TAG, "onClick: Cover Photo from EditDojo");
 
                 }
             } else {
@@ -242,7 +254,7 @@ public class GalleryFragment extends Fragment implements View.OnClickListener {
 
         for (String singleImgURL: imgURLs){
             // b) Add only images to the new Array List.
-            if (FileSearch.isImageFile(singleImgURL)){
+            if (ImageManager.isImageFile(singleImgURL)){
                 imgURLsOnlyImages.add(singleImgURL);
             }
         }

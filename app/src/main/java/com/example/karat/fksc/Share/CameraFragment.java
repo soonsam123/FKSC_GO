@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.karat.fksc.R;
 import com.example.karat.fksc.Utils.FileSearch;
 import com.example.karat.fksc.Utils.FirebaseMethods;
+import com.example.karat.fksc.Utils.ImageManager;
 import com.example.karat.fksc.Utils.Permissions;
 
 public class CameraFragment extends Fragment implements View.OnClickListener {
@@ -138,11 +139,11 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 
                 // 2) Converts the bitmap into image String URL;
-                Uri uri = FileSearch.getImageUriFromBitmap(getActivity(), bitmap, 50);
-                String imgURL = FileSearch.getRealPathFromUri(getActivity(), uri);
+                Uri uri = ImageManager.getImageUriFromBitmap(getActivity(), bitmap, 50);
+                String imgURL = ImageManager.getRealPathFromUri(getActivity(), uri);
 
                 // 3) Upload the photo to Firebase Storage.
-                firebaseMethods.uploadNewPhoto(getResources().getString(R.string.photo_type_profile), imgURL);
+                firebaseMethods.uploadNewPhoto(getResources().getString(R.string.photo_type_profile), imgURL, 0);
 
             } catch (NullPointerException e){e.printStackTrace();}
 
