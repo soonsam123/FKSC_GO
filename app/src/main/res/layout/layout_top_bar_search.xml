@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolBar_topBarSearch"
+            android:background="@drawable/bottom_shadow"
+            app:tabGravity="fill"
+            app:tabMode="fixed">
+
+            <!-- Container -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <!-- BACK BUTTON -->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_back_button_light"
+                    android:id="@+id/imgView_back_topBarSearch"
+                    android:layout_marginEnd="10dp"
+                    android:layout_centerVertical="true"
+                    tools:ignore="ContentDescription"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText_searchUser_topBarSearch"
+                    android:layout_toEndOf="@+id/imgView_back_topBarSearch"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="5dp"
+                    android:inputType="text"
+                    android:background="@null"
+                    android:hint="@string/search_for_fullname"/>
+
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+</merge>

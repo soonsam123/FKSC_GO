@@ -140,7 +140,7 @@
     <string name="open_camera">ABRIR CAMERA</string>
 
     <!-- Loading -->
-    <string name="please_wait">Por favor, aguarde...</string>
+    <string name="please_wait">Por favor, aguarde&#8230;</string>
     <string name="take_some_minutes">Isso pode levar alguns minutos</string>
     <string name="depending_internet_connection">Dependendo da sua conexão com a internet</string>
 
@@ -152,11 +152,21 @@
     <string name="photo_type_cover_photo_add">cover_photo_add_dojo</string>
     <string name="photo_type_cover_photo_edit">cover_photo_edit_dojo</string>
 
+    <!-- Announcements -->
     <string name="choose_a_picture">Você precisa escolher uma foto</string>
     <string name="photo_added_successfully">Foto adicionada com sucesso</string>
     <string name="preparing_your_picture">Estamos preparando a sua foto</string>
     <string name="photo_failure">Houve um problema com a foto. Tente novamente</string>
     <string name="img_url">img_url</string>
+    <string name="loading_picture">Carregando a foto:</string>
+    <string name="search_for_fullname">Procure pelo nome COMPLETO</string>
+    <string name="you_must_add_name">Você deve adicionar um nome</string>
+    <string name="ok">OK</string>
+    <string name="contact_for_more_information">Entre em contato para mais informações</string>
+    <string name="cbksc">CBKSC</string>
+    <string name="search_for_complete_name">Procure pelo nome completo</string>
+    <string name="search_must_equal_name">A busca deve ser exatamente igual ao nome</string>
+    <string name="upper_lower_letters">Note as letras maiúsculas, minúsculas e acentos</string>
 
 </resources>
 

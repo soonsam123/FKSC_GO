@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.karat.fksc.Members.MembersActivity">
+    tools:context="com.example.karat.fksc.members.MembersActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:id="@+id/relLayout_topBar_activityMembers">
 
             <!-- Top bar -->
-            <include layout="@layout/layout_top_bar"/>
+            <include layout="@layout/layout_top_bar_members"/>
 
         </RelativeLayout>
 

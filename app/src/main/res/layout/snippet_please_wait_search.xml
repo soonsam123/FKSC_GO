@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/relLayout_progressBar_snippetPleaseWaitSearch"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true">
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar_snippetPleaseWaitSearch"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtView_1_snippetPleaseWaitSearch"
+        android:layout_below="@+id/progressBar_snippetPleaseWaitSearch"
+        android:text="@string/search_for_complete_name"
+        android:textColor="@color/colorGrey800"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtView_2_snippetPleaseWaitSearch"
+        android:layout_below="@+id/txtView_1_snippetPleaseWaitSearch"
+        android:text="@string/search_must_equal_name"
+        android:textColor="@color/colorGrey800"
+        android:layout_centerHorizontal="true"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtView_3_snippetPleaseWaitSearch"
+        android:layout_below="@id/txtView_2_snippetPleaseWaitSearch"
+        android:text="@string/upper_lower_letters"
+        android:textColor="@color/colorGrey800"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

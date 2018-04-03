@@ -53,6 +53,7 @@
                     android:layout_toEndOf="@+id/logoFKSC_topBarAddDojoLayout"
                     android:layout_centerVertical="true"/>
 
+
                 <!-- ADD BUTTON -->
                 <TextView
                     android:layout_width="100dp"

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.karat.fksc.search.SearchActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relLayout_container_activitySearch">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relLayout_topBar_activitySearch">
+
+            <!-- Top bar -->
+            <include layout="@layout/layout_top_bar_search"/>
+
+        </RelativeLayout>
+
+        <!-- Loading and Info Message -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relLayout_pleaseWait_activitySearch"
+            android:layout_below="@+id/relLayout_topBar_activitySearch"
+            android:layout_marginTop="25dp">
+
+            <include layout="@layout/snippet_please_wait_search"/>
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recyclerView_searchUser_activitySearch"
+            android:layout_below="@+id/relLayout_topBar_activitySearch"
+            android:layout_marginBottom="50dp">
+
+
+        </android.support.v7.widget.RecyclerView>
+
+
+    </RelativeLayout>
+
+
+    <!-- Bottom Navigation View-->
+    <include layout="@layout/layout_bottom_nav_view"/>
+
+
+</android.support.design.widget.CoordinatorLayout>
