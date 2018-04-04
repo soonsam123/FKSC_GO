@@ -52,10 +52,10 @@ public class UniversalImageLoader {
 
     /**
      * This method can be used to display only a single image.
-     * @param imgURL
-     * @param image
-     * @param mProgressBar
-     * @param append
+     * @param imgURL the image URL (String)
+     * @param image the Image View widget where the Image from the URL will be placed
+     * @param mProgressBar a Progress Bar to show the image loading
+     * @param append the append of the image URL, for example, "https://" or "file:/" ...
      */
     public static void setImage(String imgURL, ImageView image, final ProgressBar mProgressBar, String append){
 

@@ -22,8 +22,8 @@ public class SquareImageView extends AppCompatImageView {
 
     /**
      * Pass the height as the same size of the width.
-     * @param widthMeasureSpec
-     * @param heightMeasureSpec
+     * @param widthMeasureSpec the width of the ImageView
+     * @param heightMeasureSpec the height of the ImageView
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

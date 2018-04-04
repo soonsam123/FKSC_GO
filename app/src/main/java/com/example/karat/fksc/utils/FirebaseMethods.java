@@ -51,7 +51,6 @@ public class FirebaseMethods {
 
     private Context mContext;
     private FirebaseAuth mAuth;
-    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference myRef;
     private StorageReference mStorageReference;
 
@@ -64,13 +63,13 @@ public class FirebaseMethods {
     /**
      * Receive the context from the activity we are working.
      * Creates the FirebaseAuth.
-     * @param context
+     * @param context the activity's context
      */
     public FirebaseMethods(Context context) {
 
         mAuth = FirebaseAuth.getInstance();
         mContext = context;
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         myRef = firebaseDatabase.getReference();
         mStorageReference = FirebaseStorage.getInstance().getReference();
         if (mAuth.getCurrentUser() != null){
@@ -84,8 +83,8 @@ public class FirebaseMethods {
 
     /**
      * Register a new user to the Firebase Authentication with his email and password.
-     * @param email
-     * @param password
+     * @param email the user's email for registering
+     * @param password the user's password for registering
      */
     public void registerNewEmail(String email, String password, final String fullName, final ProgressBar progressBar, final Intent intent){
 
@@ -132,8 +131,10 @@ public class FirebaseMethods {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.i(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(mContext, "Authentication failed." + task.getException().getMessage(),
-                                    Toast.LENGTH_LONG).show();
+                            if (task.getException() != null) {
+                                Toast.makeText(mContext, "Authentication failed." + task.getException().getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                            }
                             /*updateUI(null);*/
                         }
 
@@ -145,8 +146,8 @@ public class FirebaseMethods {
 
     /**
      * Sign in a user that is already registered with his email and password.
-     * @param email
-     * @param password
+     * @param email the user's email
+     * @param password the user's password
      */
     public void signInWithEmail(String email, String password, final ProgressBar progressBar, final Intent intent){
 
@@ -185,8 +186,11 @@ public class FirebaseMethods {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.i(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(mContext, "Authentication failed." + task.getException().getMessage(),
-                                    Toast.LENGTH_LONG).show();
+
+                            if (task.getException() != null) {
+                                Toast.makeText(mContext, "Authentication failed." + task.getException().getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                            }
                             /*updateUI(null);*/
                         }
 
@@ -250,9 +254,11 @@ public class FirebaseMethods {
     /**
      * Add the node users_about_me to the user Firebase Database.
      * This node contains: cover_img_url, about_me, curriculum.
-     * @param coverPhotoImgURL
-     * @param aboutMe
-     * @param curriculum
+     * @param coverPhotoImgURL The link of the user's Cover Photo, it'll be null for now
+     *                         and all the users will have a single image which is in the android:src=""
+     *                         of the Cover ImageView in XML Layout.
+     * @param aboutMe a string where the user will write about him
+     * @param curriculum a string where the user will write about what he already won in the Championships
      */
     public void addUserAboutMe(String coverPhotoImgURL, String aboutMe, String curriculum){
 
@@ -287,15 +293,20 @@ public class FirebaseMethods {
     /**
      * Add the node dojos_info and dojos_settings to the user Firebase Database.
      * This node contains the attributes below.
-     * @param name
-     * @param city
-     * @param coverImgURL
-     * @param registrationNumber
-     * @param verified
-     * @param address
-     * @param telephone
-     * @param description
-     * @param secretName
+     * @param name name of the dojo (gym / place to train karate)
+     * @param city the city of the dojo
+     * @param coverImgURL the Cover Image of the dojo
+     * @param registrationNumber the Registration Number of the dojo, it'll be null when creating the dojo
+     *                           and then I'll add it in the database only for the users who paied the service
+     *                           for our Office.
+     * @param verified boolen that says if the user is verified or not, by default, all the users are set to false
+     *                then the user must pay a fee for our Office and we will change it to true in the Firebase database.
+     *
+     * @param address the address of the dojo
+     * @param telephone the telephone of the dojo
+     * @param description the description of the dojo
+     * @param secretName the Secret Name of the dojo, this is a name that only we have the access, so we can refer to the
+     *                   dojos by using this name, because the other one can be changed when we don't know this happened.
      */
     public void addDojo(String name, String city, String coverImgURL, String registrationNumber
             , boolean verified, String address, String telephone, String description
@@ -350,9 +361,9 @@ public class FirebaseMethods {
 
     /**
      * Add the profile photo to "photos --> user_id --> profile_photo --> (profile_img_url = "firebase/...")
-     * @param profile_img_url
+     * @param profile_img_url the Profile Photo URL
      */
-    public void addProfilePhoto(String profile_img_url){
+    private void addProfilePhoto(String profile_img_url){
         Log.i(TAG, "addProfilePhoto: Adding profile photo to profile_photos node");
 
         ProfilePhoto profilePhoto = new ProfilePhoto(profile_img_url);
@@ -373,8 +384,9 @@ public class FirebaseMethods {
 
     /**
      * Add a Dojo's COVER PHOTO into the "photos" node.
-     * @param cover_img_url
-     * @param imageCount
+     * @param cover_img_url the Cover Image URL for the dojos
+     * @param imageCount the number that the cover_photo will assign, for example "cover_photo8"
+     *                   or "cover_photo10" and so on
      */
     private void addCoverPhoto(String cover_img_url, int imageCount){
 
@@ -403,7 +415,7 @@ public class FirebaseMethods {
     /**
      * Remove a dojo from the current user.
      * Receive the dojo_number to know what dojo of the user will be deleted.
-     * @param dojo_number
+     * @param dojo_number the dojo and the number of the dojo, for example, "dojo1" or "dojo2" and so on
      */
     public void removeDojo(String dojo_number){
         // dojo_number = dojo1 || dojo2 || dojo3 || dojo4
@@ -459,8 +471,8 @@ public class FirebaseMethods {
     /**
      * Get the user node information from one user:
      * users --> userID --> dojo, full_name, profile_img_url, registration_number, verified.
-     * @param dataSnapshot
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @return a User object from the current logged in user
      */
     public User getUser(DataSnapshot dataSnapshot){
 
@@ -491,8 +503,8 @@ public class FirebaseMethods {
 
     /**
      * Get the users information: dojo, full_name, profile_img_url, registration_number, verified.
-     * @param dataSnapshot
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @return a list with all Users object
      */
     public List<User> getUsers(DataSnapshot dataSnapshot){
         List<User> all_users = new ArrayList<>();
@@ -530,8 +542,8 @@ public class FirebaseMethods {
 
     /**
      * Get the user_settings information: belt_color, birth_date, user_id.
-     * @param dataSnapshot
-     * @return
+     * @param dataSnapshot  a snapshot of the database
+     * @return a list with all the "user_settings" node information from all users registered in the app
      */
     public List<UserSettings> getUsersSettings(DataSnapshot dataSnapshot){
 
@@ -562,8 +574,8 @@ public class FirebaseMethods {
 
     /**
      * Get the users and users_settings information from the current user.
-     * @param dataSnapshot
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @return the "users" and "users_settings" node information from the current logged in user
      */
     public UserAndUserSettings getUserAndUserSettings(DataSnapshot dataSnapshot){
 
@@ -598,9 +610,10 @@ public class FirebaseMethods {
 
 
     /**
-     * Get the users and users_settings information from a specific userID given as a parameter.
-     * @param dataSnapshot
-     * @return
+     * * Get the users and users_settings information from a specific userID given as a parameter.
+     * @param dataSnapshot a snapshot of the database
+     * @param userID the ID of the user we want to get this information
+     * @return the "users" and "users_settings" node information from a specific user by passing the userID.
      */
     public UserAndUserSettings getUserAndUserSettings(DataSnapshot dataSnapshot, String userID){
 
@@ -634,8 +647,8 @@ public class FirebaseMethods {
 
     /**
      * This method retrieves a List with all users and users_settings. As UserAndUserSettings(User, UserSettings).
-     * @param dataSnapshot
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @return a list with all the "users" and "users_settings" node information from all the user's registered in the app
      */
     public List<UserAndUserSettings> getAllUserAndUserSettings(DataSnapshot dataSnapshot){
 
@@ -698,8 +711,8 @@ public class FirebaseMethods {
     /**
      * Retrieve the users_about_me node information from the current user.
      * users_about_me --> userID --> cover_img_url, about_me, curriculum.
-     * @param dataSnapshot
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @return the "users_about_me" node information from the current logged in user
      */
     public UserAboutMe getUserAboutMe(DataSnapshot dataSnapshot){
 
@@ -731,9 +744,9 @@ public class FirebaseMethods {
     /**
      * Retrieve the users_about_me node information from the user I passed the userID as a parameter.
      * users_about_me --> userID --> cover_img_url, about_me, curriculum.
-     * @param dataSnapshot
-     * @param userID
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @param userID the ID of the user we want to get this information
+     * @return the "users_about_me" node information from a specific user by passing its ID
      */
     public UserAboutMe getUserAboutMe(DataSnapshot dataSnapshot, String userID){
 
@@ -768,8 +781,8 @@ public class FirebaseMethods {
     /**
      * * Get all the dojos from the current user:
      * dojos_info --> userID --> dojo1 (info), dojo2 (info)...
-     * @param dataSnapshot
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @return a list with all the "dojos_info" node information from the current logged in user
      */
     public List<DojoInfo> getDojosInfoFromOneUser(DataSnapshot dataSnapshot){
 
@@ -803,9 +816,9 @@ public class FirebaseMethods {
     /**
      * Get all the dojos from the user we pass the userID as a parameter:
      * dojos_info --> userID --> dojo1 (info), dojo2 (info)...
-     * @param dataSnapshot
-     * @param userID
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @param userID the ID of the user you want to get the information
+     * @return a list with all the "dojos_info" node information from the specific user by passing the user ID
      */
     public List<DojoInfo> getDojosInfoFromOneUser(DataSnapshot dataSnapshot, String userID){
 
@@ -837,9 +850,10 @@ public class FirebaseMethods {
     /**
      * Get all the dojos from the user we pass the userID as a parameter:
      * dojos_info --> userID --> dojo1 (info), dojo2 (info)...
-     * @param dataSnapshot
-     * @param userID
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @param userID the ID of the user you want to get the information
+     * @return a list with all the "dojos_info" and "dojos_settings" node information of the specific
+     * user by passing its ID
      */
     public List<DojoInfoAndSettings> getDojosInfoAndSettingsFromOneUser(DataSnapshot dataSnapshot, String userID){
 
@@ -899,8 +913,9 @@ public class FirebaseMethods {
      * Get all the dojos from the current user.
      * dojos_info --> userID --> dojo1 (info), dojo2 (info)...
      * dojos_settings --> userID --> dojo1 (info), dojo2 (info)...
-     * @param dataSnapshot
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @return a list with all the "dojos_info" and "dojos_settings" node information from the current
+     * logged in user
      */
     public List<DojoInfoAndSettings> getDojosInfoAndSettingsFromOneUser(DataSnapshot dataSnapshot){
 
@@ -963,8 +978,8 @@ public class FirebaseMethods {
 
     /**
      * Retrieve a list of all the registered DojoInfo.
-     * @param dataSnapshot
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @return a list with all the "dojos_info" node information from all dojos that are registered in the app
      */
     public List<DojoInfo> getAllDojosInfo(DataSnapshot dataSnapshot){
 
@@ -994,8 +1009,9 @@ public class FirebaseMethods {
 
     /**
      * Retrieve a list of all the registered DojoInfo and DojoSettings.
-     * @param dataSnapshot
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @return a list with all "dojos_info" and "dojos_settings" node information from all the users that are
+     * registered in the app
      */
     public List<DojoInfoAndSettings> getAllDojosInfoAndDojosSettings(DataSnapshot dataSnapshot){
 
@@ -1052,10 +1068,11 @@ public class FirebaseMethods {
 
     /**
      * Get all dojos_info and dojos_settings information only from ONE SINGLE DOJO.
-     * @param dataSnapshot
-     * @param userID
-     * @param dojo_number
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @param userID the ID of the user you want to get the information
+     * @param dojo_number the number of the dojo you want to get the information, for example, "dojo3" or "dojo4"
+     *                    and so on
+     * @return the "dojos_info" and "dojos_settings" node information from a single dojo
      */
     public DojoInfoAndSettings getDojoInfoAndSettingsFromOneDojo(DataSnapshot dataSnapshot
             , String userID, String dojo_number){
@@ -1099,8 +1116,8 @@ public class FirebaseMethods {
 
     /**
      * Get the number of dojos the user has.
-     * @param dataSnapshot
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @return the number of dojos the current user has
      */
     public int getDojoCount(DataSnapshot dataSnapshot){
 
@@ -1132,8 +1149,8 @@ public class FirebaseMethods {
     /**
      * Get the dojo_settings node information from one user:
      * dojos_settings --> userID --> address, telephone, description, secret_name, user_id.
-     * @param dataSnapshot
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @return the "dojos_settings" node information from the current logged in user
      */
     public DojoSettings getDojoSettings(DataSnapshot dataSnapshot){
 
@@ -1171,8 +1188,10 @@ public class FirebaseMethods {
 
     /**
      * Retrieve a list with all the CHAMPIONSHIPS INFO.
-     * @param dataSnapshot
-     * @return
+     * @param dataSnapshot a snapshot of the database
+     * @return a list with all the "championships" node information, this is a list with
+     * all the championships that are registered in the app: "championship1" or "championship2"
+     * or "championship3" and so on
      */
     public List<ChampionshipInfo> getAllChampionshipsInfo(DataSnapshot dataSnapshot){
 
@@ -1206,7 +1225,7 @@ public class FirebaseMethods {
     /*======================================= Update users =======================================*/
     /**
      * Updates the dojo Database value to
-     * @param dojo
+     * @param dojo the dojo of the user
      */
     public void updateDojo(String dojo){
         Log.d(TAG, "updateDojo: Updating dojo to: " + dojo);
@@ -1221,7 +1240,7 @@ public class FirebaseMethods {
 
     /**
      * Updates the Full Name Database value to
-     * @param fullName
+     * @param fullName the full name of the user
      */
     public void updateFullName(String fullName){
         Log.d(TAG, "updateFullName: Updating full name to: " + fullName);
@@ -1236,9 +1255,9 @@ public class FirebaseMethods {
 
     /**
      * Updates the Profile Image Database value to
-     * @param profileImgURL
+     * @param profileImgURL the URL of the Profile Photo
      */
-    public void updateProfileImgURL(String profileImgURL){
+    private void updateProfileImgURL(String profileImgURL){
         Log.d(TAG, "updateProfileImgURL: Updating Profile Image to: " + profileImgURL);
 
         myRef.child(mContext.getString(R.string.dbname_users))
@@ -1251,7 +1270,7 @@ public class FirebaseMethods {
 
     /**
      * Updates the Registration Number Database value to
-     * @param registrationNumber
+     * @param registrationNumber the Registration Number of the user
      */
     public void updateRegistrationNumber(String registrationNumber){
         Log.d(TAG, "updateRegistrationNumber: Updating Registration Number to: " + registrationNumber);
@@ -1266,7 +1285,7 @@ public class FirebaseMethods {
 
     /**
      * Updates the Verified Database value to
-     * @param verified
+     * @param verified a boolean that means the state of the user's account
      */
     public void updateVerified(boolean verified){
         Log.d(TAG, "updateVerified: Updating Verified to: " + verified);
@@ -1283,7 +1302,7 @@ public class FirebaseMethods {
     /*======================================= Update users_about_me =======================================*/
     /**
      * Updates the AboutMe Database value to
-     * @param aboutMe
+     * @param aboutMe a description of the user
      */
     public void updateAboutMe(String aboutMe){
         Log.d(TAG, "updateAboutMe: Updating Verified to: " + aboutMe);
@@ -1298,7 +1317,7 @@ public class FirebaseMethods {
 
     /**
      * Updates the Cover Image Database value to
-     * @param coverImgURL
+     * @param coverImgURL the URL of the Cover Photo
      */
     public void updateCoverImgURL(String coverImgURL){
         Log.d(TAG, "updateCoverImgURL: Updating Cover Image to: " + coverImgURL);
@@ -1314,7 +1333,7 @@ public class FirebaseMethods {
 
     /**
      * Updates the Curriculum Database value to
-     * @param curriculum
+     * @param curriculum a description of the curriculum of the user, the championships he already won
      */
     public void updateCurriculum(String curriculum){
         Log.d(TAG, "updateCurriculum: Updating Curriculum to: " + curriculum);
@@ -1331,7 +1350,7 @@ public class FirebaseMethods {
 
     /**
      * Updates the Belt Color Database value to
-     * @param beltColor
+     * @param beltColor the user's color belt
      */
     public void updateBeltColor(String beltColor){
         Log.d(TAG, "updateBeltColor: Updating Belt Color to: " + beltColor);
@@ -1346,7 +1365,7 @@ public class FirebaseMethods {
 
     /**
      * Updates the Birth Date Database value to
-     * @param birthDate
+     * @param birthDate the birth date of the user
      */
     public void updateBirthDate(String birthDate){
         Log.d(TAG, "updateBirthDate: Updating Birth Date to: " + birthDate);
@@ -1364,8 +1383,9 @@ public class FirebaseMethods {
 
     /**
      * Updates the name of the dojo the one given in the parameter.
-     * @param name
-     * @param dojoNumber
+     * @param name the name of the dojo
+     * @param dojoNumber the dojo Number to see which dojo we are trying to change. For example,
+     *                   dojo1 or dojo2 and so on...
      */
     public void updateDojoName(String name, String dojoNumber){
         Log.d(TAG, "updateDojoName: updating dojo name to " + name);
@@ -1379,9 +1399,10 @@ public class FirebaseMethods {
 
 
     /**
-     * Updates the city of the dojo the one given in the parameter.
-     * @param city
-     * @param dojoNumber
+     * Updates the city of the dojo to the one given in the parameter.
+     * @param city the city of the dojo
+     * @param dojoNumber the dojo Number to see which dojo we are trying to change. For example,
+     *                   dojo1 or dojo2 and so on...
      */
     public void updateCity(String city, String dojoNumber){
         Log.d(TAG, "updateCity: updating city to " + city);
@@ -1396,8 +1417,9 @@ public class FirebaseMethods {
 
     /**
      * Updates the Cover Image Url of the dojo the one given in the parameter.
-     * @param coverImgURL
-     * @param dojoNumber
+     * @param coverImgURL the URL of the Cover Photo
+     * @param dojoNumber the dojo Number to see which dojo we are trying to change. For example,
+     *                   dojo1 or dojo2 and so on...
      */
     private void updateCoverImgURL(String coverImgURL, String dojoNumber){
         Log.d(TAG, "updateCoverImgURL: updating cover image to " + coverImgURL);
@@ -1420,8 +1442,9 @@ public class FirebaseMethods {
 
     /**
      * Updates the address of the dojo the one given in the parameter.
-     * @param address
-     * @param dojoNumber
+     * @param address the address of the dojo
+     * @param dojoNumber the dojo Number to see which dojo we are trying to change. For example,
+     *                   dojo1 or dojo2 and so on...
      */
     public void updateAddress(String address, String dojoNumber){
         Log.d(TAG, "updateAddress: updating address to " + address);
@@ -1436,8 +1459,9 @@ public class FirebaseMethods {
 
     /**
      * Updates the telephone of the dojo the one given in the parameter.
-     * @param telephone
-     * @param dojoNumber
+     * @param telephone the telephone of the dojo
+     * @param dojoNumber the dojo Number to see which dojo we are trying to change. For example,
+     *                   dojo1 or dojo2 and so on...
      */
     public void updateTelephone(String telephone, String dojoNumber){
         Log.d(TAG, "updateTelephone: updating telephone to " + telephone);
@@ -1453,8 +1477,9 @@ public class FirebaseMethods {
 
     /**
      * Updates the description of the dojo the one given in the parameter.
-     * @param description
-     * @param dojoNumber
+     * @param description the description of the dojo
+     * @param dojoNumber the dojo Number to see which dojo we are trying to change. For example,
+     *                   dojo1 or dojo2 and so on...
      */
     public void updateDescription(String description, String dojoNumber){
         Log.d(TAG, "updateDescription: updating description to " + description);
@@ -1478,8 +1503,10 @@ public class FirebaseMethods {
 
     /**
      * Upload a new profile photo or cover photo to Firebase Storage.
-     * @param photoType
-     * @param imgURL
+     * @param photoType the type of the photo we are trying to change, for example,
+     *                  Profile Photo, Cover Photo (when adding dojo) or Cover Photo (when editing dojo)
+     * @param imgURL the URL of the image
+     * @param dojoCount the number of the dojo that will be changed
      */
     public void uploadNewPhoto(String photoType, String imgURL, final int dojoCount){
 

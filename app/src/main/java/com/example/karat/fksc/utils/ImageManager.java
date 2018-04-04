@@ -23,8 +23,8 @@ public class ImageManager {
 
     /**
      * Convert an imgURL into a BitMap.
-     * @param imgURL
-     * @return
+     * @param imgURL the URL of the image
+     * @return the bitmap of the image
      */
     public static Bitmap getBitMapFromImgURL(String imgURL){
 
@@ -43,7 +43,9 @@ public class ImageManager {
             Log.d(TAG, "getBitMapFromImgURL: FileNotFoundException: " + e.getMessage());
         } finally {
             try {
-                fileInputStream.close();
+                if (fileInputStream != null) {
+                    fileInputStream.close();
+                }
             } catch (IOException e){
                 Log.d(TAG, "getBitMapFromImgURL: IOException: " + e.getMessage());
             }
@@ -57,9 +59,9 @@ public class ImageManager {
     /**
      * Convert a Bitmap image into Bytes;
      * quality is the quality of the image and it can be from 0 to 100
-     * @param bitmap
-     * @param quality
-     * @return
+     * @param bitmap the bitmap of the image
+     * @param quality the quality of the image that will be uploaded
+     * @return the byte array of the image
      */
     public static byte[] getBytesFromBitmap(Bitmap bitmap, int quality){
 
@@ -73,8 +75,8 @@ public class ImageManager {
 
     /**
      * Check if a path is an IMAGE.
-     * @param path
-     * @return
+     * @param path a URL (String)
+     * @return "true" if is an image, "false" otherwise
      */
     public static boolean isImageFile(String path){
         String mineType = URLConnection.guessContentTypeFromName(path);
@@ -84,8 +86,8 @@ public class ImageManager {
 
     /**
      * Check if a path is an VIDEO.
-     * @param path
-     * @return
+     * @param path a URL (String)
+     * @return "true" if is a video, "false" otherwise
      */
     public static boolean isVideoFile(String path) {
         String mineType = URLConnection.guessContentTypeFromName(path);
@@ -96,10 +98,10 @@ public class ImageManager {
     /**
      * This method gets an Uri by parsing a Bitmap
      * Convert Bitmap to Uri
-     * @param context
-     * @param bitmap
-     * @param quality
-     * @return
+     * @param context the context of the activity
+     * @param bitmap the bitmap of the image
+     * @param quality the quality of the image that will be uploaded
+     * @return the Uri of the image
      */
     public static Uri getImageUriFromBitmap(Context context, Bitmap bitmap, int quality) {
 
@@ -115,9 +117,9 @@ public class ImageManager {
     /**
      * Get the real image path by giving its Uri.
      * Converts Uri to String path.
-     * @param context
-     * @param uri
-     * @return
+     * @param context the context of the activity
+     * @param uri the Uri of the image
+     * @return a string that is the path of the image
      */
     public static String getRealPathFromUri(Context context, Uri uri){
 

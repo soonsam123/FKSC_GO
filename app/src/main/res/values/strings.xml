@@ -122,6 +122,7 @@
     <string name="dojo_add_successfuly">Academia adicionada com sucesso</string>
     <string name="must_fillin_all_fields">Você precisa preencher todos os campos</string>
     <string name="we_are_adding_your_dojo">Estamos adicionando sua academia</string>
+    <string name="we_are_editing_your_dojo">Estamos editando sua academia</string>
     <string name="teacher_at_dojos">Professor nas Academias</string>
     <string name="what_to_do_with_this_dojo">O que você deseja fazer com essa Academia?</string>
 

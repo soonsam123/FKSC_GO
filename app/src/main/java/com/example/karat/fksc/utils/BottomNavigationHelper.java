@@ -26,8 +26,8 @@ public class BottomNavigationHelper {
 
     /**
      * This method just check which item was selected in the Bottom Navigation View and go to the Activity related to this item.
-     * @param context
-     * @param bottomNavigationView
+     * @param context the activity context
+     * @param bottomNavigationView the Bottom Navigation View widget from the layout
      */
     public static void enablePagination(final Context context, BottomNavigationView bottomNavigationView){
 

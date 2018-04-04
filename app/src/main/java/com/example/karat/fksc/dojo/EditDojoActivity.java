@@ -117,13 +117,17 @@ public class EditDojoActivity extends AppCompatActivity implements View.OnClickL
                         && city.equals(dojoInfoAndSettings.getDojoInfo().getCity())
                         && address.equals(dojoInfoAndSettings.getDojoSettings().getAddress())
                         && telephone.equals(dojoInfoAndSettings.getDojoSettings().getTelephone())
-                        && description.equals(dojoInfoAndSettings.getDojoSettings().getDescription())){
+                        && description.equals(dojoInfoAndSettings.getDojoSettings().getDescription())
+                        && imgURL == null){
                     Log.i(TAG, "saveChanges: Nothing changed");
                     navigateToMembersActivity();
                 }
 
                 // Case 3) - *********** Users filled in all the fields. Good to go. ***********
                 else {
+
+                    Toast.makeText(mContext, getString(R.string.we_are_editing_your_dojo)
+                            , Toast.LENGTH_SHORT).show();
 
                     // Update the fields only if they were changed.
                     String dojoNumber = dojoInfoAndSettings.getDojoSettings().getDojo_number();

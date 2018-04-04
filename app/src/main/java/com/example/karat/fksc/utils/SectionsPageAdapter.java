@@ -25,8 +25,8 @@ public class SectionsPageAdapter extends FragmentPagerAdapter {
 
     /**
      * Give the position and get the item of the PagerAdapter that is in that position.
-     * @param position
-     * @return
+     * @param position the position of the item
+     * @return a Fragment that is assigned with this position we received as a parameter
      */
     @Override
     public Fragment getItem(int position) {
@@ -35,7 +35,7 @@ public class SectionsPageAdapter extends FragmentPagerAdapter {
 
     /**
      * Get the number of fragments that is inside this PagerAdapter.
-     * @return
+     * @return number of fragments inside the PageAdapter
      */
     @Override
     public int getCount() {
@@ -44,7 +44,7 @@ public class SectionsPageAdapter extends FragmentPagerAdapter {
 
     /**
      * Adds a fragment to the PagerAdapter.
-     * @param fragment
+     * @param fragment a new fragment to be added to the Page Adapter
      */
     public void addFragment(Fragment fragment){
         Log.i(TAG, "addFragment: Adding the fragment " + fragment.toString() + "to the PagerAdapter");
@@ -55,7 +55,7 @@ public class SectionsPageAdapter extends FragmentPagerAdapter {
 
     /**
      * Delete the fragment at position : position of the PagerAdapter.
-     * @param position
+     * @param position the position of the item
      */
     public void deleteFragment(int position){
         Log.i(TAG, "deleteFragment: Deleting the fragment in the position: " + String.valueOf(position));

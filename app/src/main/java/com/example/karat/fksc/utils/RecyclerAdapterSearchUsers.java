@@ -23,7 +23,6 @@ public class RecyclerAdapterSearchUsers extends RecyclerView.Adapter<ViewHolder>
     private List<User> users;
     private List<String> users_ids;
     private Context mContext;
-    private UserSettings userSettings;
 
     public RecyclerAdapterSearchUsers(List<User> users, List<String> users_ids, Context mContext) {
         this.users = users;
@@ -60,26 +59,6 @@ public class RecyclerAdapterSearchUsers extends RecyclerView.Adapter<ViewHolder>
                 mContext.startActivity(intentOtherProfile);
             }
         });
-
-        /*DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        Query query = reference.child(mContext.getString(R.string.dbname_users_settings))
-                .orderByChild(mContext.getString(R.string.field_user_id))
-                .equalTo(userID);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()) {
-                    Log.i(TAG, "onDataChange: Found user Settings: " + singleSnapshot.getValue(UserSettings.class).toString());
-                    userSettings = singleSnapshot.getValue(UserSettings.class);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });*/
 
     }
 
