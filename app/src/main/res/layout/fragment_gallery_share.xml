@@ -46,6 +46,31 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true" />
 
+            <!-- No Pictures found -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_noPictures_GalleryFragment"
+                android:text="@string/no_pictures_found"
+                android:textColor="@color/colorGrey700"
+                android:textSize="16sp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:visibility="invisible"/>
+
+            <!-- Slide to the side and take your first Picture -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_takeNewPictures_GalleryFragment"
+                android:text="@string/swipe_to_the_side_and_take_newpictures"
+                android:textColor="@color/colorGrey700"
+                android:textSize="16sp"
+                android:layout_below="@+id/txtView_noPictures_GalleryFragment"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:visibility="invisible"/>
+
         </RelativeLayout>
 
 

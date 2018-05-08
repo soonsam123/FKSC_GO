@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.karat.fksc">
+    package="soon.semicontato.karat.fksc">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -10,11 +10,13 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/logofkscsemfundo"
+        android:name="android.support.multidex.MultiDexApplication"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logofkscsemfundo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".members.MembersActivity">
+        <activity android:name=".members.MembersActivity"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,17 +24,34 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".championships.ChampionshipActivity"/>
-        <activity android:name=".ranking.RankingActivity"/>
-        <activity android:name=".login.LoginActivity"/>
-        <activity android:name=".profile.ProfileActivity"/>
-        <activity android:name=".profile.EditProfileActivity"/>
-        <activity android:name=".dojo.AddDojoActivity"/>
-        <activity android:name=".profile.OtherProfileActivity"/>
-        <activity android:name=".dojo.DojoActivity"/>
-        <activity android:name=".dojo.EditDojoActivity"/>
-        <activity android:name=".share.ShareActivity"/>
+        <!--
+        1) sensorPortrait restrict the user to use the activity only in portrait mode,
+         but he is still able to upside-down the screen (rotate 180º)
+        2) adjustPlan allow the keyboard to be in the top of the elements, for example, the
+         bottom navigation view will be behind the keyboard when this last is activated.-->
+        <activity android:name=".championships.ChampionshipActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".ranking.RankingActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".login.LoginActivity"
+            android:screenOrientation="sensorPortrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".profile.ProfileActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".profile.EditProfileActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".dojo.AddDojoActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".profile.OtherProfileActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".dojo.DojoActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".dojo.EditDojoActivity"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".share.ShareActivity"
+            android:screenOrientation="sensorPortrait"/>
         <activity android:name=".search.SearchActivity"
+            android:screenOrientation="sensorPortrait"
             android:windowSoftInputMode="adjustPan"/>
 
     </application>

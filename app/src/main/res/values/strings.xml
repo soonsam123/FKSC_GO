@@ -168,6 +168,9 @@
     <string name="search_for_complete_name">Procure pelo nome completo</string>
     <string name="search_must_equal_name">A busca deve ser exatamente igual ao nome</string>
     <string name="upper_lower_letters">Note as letras maiúsculas, minúsculas e acentos</string>
+    <string name="verified">verified</string>
+    <string name="no_pictures_found">Nenhuma foto encontrada</string>
+    <string name="swipe_to_the_side_and_take_newpictures">Deslize para o lado e tire sua primeira Foto!</string>
 
 </resources>
 

@@ -10,7 +10,7 @@
             android:shape="rectangle">
 
             <solid
-                android:color="?attr/colorPrimary"/>
+                android:color="@color/colorPrimary"/>
             <corners
                 android:radius="2dp"/>
 
@@ -27,7 +27,7 @@
             <corners
                 android:radius="2dp"/>
             <solid
-                android:color="?attr/colorPrimary"/>
+                android:color="@color/colorPrimary"/>
 
         </shape>
 

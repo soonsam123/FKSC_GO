@@ -5,10 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
+
     <!-- Container -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/relLayout_container_activityLogin"
         android:background="@drawable/several_homes">
 
@@ -100,5 +101,6 @@
 
 
     </RelativeLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>
