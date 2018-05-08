@@ -44,7 +44,7 @@ public class RegisterFragment extends Fragment implements View.OnKeyListener {
     private FirebaseMethods firebaseMethods;
 
     // Variables
-    private String fullName;
+    // private String fullName;
 
 
     @Nullable
@@ -74,7 +74,7 @@ public class RegisterFragment extends Fragment implements View.OnKeyListener {
             public void onClick(View view) {
 
                 String email = mEmail.getText().toString();
-                fullName = mFullName.getText().toString();
+                String fullName = mFullName.getText().toString();
                 String password = mPassword.getText().toString();
 
                 if (stringIsNull(email) || stringIsNull(fullName) || stringIsNull(password)){
@@ -88,6 +88,8 @@ public class RegisterFragment extends Fragment implements View.OnKeyListener {
                      * 2) Register email (Send verification email, if OK start Login Screen again and send message to verify the email).
                      */
                     Intent intentLogin = new Intent(getActivity(), LoginActivity.class);
+
+                    Log.i(TAG, "onClick: 1) --> Input information Email: " + email + " Password: " + password + " Name: " + fullName);
 
                     firebaseMethods.registerNewEmail(email, password, fullName, mProgressBar, intentLogin);
 

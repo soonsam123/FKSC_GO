@@ -229,7 +229,7 @@ public class FirebaseMethods {
 
             String userID = currentUser.getUid();
 
-            Log.i(TAG, "addNewUser: Adding new user database information: " + userID);
+            Log.i(TAG, "addNewUser: 2) --> Adding new user database information: " + userID);
 
 
             // Creating the user model with the information provided.
@@ -239,6 +239,8 @@ public class FirebaseMethods {
                     profileImgURL,
                     registrationNumber,
                     verified);
+
+            Log.i(TAG, "addNewUser: 3) --> user information: " + user.toString());
 
             // Adding to the database;
             myRef.child(mContext.getString(R.string.dbname_users))
@@ -251,6 +253,8 @@ public class FirebaseMethods {
                     birthDate,
                     userID);
 
+            Log.i(TAG, "addNewUser: 4) --> user_settings information: " + user_settings.toString());
+
             // Adding to the database
             myRef.child(mContext.getString(R.string.dbname_users_settings))
                     .child(userID)
@@ -258,6 +262,8 @@ public class FirebaseMethods {
 
             // 1) Added the information for the user that just registered;
             // 2) Sign out to wait for email verification.
+
+            Log.i(TAG, "addNewUser: 5) --> Signing out");
             mAuth.signOut();
 
         }
