@@ -41,10 +41,8 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
 
         // Get the intent that brought us here to discover if we are in
         // EditProfile, AddDojo or EditDojo activity by getting the photoType String.
-        if (getActivity() != null) {
-            Intent intent = getActivity().getIntent();
-            photoType = intent.getStringExtra(getResources().getString(R.string.photo_type));
-        }
+        Intent intent = getActivity().getIntent();
+        photoType = intent.getStringExtra(getResources().getString(R.string.photo_type));
 
         setupWidgets(view);
         setClickListeners();
@@ -86,51 +84,53 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
             if (getActivity() != null) {
                 Intent intent = getActivity().getIntent();
                 photoType = intent.getStringExtra(getResources().getString(R.string.photo_type));
-            }
-
-            // A) *********************** EditProfile - Changing Profile Photo ***********************
-            if (photoType.equals(getResources().getString(R.string.photo_type_profile))) {
-
-                if (((ShareActivity) getActivity()).checkSinglePermission(Permissions.CAMERA_PERMISSION[0])) {
-                    Log.d(TAG, "setUserVisibleHint: Starting the camera");
-                    // Start the Camera.
-                    Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intentCamera, EDIT_PROFILE_REQUEST_CODE);
-                } else {
-                    restartShareActivity();
-                }
-            }
 
 
-            // B) *********************** AddDojo - Adding Cover Photo ***********************
-            if (photoType.equals(getResources().getString(R.string.photo_type_cover_photo_add))) {
+                // A) *********************** EditProfile - Changing Profile Photo ***********************
+                if (photoType.equals(getResources().getString(R.string.photo_type_profile))) {
 
-                if (((ShareActivity) getActivity()).checkSinglePermission(Permissions.CAMERA_PERMISSION[0])) {
-                    Log.d(TAG, "setUserVisibleHint: Starting the camera");
-
-                    // Start the Camera
-                    Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intentCamera, ADD_DOJO_REQUEST_CODE);
-
-                } else {
-                    restartShareActivity();
+                    if (((ShareActivity) getActivity()).checkSinglePermission(Permissions.CAMERA_PERMISSION[0])) {
+                        Log.d(TAG, "setUserVisibleHint: Starting the camera");
+                        // Start the Camera.
+                        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intentCamera, EDIT_PROFILE_REQUEST_CODE);
+                    } else {
+                        restartShareActivity();
+                    }
                 }
 
-            }
+
+                // B) *********************** AddDojo - Adding Cover Photo ***********************
+                if (photoType.equals(getResources().getString(R.string.photo_type_cover_photo_add))) {
+
+                    if (((ShareActivity) getActivity()).checkSinglePermission(Permissions.CAMERA_PERMISSION[0])) {
+                        Log.d(TAG, "setUserVisibleHint: Starting the camera");
+
+                        // Start the Camera
+                        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intentCamera, ADD_DOJO_REQUEST_CODE);
+
+                    } else {
+                        restartShareActivity();
+                    }
+
+                }
 
 
-            // C) *********************** EditDojo - Editing Cover Photo ***********************
-            if (photoType.equals(getResources().getString(R.string.photo_type_cover_photo_edit))) {
+                // C) *********************** EditDojo - Editing Cover Photo ***********************
+                if (photoType.equals(getResources().getString(R.string.photo_type_cover_photo_edit))) {
 
-                if (((ShareActivity) getActivity()).checkSinglePermission(Permissions.CAMERA_PERMISSION[0])) {
-                    Log.d(TAG, "setUserVisibleHint: Starting the camera");
+                    if (((ShareActivity) getActivity()).checkSinglePermission(Permissions.CAMERA_PERMISSION[0])) {
+                        Log.d(TAG, "setUserVisibleHint: Starting the camera");
 
-                    // Start the Camera
-                    Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intentCamera, EDIT_DOJO_REQUEST_CODE);
+                        // Start the Camera
+                        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intentCamera, EDIT_DOJO_REQUEST_CODE);
 
-                } else {
-                    restartShareActivity();
+                    } else {
+                        restartShareActivity();
+                    }
+
                 }
 
             }
