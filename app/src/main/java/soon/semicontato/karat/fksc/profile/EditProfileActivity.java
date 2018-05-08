@@ -138,7 +138,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                                 }
 
                                 // Upload the profile picture to the Firebase database.
-                                firebaseMethods.uploadNewPhoto(getResources().getString(R.string.photo_type_profile), imgURL, 0);
+                                // Only if there is an image URL.
+                                if (imgURL != null) {
+                                    firebaseMethods.uploadNewPhoto(getResources().getString(R.string.photo_type_profile), imgURL, 0);
+                                }
 
                                 // Finish and leave the activity.
                                 finish();

@@ -229,7 +229,7 @@ public class FirebaseMethods {
 
             String userID = currentUser.getUid();
 
-            Log.i(TAG, "addNewUser: 2) --> Adding new user database information: " + userID);
+            Log.i(TAG, "addNewUser: Adding new user database information: " + userID);
 
 
             // Creating the user model with the information provided.
@@ -239,8 +239,6 @@ public class FirebaseMethods {
                     profileImgURL,
                     registrationNumber,
                     verified);
-
-            Log.i(TAG, "addNewUser: 3) --> user information: " + user.toString());
 
             // Adding to the database;
             myRef.child(mContext.getString(R.string.dbname_users))
@@ -253,8 +251,6 @@ public class FirebaseMethods {
                     birthDate,
                     userID);
 
-            Log.i(TAG, "addNewUser: 4) --> user_settings information: " + user_settings.toString());
-
             // Adding to the database
             myRef.child(mContext.getString(R.string.dbname_users_settings))
                     .child(userID)
@@ -262,8 +258,6 @@ public class FirebaseMethods {
 
             // 1) Added the information for the user that just registered;
             // 2) Sign out to wait for email verification.
-
-            Log.i(TAG, "addNewUser: 5) --> Signing out");
             mAuth.signOut();
 
         }
@@ -689,10 +683,28 @@ public class FirebaseMethods {
 
                 User user = new User();
 
-                Log.i(TAG, "getAllUserAndUserSettings: User one" + ds.getValue(User.class));
-                user = ds.getValue(User.class);
+                // When I register a user it adds the "users" node with 5 information
+                // (dojo, full_name, profile_img_url, registration_number, verified)
+                // and the "users_settings" node with 3 information
+                // (birth_date, belt_color, user_id).
+                // There were some users that when the account was being created it was adding only
+                // the "users" node with one information (full_name) and it was not adding the "users_settings" node information.
+                // I could not figure it out why this was happening because it was happening just a one time each 30 or 40
+                // and it was never with me.
+                // So I check the "users" node and I see if there are all the fields (dojo, full_name...)
+                // If there is it means the data was added correctly, if there is not it means it happened this mysterious case
+                // and so I'll not even consider this user. Then when the user report me I fix his problem and when this bug
+                // happen with me I'll be able to fix it.
+                if (ds.hasChild(mContext.getString(R.string.field_dojo)) &&
+                        ds.hasChild(mContext.getString(R.string.field_profile_img_url)) &&
+                        ds.hasChild(mContext.getString(R.string.field_registration_number)) &&
+                        ds.hasChild(mContext.getString(R.string.field_full_name))){
 
-                all_users.add(user);
+                    Log.i(TAG, "getAllUserAndUserSettings: User one" + ds.getValue(User.class));
+                    user = ds.getValue(User.class);
+
+                    all_users.add(user);
+                }
 
             } catch (NullPointerException e){e.printStackTrace();}
 

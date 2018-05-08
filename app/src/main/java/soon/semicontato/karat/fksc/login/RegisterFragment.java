@@ -89,8 +89,6 @@ public class RegisterFragment extends Fragment implements View.OnKeyListener {
                      */
                     Intent intentLogin = new Intent(getActivity(), LoginActivity.class);
 
-                    Log.i(TAG, "onClick: 1) --> Input information Email: " + email + " Password: " + password + " Name: " + fullName);
-
                     firebaseMethods.registerNewEmail(email, password, fullName, mProgressBar, intentLogin);
 
                 }

@@ -7,7 +7,8 @@
     android:id="@+id/linearLayout_container_snippetAffiliates"
     android:gravity="start"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground">
 
 
     <de.hdodenhof.circleimageview.CircleImageView

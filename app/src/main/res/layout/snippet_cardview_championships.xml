@@ -8,7 +8,8 @@
     android:id="@+id/linearLayout_container_snippetChampionship"
     android:gravity="start"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground">
 
 
     <android.support.v7.widget.CardView
